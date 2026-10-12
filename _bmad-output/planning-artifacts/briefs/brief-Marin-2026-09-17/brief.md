@@ -17,7 +17,7 @@ Marin snur dette fra reaktivt til proaktivt: ved å kombinere historiske lusetal
 
 ## Problemet
 
-Lakselusforskriften (FOR-2012-12-05-1140) pålegger norske oppdrettsanlegg en grense på i gjennomsnitt under 0,5 voksne hunnlus per fisk, og en strengere grense på under 0,2 i Midt-Norge og sørover i ukene 16-21 (våren, for å skjerme utvandrende vill laksesmolt). Oppdrettere rapporterer ukentlige lusetall til Mattilsynet, og BarentsWatch Fiskehelse aggregerer og viser dette åpent, med historikk tilbake til 2012.
+Lakselusforskriften (FOR-2012-12-05-1140) pålegger norske oppdrettsanlegg en grense på i gjennomsnitt under 0,5 voksne hunnlus per fisk, og en strengere grense på under 0,2 i produksjonsområde 6 og sørover i ukene 16-21 (våren, for å skjerme utvandrende vill laksesmolt). Oppdrettere rapporterer ukentlige lusetall til Mattilsynet, og BarentsWatch Fiskehelse aggregerer og viser dette åpent, med historikk tilbake til 2012.
 
 Problemet er ikke mangel på data — det er mangel på fremoverskuende innsikt. Driftsledere og fiskehelseansvarlige ser dagens og fjorårets tall, men må selv vurdere om utviklingen er i ferd med å bli kritisk. Når grensen nærmer seg eller overskrides:
 
