@@ -2,7 +2,7 @@
 title: "Product Brief: Marin"
 status: draft
 created: 2026-09-17
-updated: 2026-09-23
+updated: 2026-10-12
 ---
 
 # Product Brief: Marin
@@ -24,9 +24,9 @@ Problemet er ikke mangel på data — det er mangel på fremoverskuende innsikt.
 - Avlusing må gjennomføres på kort varsel, ofte med stress for fisken og høye kostnader (brønnbåt, kjemikalier, personell)
 - Ved gjentatte eller alvorlige overskridelser kan Mattilsynet pålegge tvangsutslakting
 - Anlegget risikerer bøter og reduksjon i tillatt biomasse (MTB) ved neste tildeling
-- Fiskevelferden svekkes, og omdømmet til anlegget/selskapet kan ta skade
+- Fiskevelferden svekkes, og omdømmet til anlegget/selskapet kan ta skade.
 
-[ANTAGELSE: Den reelle smerten er størst for mellomstore/mindre oppdrettsselskaper uten egne dataanalyseressurser — store konsern har trolig allerede intern kapasitet til å gjøre denne typen prognosearbeid manuelt. Ikke bekreftet med reelle brukere.]
+Den reelle smerten er størst for mellomstore/mindre oppdrettsselskaper uten egne dataanalyseressurser — store konsern har trolig allerede intern kapasitet til å gjøre denne typen prognosearbeid manuelt. Ikke bekreftet med reelle brukere.
 
 ## Løsningen
 
@@ -44,36 +44,34 @@ Presentasjonsformen er et web-dashboard (status per anlegg, trendlinje, varselni
 
 BarentsWatch Fiskehelse og det åpne tredjepartsprosjektet «oppdretter» (varselsystem for lakselus, sykdom, soner og brønnbåter fra åpne norske kilder — det eneste beslektede verktøyet identifisert så langt) viser og aggregerer *dagens* og *historiske* tall godt. De svarer på «hva er situasjonen nå». Marins differensiering er å svare på «hva vil situasjonen være om 2-3 uker» — en prognose, ikke bare et øyeblikksbilde.
 
-Dette er ikke en unik teknisk «vollgrav» — det er en tydelig retningsvalgt fordel (prediktivt fremfor observerende), og skal presenteres ærlig som det. Prediksjonsmetoden i v1 er avklart som enkel trendekstrapolering, ikke en mer avansert tidsseriemodell. [ANTAGELSE: Metodens faktiske treffsikkerhet i praksis er ikke validert ennå og er en sentral usikkerhet i prosjektet, ikke en avklart styrke.]
+Dette er ikke en unik teknisk «vollgrav» — det er en tydelig retningsvalgt fordel (prediktivt fremfor observerende), og skal presenteres ærlig som det. Prediksjonsmetoden i v1 er avklart som enkel trendekstrapolering, ikke en mer avansert tidsseriemodell. Metodens faktiske treffsikkerhet i praksis er ikke validert ennå og er en sentral usikkerhet i prosjektet, ikke en avklart styrke.
 
 ## Hvem dette tjener
 
 **Primærbrukere:** Driftsledere og fiskehelseansvarlige ved norske lakseoppdrettsanlegg. De trenger tidlig, pålitelig varsel for å kunne planlegge avlusingstiltak, bestille brønnbåtkapasitet og disponere personell — fremfor å håndtere en akutt overskridelse. Suksess for dem er et varsel de kan stole på og handle på i tide.
 
-[ANTAGELSE: Sekundærbrukere kan være produksjonssjefer/regionledere som følger flere anlegg samtidig, men dette er ikke bekreftet eller utforsket videre.]
+Sekundærbrukere kan være produksjonssjefer/regionledere som følger flere anlegg samtidig, men dette er ikke bekreftet eller utforsket videre.
 
 ## Suksesskriterier
 
-- Prognosemodellen viser målbar treffsikkerhet mot historiske data (varslet overskridelse faktisk inntraff innenfor det varslede tidsvinduet)
+- Prognosemodellen varsler når gjennomsnittlig antall voksne hunnlus per fisk i anlegget forventes å nå lusegrensen i § 8 i lakselusforskriften — 0,2 i vårperioden (uke 16-21 i Nord-Trøndelag og sørover, uke 21-26 i Nordland, Troms og Finnmark) og 0,5 resten av året. Varselet skal komme 3 uker før grensen nås, med en godkjent feilmargin på ±1 uke (varsel 2-4 uker før faktisk grensekryssing regnes som treff)
 - Dashboardet er forståelig og brukbart for en driftsleder uten datafaglig bakgrunn
 - Systemet demonstrerer verdien tydelig nok til å fungere som en overbevisende konseptdemonstrasjon for kurset (IBE160)
-
-[ANTAGELSE: Foreløpig forslag — bør konkretiseres etter hvert som prosjektet modnes.]
 
 ## Omfang
 
 **Inn i første versjon**:
 - Dashboard som viser status og historisk lusetrend per anlegg — bekreftet presentasjonsform
 - Prediktivt varsel med estimert tidshorisont mot lovpålagt grense, basert på enkel trendekstrapolering — bekreftet metode
-- Enkel visuell statusindikasjon (f.eks. grønn/gul/rød) basert på nærhet til grensen [ANTAGELSE]
-- Bruk av syntetiske og/eller historiske data (BarentsWatch) som datagrunnlag [ANTAGELSE]
+- Enkel visuell statusindikasjon (f.eks. grønn/gul/rød) basert på nærhet til grensen 
+- Bruk av syntetiske og/eller historiske data (BarentsWatch) som datagrunnlag 
 
 **Ute av første versjon**:
-- Sanntids/live-integrasjon mot BarentsWatch API [ANTAGELSE]
-- Mobilapp [ANTAGELSE]
+- Sanntids/live-integrasjon mot BarentsWatch API 
+- Mobilapp 
 - Automatiske varsler via SMS/e-post/push — bekreftet ute, web/dashboard er valgt presentasjonsform
-- Støtte for flere selskaper/multi-tenant innlogging [ANTAGELSE]
-- Andre fiskehelseparametere enn lakselus [ANTAGELSE]
+- Støtte for flere selskaper/multi-tenant innlogging 
+- Andre fiskehelseparametere enn lakselus 
 - Mer avansert prediksjonsmodell utover enkel trendekstrapolering — bekreftet ute av v1
 
 ## Visjon
