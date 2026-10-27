@@ -55,6 +55,7 @@ Grensen gjelder gjennomsnittlig antall voksne hunnlus per fisk i anlegget (lakse
 - Grensen er «færre enn». En verdi **≥ grensen** er brudd.
 - Uker er ISO-uker.
 - Et anlegg er «nord» når det ligger i Nordland, Troms eller Finnmark, ellers «sør». Forskriften bruker fortsatt «Nord-Trøndelag», selv om fylket ikke finnes lenger; «Nord-Trøndelag og sørover» betyr i praksis hele Trøndelag og alt sør for det.
+- Mangler anlegget fylke i datasettet (lokaliteten finnes ikke i akvakulturregisteret, og BarentsWatch oppgir grensen som «Ukjent»), kan grensen ikke bestemmes. Appen beregner da ingen prognose og viser status «ukjent område» (R4).
 - Særskilte grenser for tillatelser med kapasitetsøkning er ute av v1.
 - Ordlyden er kontrollert mot Lovdata: _[dato fylles inn av Fredrik]_.
 
@@ -83,6 +84,7 @@ Status bestemmes av uker til grensen fra R2:
 | Gul | grensen nås om 4–6 uker | «! Følg med: grensen kan nås om X uker» |
 | Grønn | ingen kryssing innen 6 uker | «✓ Ingen kryssing ventet innen 6 uker» |
 | Grå | for lite data | «– For lite data» |
+| Grå | ukjent område (mangler fylke, R1) | «? Ukjent område: grensen kan ikke bestemmes» |
 
 - Status vises alltid med tekst og symbol i tillegg til farge, slik at den kan forstås uten fargesyn.
 - Rød status er det som regnes som «varsel» i suksesskriteriene og backtesten.
@@ -103,6 +105,7 @@ Tabellen er utgangspunkt for automatiske tester. Fasit regnes ut av gruppen for 
 | T4 | R1 | Nord, uke 20 | Grense 0,5 |
 | T5 | R2, R4 | Fem ukers lusetall for ett anlegg: _[fylles inn av gruppen]_ | Estimert uke for grensen og farge: _[regnes ut for hånd av gruppen]_ |
 | T6 | R3 | Anlegg i sør, siste telling i uke 14: _[lusetall fylles inn av gruppen]_ | Sammenlignes mot 0,5 i uke 15 og 0,2 i uke 16–20. Uke og farge: _[regnes ut for hånd av gruppen]_ |
+| T7 | R1, R4 | Anlegg uten fylke, fem ukers lusetall | Ingen prognose, grå status «Ukjent område» |
 
 ## Hva gjør dette annerledes
 
@@ -120,7 +123,7 @@ Sekundærbrukere kan være produksjonssjefer/regionledere som følger flere anle
 
 Hvert kriterium viser til reglene (R) og testtilfellene (T) over.
 
-1. **Regelkorrekthet:** Testtilfellene T1–T6 (R6) kjører som automatiske tester og består.
+1. **Regelkorrekthet:** Testtilfellene T1–T7 (R6) kjører som automatiske tester og består.
 2. **Treffsikkerhet (backtest):** Prognosen kjøres uke for uke på det historiske datasettet, med bare data fram til hver uke. En grensekryssing er en uke der målt verdi er ≥ grensen (R1) mens uka før var under. En kryssing regnes som treff hvis anlegget første gang fikk rød status (R4) 2–4 uker før kryssingen. Minst _[X] %_ av kryssingene skal være treff; X fastsettes av gruppen før backtesten kjøres. Andelen røde varsler som ikke ble fulgt av en kryssing, rapporteres sammen med treffandelen.
 3. **Kjerneflyt:** Brukeren kan velge et anlegg og se de 5 siste ukenes lusetall, trendlinjen, estimert uke for grensen og statusen (R2–R4).
 4. **Lesbar uten fargesyn:** Hver status vises med tekst og symbol i tillegg til farge (R4).
