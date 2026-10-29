@@ -23,3 +23,23 @@ To ting i samme økt: (1) `/statusline` — sette opp Claude Code-statuslinja ut
 
 ### Åpne punkter
 - Statuslinje: velg mellom å bygge en fra bunnen eller å bruke en eksisterende prompt-konfigurasjon (PowerShell `$PROFILE`, Oh My Posh, Starship, Git Bash/WSL).
+
+## 2026-10-29 kl. 16:44 — Fredrik Ervik
+
+### Oppgave
+Fredrik spurte hvordan loggene i `.logs/` kommer inn på GitHub, og ba deretter om pull og push.
+
+### Plan
+- Forklare at sesjonslogg-skillen bare committer lokalt, og at push gjøres av brukeren (`CLAUDE.md`).
+- Sjekke status mot GitHub, stashe stagede filer, kjøre `git pull --rebase` og pushe.
+
+### Resultat
+- Loggfilene var committet, men lå ikke på GitHub. Lokal `main` var 10 commits foran og 2 bak `origin/main`.
+- De 2 commitene på GitHub var Fredriks egne README-endringer (6d26564, cfb8ae8). Den ukommitterte README-endringen lokalt var identisk med dem og førte ikke til konflikt.
+- Stagede BMAD-filer ble stashet. `git pull --rebase origin main` rebaserte de 10 commitene uten konflikt, og `git push` sendte dem til GitHub (`cfb8ae8..1b5427f`). Stashen ble lagt tilbake etterpå.
+- Pushen tok også med briefen satt til final og dataanalysen i addendumet, i tillegg til loggcommitene.
+- Rebasen ga de 10 commitene nye hasher. Hashene som står i tidligere loggseksjoner, gjelder bare lokalt fra før rebasen. På GitHub er de: f52caec → e7bb92c (brief final), bb2cc01 → af18a77 (dataanalyse i addendum), 9343d06 → b1715e9 (loggcommit).
+- Loggene ligger nå på GitHub under `.logs/fredrik-ervik/`.
+
+### Åpne punkter
+Ingen.
