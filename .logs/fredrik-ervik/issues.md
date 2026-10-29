@@ -6,3 +6,4 @@
 - [ ] 2026-10-29 [marin-dataanalyse](999-2026-10-29-11-22-32-marin-dataanalyse.md) — avgjør håndtering av ufullstendige uker 2026 u43–44
 - [ ] 2026-10-29 [marin-dataanalyse](999-2026-10-29-11-22-32-marin-dataanalyse.md) — fyll inn Lovdata-dato i R1 (kontrollert 2026-10-29)
 - [ ] 2026-10-29 [marin-dataanalyse](999-2026-10-29-11-22-32-marin-dataanalyse.md) — gjenstående research-/brainstormingtemaer før PRD
+- [ ] 2026-10-29 [statuslinje-og-loggcommit](998-2026-10-29-12-10-38-statuslinje-og-loggcommit.md) — statuslinje: velg fra bunnen eller eksisterende prompt-konfigurasjon
