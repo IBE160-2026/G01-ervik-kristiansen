@@ -2,7 +2,7 @@
 title: "Addendum: Marin"
 status: draft
 created: 2026-09-17
-updated: 2026-10-27
+updated: 2026-10-29
 ---
 
 # Addendum: Marin
@@ -22,6 +22,46 @@ Supplerende materiale samlet under utarbeidelsen av brief.md — bakgrunn for vi
 - **BarentsWatch Fiskehelse** aggregerer data fra Mattilsynet, Veterinærinstituttet og Fiskeridirektoratet, og viser ukentlig oversikt over lakselus, sykdom og tiltak per anlegg — med historikk tilbake til **2012**.
 - Data er tilgjengelig via et **åpent API** (se [barentswatch.no/data](https://www.barentswatch.no/data/?lang=en), [Åpne data (API) via BarentsWatch](https://www.barentswatch.no/en/articles/open-data-via-barentswatch/)), i tillegg til nedlastbare Excel-uttrekk.
 - **Valgt for v1 (2026-10-27):** et nedlastet utdrag av historiske lusetall fra BarentsWatch lagres i `data/barentswatch/` i repoet, slik at appen kan kjøres uten API-tilgang og nøkler (se Omfang i brief.md). API-et krever registrering og klientnøkler, og er derfor ute av v1.
+
+## Dataanalyse av BarentsWatch-utdraget (research, 2026-10-29)
+
+Analysen er gjort med KI-støtte (Claude Code) på begge filene i `data/barentswatch/`. Tallene er grunnlag for PRD-en, ikke fasit. Backtesten under er en grov skisse av R2–R4, ikke appens implementasjon.
+
+### Innhold
+
+- 2025 uke 1–52 og 2026 uke 1–44: 102 560 rader, 1 092 lokaliteter, 927 av dem med minst én telling. En rad per lokalitet per uke, også uker uten rapport.
+- 54 482 rader har lusetall. «Har telt lakselus» = «Ja» samsvarer nøyaktig med at «Voksne hunnlus» har en verdi.
+- Kolonner briefen ikke bruker ennå: `Lusegrense uke`, `Over lusegrense uke`, `Trolig uten fisk` (ingen rapport på 4+ uker), `Sjøtemperatur` (finnes på alle tellinger), `Produksjonsområde`, `Lat`/`Lon`.
+- Bare 3 lokaliteter mangler fylke (grense «Ukjent»). R1-regelen om «ukjent område» gjelder altså nesten ingen anlegg.
+- **2026 uke 43–44 er ufullstendige:** 436 og 13 tellinger, mot omtrent 600 i en vanlig uke. Utdraget ble lastet ned 27.10. De siste ukene må enten utelates eller håndteres eksplisitt.
+
+### R1 mot BarentsWatch
+
+- R1, regnet ut fra fylke og ISO-uke, gir **samme grense som `Lusegrense uke` i alle rader** (0 avvik). Kolonnen kan brukes som uavhengig fasit i tester av R1.
+- I 49 rader er lusetallet nøyaktig lik grensen, og BarentsWatch markerer alle som «Over lusegrense uke» = «Ja». Det stemmer med «≥ grensen er brudd» i R1, selv om kolonnebeskrivelsen deres sier «flere enn».
+- Lovdata (kontrollert 2026-10-29, sist endret 2023-12-14) bekrefter grensene og ukene i § 8.
+
+### Telle-hyppighet og «for lite data» (R2)
+
+- Lakselusforskriften § 6: lus skal telles minst hver 7. dag ved 4 °C eller mer, og **minst hver 14. dag under 4 °C**. Telleplikten faller bort om all fisk skal slaktes innen 14 dager.
+- Dataene viser dette tydelig. Ved telling under 4 °C er neste telling 2 uker senere i 19 % av tilfellene, mot 0,6 % ved 4 °C eller mer. Temperatur under 4 °C forekommer mest i uke 6–13 (7–12 % av tellingene).
+- Med R2 som i dag (alle 5 uker må ha telling) har 86,6 % av telleukene et komplett vindu. Under 4 °C er andelen 72 %. Krav om minst 3 av 5 uker ville gitt 94 %.
+- Lange hull (6 uker eller mer, 586 tilfeller) er i praksis brakklegging eller utslakting.
+
+### Grensekryssinger (grunnlag for backtesten)
+
+- Med definisjonen i suksesskriterium 2 (≥ grensen nå, under grensen uka før) finnes det **823 kryssinger ved 428 lokaliteter**: 616 i 2025 og 207 i 2026, 591 i sør og 232 i nord.
+- 113 kryssinger skjer i vårperioden (grense 0,2). 36 av dem skjer akkurat i uka grensen faller fra 0,5 til 0,2.
+- 26 brudd kommer etter en uke uten telling og regnes ikke som kryssing med dagens definisjon.
+
+### Grov backtest av R2–R4 som de står
+
+- Treffandel avhenger av hvordan «første gang fikk rød status 2–4 uker før» tolkes:
+  - rød status i minst én av ukene 2–4 før kryssingen: **35 %** (288 av 823)
+  - første uke i den sammenhengende røde perioden før kryssingen ligger 2–4 uker før: **28 %** (230 av 823)
+- Bom fordeler seg slik: ingen rød status i forkant (312), rød bare 1 uke før (158), og «for lite data» i ukene 2–4 før (65).
+- Av 4 774 røde prognosevarsler (ikke «brudd nå») ble 14 % fulgt av brudd innen 4 uker. De fleste røde varsler er altså falske alarmer.
+- Konsekvens for PRD-en: X i suksesskriterium 2 bør settes med disse tallene i bakhodet. Treff-definisjonen må presiseres. Lav treffsikkerhet er et legitimt funn å rapportere, siden briefen allerede kaller treffsikkerheten «en sentral usikkerhet».
 
 ## Prognosemetode
 
@@ -46,5 +86,5 @@ Supplerende materiale samlet under utarbeidelsen av brief.md — bakgrunn for vi
 3. **Fortsatt åpent.** Teknisk stack og arbeidsdeling er ikke diskutert med Ella ennå.
 4. **Avklart.** Prediksjonsmodellen i v1 er lineær regresjon over 5 uker med horisont 6 uker (R2), ikke en mer sofistikert tidsseriemodell.
 5. **Avklart.** Ingen andre kjente konkurrenter/alternativer utover «oppdretter»-prosjektet.
-6. **Avklart.** Datagrunnlaget er et nedlastet BarentsWatch-utdrag i `data/barentswatch/`. Fila er ikke lastet ned ennå.
+6. **Avklart.** Datagrunnlaget er et nedlastet BarentsWatch-utdrag i `data/barentswatch/`: `lakselus_per_fisk_2025.xlsx` og `lakselus_per_fisk_2026.xlsx` (commit 51c6b85). Innholdet er analysert i seksjonen «Dataanalyse av BarentsWatch-utdraget».
 7. **Fortsatt åpent.** Plassholdere i brief.md: dato for kontroll mot Lovdata (R1), inndata og fasit for T5 og T6 (R6), og prosentkravet X i backtesten.
