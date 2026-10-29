@@ -7,5 +7,5 @@
 - [x] 2026-10-29 [marin-dataanalyse](999-2026-10-29-11-22-32-marin-dataanalyse.md) — fyll inn Lovdata-dato i R1 (kontrollert 2026-10-29) (løst 2026-10-29)
 - [ ] 2026-10-29 [marin-dataanalyse](999-2026-10-29-11-22-32-marin-dataanalyse.md) — gjenstående research-/brainstormingtemaer før PRD
 - [ ] 2026-10-29 [statuslinje-og-loggcommit](998-2026-10-29-12-10-38-statuslinje-og-loggcommit.md) — statuslinje: velg fra bunnen eller eksisterende prompt-konfigurasjon
-- [ ] 2026-10-29 [marin-dataanalyse](999-2026-10-29-11-22-32-marin-dataanalyse.md) — regn ut fasit for T5, T6 og T8 for hånd (inndata er fylt inn)
+- [x] 2026-10-29 [marin-dataanalyse](999-2026-10-29-11-22-32-marin-dataanalyse.md) — regn ut fasit for T5, T6 og T8 for hånd (inndata er fylt inn) (løst 2026-10-29)
 - [ ] 2026-10-29 [marin-dataanalyse](999-2026-10-29-11-22-32-marin-dataanalyse.md) — skriv i refleksjonsrapporten at X ble satt etter skissen av backtesten
