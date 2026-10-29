@@ -1,8 +1,8 @@
 ---
 title: "Product Brief: Marin"
-status: draft
+status: final
 created: 2026-09-17
-updated: 2026-10-27
+updated: 2026-10-29
 ---
 
 # Product Brief: Marin
@@ -57,17 +57,17 @@ Grensen gjelder gjennomsnittlig antall voksne hunnlus per fisk i anlegget (lakse
 - Et anlegg er «nord» når det ligger i Nordland, Troms eller Finnmark, ellers «sør». Forskriften bruker fortsatt «Nord-Trøndelag», selv om fylket ikke finnes lenger; «Nord-Trøndelag og sørover» betyr i praksis hele Trøndelag og alt sør for det.
 - Mangler anlegget fylke i datasettet (lokaliteten finnes ikke i akvakulturregisteret, og BarentsWatch oppgir grensen som «Ukjent»), kan grensen ikke bestemmes. Appen beregner da ingen prognose og viser status «ukjent område» (R4).
 - Særskilte grenser for tillatelser med kapasitetsøkning er ute av v1.
-- Ordlyden er kontrollert mot Lovdata: _[dato fylles inn av Fredrik]_.
+- Ordlyden er kontrollert mot Lovdata: 2026-10-29 (forskriften sist endret 2023-12-14, FOR-2023-12-14-2087).
 
 ### R2 Trendberegning
 
-- **Historikk:** de 5 siste ukene med lusetall (N = 5), til og med uke t, der t er uka med siste telling.
-- **Metode:** lineær regresjon (minste kvadraters metode) med ISO-uke som x-verdi og lusetall som y-verdi. Årsskiftet (uke 52/53 → uke 1) behandles som sammenhengende tid.
+- **Historikk:** et vindu på de 5 siste ukene (uke t − 4 til og med uke t), der t er uka med siste telling. Vinduet må inneholde **minst 3 uker med telling**, slik at telling annenhver uke under 4 °C (lakselusforskriften § 6) gir prognose.
+- **Metode:** lineær regresjon (minste kvadraters metode) over ukene i vinduet som har telling, med ISO-uke som x-verdi og lusetall som y-verdi. Uker uten telling hoppes over, og ingen verdier fylles inn. Årsskiftet (uke 52/53 → uke 1) behandles som sammenhengende tid.
 - **Uker til grensen:** for hver kommende uke t + k, der k = 1, 2, …, 6 (horisont H = 6), beregnes estimert verdi fra linja og sammenlignes med grensen i den uka (R3). Uker til grensen er den første k der estimatet er ≥ grensen. Finnes ingen slik k, er resultatet «ingen kryssing innen 6 uker».
 - **Spesialtilfeller:**
   - *Flat eller fallende trend:* ingen unntak. Regelen sjekkes på samme måte, fordi grensen kan falle til 0,2 om våren.
   - *Allerede over grensen:* er siste målte verdi ≥ grensen som gjelder i uke t, blir uker til grensen 0 og status «brudd nå». Ingen prognose beregnes.
-  - *For få datapunkter:* mangler det telling i noen av de 5 siste ukene, beregnes ingen prognose, og appen viser «for lite data».
+  - *For få datapunkter:* har færre enn 3 av de 5 siste ukene telling, beregnes ingen prognose, og appen viser «for lite data».
   - *Negative estimater:* et estimat under 0 settes til 0.
 
 ### R3 Grensen prognosen sammenlignes mot
@@ -103,9 +103,11 @@ Tabellen er utgangspunkt for automatiske tester. Fasit regnes ut av gruppen for 
 | T2 | R1 | Sør, uke 22 | Grense 0,5 |
 | T3 | R1 | Nord, uke 21 | Grense 0,2 |
 | T4 | R1 | Nord, uke 20 | Grense 0,5 |
-| T5 | R2, R4 | Fem ukers lusetall for ett anlegg: _[fylles inn av gruppen]_ | Estimert uke for grensen og farge: _[regnes ut for hånd av gruppen]_ |
-| T6 | R3 | Anlegg i sør, siste telling i uke 14: _[lusetall fylles inn av gruppen]_ | Sammenlignes mot 0,5 i uke 15 og 0,2 i uke 16–20. Uke og farge: _[regnes ut for hånd av gruppen]_ |
+| T5 | R2, R4 | Anlegg i sør, uke 30–34: 0,06 / 0,12 / 0,18 / 0,24 / 0,30 | b = 0,06 per uke. Estimat 0,48 i uke 37 og 0,54 i uke 38. Grensen nås om 4 uker (uke 38). Status gul: «! Følg med: grensen kan nås om 4 uker» |
+| T6 | R3 | Anlegg i sør, uke 10–14: 0,10 / 0,12 / 0,14 / 0,16 / 0,18 | Sammenlignes mot 0,5 i uke 15 og 0,2 i uke 16–20. b = 0,02 per uke. Estimat 0,20 i uke 15 (under 0,5) og 0,22 i uke 16 (over 0,2). Grensen nås om 2 uker (uke 16). Status rød: «✕ Varsel: grensen nås om 2 uker». Sammenlignet feilaktig med 0,5 i alle ukene ville status blitt grønn. |
 | T7 | R1, R4 | Anlegg uten fylke, fem ukers lusetall | Ingen prognose, grå status «Ukjent område» |
+| T8 | R2, R4 | Anlegg i sør, telling bare i uke 36, 38 og 40 (annenhver uke): 0,20 / 0,28 / 0,36 | Prognose beregnes fra 3 punkter. b = 0,04 per uke (0,08 over 2 uker). Estimat 0,48 i uke 43 og 0,52 i uke 44. Grensen nås om 4 uker (uke 44). Status gul: «! Følg med: grensen kan nås om 4 uker». Med tellingsnummer i stedet for ISO-uke som x-verdi ville b blitt 0,08, og status feilaktig rød (2 uker). |
+| T9 | R2, R4 | Telling bare i uke t − 2 og t | Ingen prognose, grå status «For lite data» |
 
 ## Hva gjør dette annerledes
 
@@ -123,8 +125,8 @@ Sekundærbrukere kan være produksjonssjefer/regionledere som følger flere anle
 
 Hvert kriterium viser til reglene (R) og testtilfellene (T) over.
 
-1. **Regelkorrekthet:** Testtilfellene T1–T7 (R6) kjører som automatiske tester og består.
-2. **Treffsikkerhet (backtest):** Prognosen kjøres uke for uke på det historiske datasettet, med bare data fram til hver uke. En grensekryssing er en uke der målt verdi er ≥ grensen (R1) mens uka før var under. En kryssing regnes som treff hvis anlegget første gang fikk rød status (R4) 2–4 uker før kryssingen. Minst _[X] %_ av kryssingene skal være treff; X fastsettes av gruppen før backtesten kjøres. Andelen røde varsler som ikke ble fulgt av en kryssing, rapporteres sammen med treffandelen.
+1. **Regelkorrekthet:** Testtilfellene T1–T9 (R6) kjører som automatiske tester og består.
+2. **Treffsikkerhet (backtest):** Prognosen kjøres uke for uke på det historiske datasettet, med bare data fram til hver uke. En grensekryssing er en uke der målt verdi er ≥ grensen (R1) mens uka før var under. En kryssing regnes som treff hvis den sammenhengende perioden med rød status (R4) rett før kryssingen begynte 2–4 uker før kryssingen. Rød status bare 1 uke før, eller en rød periode som begynte 5 uker eller mer før, er ikke treff. Minst **25 %** av kryssingene skal være treff. Andelen røde varsler som ikke ble fulgt av brudd innen 4 uker, rapporteres sammen med treffandelen. X ble satt etter en foreløpig skisse av backtesten (se addendum), og appens egen backtest er den som avgjør.
 3. **Kjerneflyt:** Brukeren kan velge et anlegg og se de 5 siste ukenes lusetall, trendlinjen, estimert uke for grensen og statusen (R2–R4).
 4. **Lesbar uten fargesyn:** Hver status vises med tekst og symbol i tillegg til farge (R4).
 5. **Kjørbar for sensor:** Appen kan kjøres lokalt etter README, med datasettet som ligger i repoet, uten API-nøkler eller nettilgang.
@@ -135,7 +137,7 @@ Hvert kriterium viser til reglene (R) og testtilfellene (T) over.
 - Dashboard som viser status og historisk lusetrend per anlegg — bekreftet presentasjonsform
 - Prediktivt varsel med estimert tidshorisont mot lovpålagt grense, basert på lineær regresjon (R2, R3)
 - Statusfarge med tekst og symbol (R4)
-- Nedlastet utdrag av historiske lusetall fra BarentsWatch som datagrunnlag, lagret i `data/barentswatch/` i repoet
+- Nedlastet utdrag av historiske lusetall fra BarentsWatch som datagrunnlag, lagret i `data/barentswatch/` i repoet. Appen bruker data fra 2025 uke 1 til og med **2026 uke 42**. Uke 43–44 i utdraget er ufullstendige og leses ikke inn.
 
 **Ute av første versjon**:
 - Sanntids/live-integrasjon mot BarentsWatch API

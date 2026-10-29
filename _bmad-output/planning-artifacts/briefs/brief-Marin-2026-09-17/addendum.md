@@ -63,6 +63,24 @@ Analysen er gjort med KI-støtte (Claude Code) på begge filene i `data/barentsw
 - Av 4 774 røde prognosevarsler (ikke «brudd nå») ble 14 % fulgt av brudd innen 4 uker. De fleste røde varsler er altså falske alarmer.
 - Konsekvens for PRD-en: X i suksesskriterium 2 bør settes med disse tallene i bakhodet. Treff-definisjonen må presiseres. Lav treffsikkerhet er et legitimt funn å rapportere, siden briefen allerede kaller treffsikkerheten «en sentral usikkerhet».
 
+### Beslutninger etter analysen (2026-10-29)
+
+Skissen ble kjørt på nytt for hvert alternativ (treff etter tolkning B):
+
+| Krav i R2 | Grå «for lite data» | Treff | Røde varsler fulgt av brudd |
+|---|---|---|---|
+| 5 av 5 | 13,3 % | 27,9 % | 14,4 % |
+| 4 av 5 | 8,8 % | 28,4 % | 14,2 % |
+| 3 av 5 | 5,5 % | 28,8 % | 14,1 % |
+
+Å kutte datagrunnlaget ved 2026 uke 42 endrer nesten ingenting (814 i stedet for 823 kryssinger, samme treffandel).
+
+Fredrik besluttet:
+
+1. **R2:** vinduet på 5 uker må ha minst 3 tellinger, og regresjonen bruker bare ukene med telling. Begrunnelse: dekker telling annenhver uke under 4 °C (§ 6) og halverer andelen grå uker uten å endre treffsikkerheten. Nye testtilfeller T8 og T9 er lagt til i R6.
+2. **Ufullstendige uker:** datagrunnlaget går til og med 2026 uke 42. Begrunnelse: gir et fast datagrunnlag, og demoen viser ikke nesten bare grå anlegg i de siste ukene.
+3. **X = 25 %** med tolkning B, som briefen nå sier eksplisitt. Begrunnelse: realistisk for lineær regresjon, med litt margin til skissen (omtrent 29 %). **Åpenhet:** briefen sa at X skulle fastsettes før backtesten kjøres. X er satt etter denne skissen, og det skal stå i refleksjonsrapporten.
+
 ## Prognosemetode
 
 - Metode for v1 er avklart (jf. åpne spørsmål nedenfor): **enkel trendekstrapolering** på historiske lusetall — ikke en mer avansert tidsseriemodell (f.eks. ARIMA, eksponentiell glatting, eller maskinlæringsbasert regresjon).
@@ -87,4 +105,4 @@ Analysen er gjort med KI-støtte (Claude Code) på begge filene i `data/barentsw
 4. **Avklart.** Prediksjonsmodellen i v1 er lineær regresjon over 5 uker med horisont 6 uker (R2), ikke en mer sofistikert tidsseriemodell.
 5. **Avklart.** Ingen andre kjente konkurrenter/alternativer utover «oppdretter»-prosjektet.
 6. **Avklart.** Datagrunnlaget er et nedlastet BarentsWatch-utdrag i `data/barentswatch/`: `lakselus_per_fisk_2025.xlsx` og `lakselus_per_fisk_2026.xlsx` (commit 51c6b85). Innholdet er analysert i seksjonen «Dataanalyse av BarentsWatch-utdraget».
-7. **Fortsatt åpent.** Plassholdere i brief.md: dato for kontroll mot Lovdata (R1), inndata og fasit for T5 og T6 (R6), og prosentkravet X i backtesten.
+7. **Delvis avklart.** X i backtesten er satt til 25 %, og datoen for kontroll mot Lovdata er fylt inn i R1 (2026-10-29). Inndata for T5, T6 og T8 er valgt med KI-støtte som rette linjer uten likhet mot grensen, slik at de er lette å regne for hånd. Fasiten for T5, T6 og T8 skal fortsatt regnes ut for hånd av gruppen.
