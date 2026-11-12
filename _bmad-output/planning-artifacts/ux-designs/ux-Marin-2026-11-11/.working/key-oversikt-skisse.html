@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="nb"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Marin – skisse: samlet oversikt (ikke v1)</title>
+<style>
+/* ===== SKISSE – ikke del av v1: Samlet oversikt over alle anlegg =====
+   Ute av v1 etter PRD §9 («skisseres i UX-steget som mulig neste versjon, men bygges ikke i v1»)
+   og EXPERIENCE.md Information Architecture / Interaction Primitives («Ikke i v1: … samlet oversikt»).
+   Laget etter .memlog.md-beslutningen om skjermbildeskisse av samlet oversikt i ferdigstillingen.
+   Styrende spine-seksjoner (lånt fra v1):
+   - EXPERIENCE.md: Voice and Tone (R4-tekst uendret, «uke 44», «Hitra, Trøndelag», «Prognose regnet fra uke 42, 2026»),
+     Component Patterns (Toppfelt, Trefliste, Statusmerke), State Patterns – Detaljside status (rekkefølge og grå varianter),
+     Accessibility Floor (NFR4: farge + symbol + tekst; symbol aria-hidden), Responsive & Platform.
+   - DESIGN.md: Colors (status nøytral – ingen fulle flater utenfor statusboksen), Typography (body, meta, pill),
+     Layout & Spacing (én kolonne, maks 760px), Components (top-bar, hit-list-row, status-pill).
+   - PRD §9 (Ute av v1).
+   NYTT MØNSTER, IKKE I SPINE: «oversiktsrad» = hit-list-row + status-pill + R4-tekst i meta-linja.
+     Treflisten i v1 skal ikke ha status (EXPERIENCE Component Patterns «Trefliste»); her brytes det bevisst for skissen.
+   NYTT MØNSTER, IKKE I SPINE: skisse-merket øverst (hvit boks, 2px stiplet ink-kant) – bare for å merke skissen, ikke et produktmønster.
+   Sortering etter haster: brudd nå, rød etter uker, gul etter uker, grønn, grå.
+   Presentasjonsflaten rundt rammene bruker #F4F5F7 bare for å skille skissene fra arket. */
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;color:#111418;background:#F4F5F7;line-height:1.45}
+.sheet{max-width:1560px;margin:0 auto;padding:32px 24px 80px}
+.sheet>header h1{font-size:28px;margin:0 0 6px}
+.sheet>header p{max-width:900px;color:#4A5059;margin:4px 0}
+.dir{background:#fff;border:1px solid #E3E6EA;border-radius:10px;padding:28px;margin-top:36px}
+.dir>h2{font-size:24px;margin:0}
+.dir .why{max-width:960px;color:#4A5059;margin:8px 0 0}
+.cap{font-size:13px;color:#4A5059;margin:0 0 8px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.row{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start;margin-top:24px}
+.browser{border:1px solid #C9CDD3;border-radius:10px;overflow:hidden;background:#fff;box-shadow:0 2px 10px rgba(17,20,24,.06)}
+.bbar{display:flex;align-items:center;gap:6px;padding:9px 12px;border-bottom:1px solid #E3E6EA;background:#fff}
+.bbar i{width:10px;height:10px;border-radius:50%;background:#E3E6EA;display:block}
+.bbar .url{margin-left:12px;font-size:12px;color:#4A5059;border:1px solid #E3E6EA;border-radius:6px;padding:3px 10px;flex:1;max-width:520px}
+.bview{width:1080px;max-width:100%;overflow:hidden}
+.phone{width:375px;border:10px solid #111418;border-radius:36px;overflow:hidden;background:#fff}
+.notch{height:22px;background:#111418;width:120px;margin:0 auto;border-radius:0 0 12px 12px}
+.sketch-banner{display:inline-block;font-size:20px;font-weight:700;border:2px dashed #111418;border-radius:6px;padding:8px 16px;background:#fff;margin:0 0 12px}
+/* ===== Retning A – produktet ===== */
+a{color:#0B3D91}
+.logo{font-weight:800;letter-spacing:.02em;color:#0B3D91;font-size:20px;text-decoration:none}
+.dA{font-size:18px;line-height:1.55;background:#fff}
+.a-top{display:flex;align-items:center;gap:20px;padding:16px 32px;border-bottom:1px solid #E3E6EA}
+.a-top .a-search{flex:1;max-width:420px;margin-left:auto;font:inherit;font-size:16px;color:#111418;background:#fff;border:1px solid #8A919A;border-radius:6px;padding:7px 12px}
+.a-top .a-search::placeholder{color:#4A5059}
+.a-top a.lnk{font-size:16px;white-space:nowrap}
+.a-top .push{margin-left:auto}
+.a-main{max-width:760px;margin:0 auto;padding:36px 32px 48px}
+.skisse{display:inline-block;font-size:14px;font-weight:700;border:2px dashed #111418;border-radius:6px;padding:4px 10px;margin:0 0 14px}
+.dA h1{font-size:34px;font-weight:600;margin:0;letter-spacing:-.01em}
+.sub{color:#4A5059;font-size:16px;margin:2px 0 24px}
+/* oversiktsrad (nytt mønster, ikke i spine) */
+.ov{list-style:none;margin:0;padding:0;border-top:1px solid #E3E6EA}
+.ov li{border-bottom:1px solid #E3E6EA}
+.ov a{display:flex;gap:16px;align-items:flex-start;padding:14px 8px;color:#111418;text-decoration:none}
+.ov .txt{flex:1;min-width:0}
+.ov .nm{font-weight:600;font-size:18px;display:block}
+.ov .mt{font-size:16px;color:#4A5059;display:block}
+.ov .st{font-size:16px;color:#111418;display:block;margin-top:2px}
+.ov .pill{flex:none;margin-top:4px}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;font-weight:600;white-space:nowrap;line-height:1.2;font-size:13px;padding:3px 10px;background:#fff;color:#111418;border:1px solid #E3E6EA}
+.pill .sy{font-weight:800}
+.st-red .sy{color:#B3261E}
+.st-yellow{border-color:#8A6A00}.st-yellow .sy{color:#1A1400}
+.st-green .sy{color:#1B6E4F}
+.st-grey{border:1px dashed #8A919A}.st-grey .sy{color:#3F4650}
+/* mobil */
+.dA.is-phone{font-size:16px}
+.dA.is-phone .a-top{padding:12px 16px;gap:14px}
+.dA.is-phone .a-top a.lnk{font-size:15px}
+.dA.is-phone .a-main{padding:20px 16px 32px}
+.dA.is-phone h1{font-size:28px}
+.dA.is-phone .sub{font-size:14px;margin-bottom:18px}
+.dA.is-phone .ov a{flex-direction:column;gap:6px;padding:11px 6px}
+.dA.is-phone .ov .pill{order:-1;margin-top:0}
+.dA.is-phone .ov .nm{font-size:16px}
+.dA.is-phone .ov .mt{font-size:14px}
+.dA.is-phone .ov .st{font-size:14px}
+</style></head>
+<body><div class="sheet">
+<header>
+<p class="sketch-banner">Skisse – ikke del av v1</p>
+<h1>Marin · skisse – samlet oversikt over alle anlegg</h1>
+<p>Mulig neste versjon (PRD §9: «skisseres i UX-steget som mulig neste versjon, men bygges ikke i v1»). En rolig liste over alle anlegg, sortert etter hvor snart grensen nås. Statusmerkene er nøytrale: hvit pille, bare symbolet i statusfarge. Filtrering og flere sorteringer er ikke skissert.</p>
+</header>
+
+<section class="dir">
+<h2>Samlet oversikt · analyseuke 42, 2026</h2>
+<p class="why">Én rad per anlegg: navn, lokalitetsnr. og sted, og R4-teksten med uke. Raden åpner detaljsiden. Rekkefølge: brudd nå, rødt varsel, gult, grønt, grått. Grå anlegg står sist, med grunnen til at det ikke finnes prognose.</p>
+<div class="row">
+<div><p class="cap">Desktop · 1080px</p>
+<div class="browser"><div class="bbar"><i></i><i></i><i></i><span class="url">marin / oversikt · uke 42, 2026</span></div><div class="bview"><div class="dA">
+  <header class="a-top"><a class="logo" href="#">Marin</a><input class="a-search" type="search" placeholder="Søk anlegg – navn eller lokalitetsnr."><a class="lnk" href="#">Bytt anlegg</a><a class="lnk" href="#">Last opp egne tall</a></header>
+  <main class="a-main">
+    <p class="skisse">Skisse – ikke del av v1</p>
+    <h1>Alle anlegg</h1>
+    <p class="sub">Prognose regnet fra uke 42, 2026 · sortert etter hvor snart grensen nås</p>
+    <ul class="ov">
+      <li><a href="#"><span class="pill st-red"><span class="sy" aria-hidden="true">✕</span>Rød</span><span class="txt"><span class="nm">Storskjæret</span><span class="mt">Lokalitetsnr. 45678 · Frøya, Trøndelag</span><span class="st">Brudd nå</span></span></a></li>
+      <li><a href="#"><span class="pill st-red"><span class="sy" aria-hidden="true">✕</span>Rød</span><span class="txt"><span class="nm">Langholmen</span><span class="mt">Lokalitetsnr. 12345 · Hitra, Trøndelag</span><span class="st">Varsel: grensen nås om 2 uker (uke 44)</span></span></a></li>
+      <li><a href="#"><span class="pill st-red"><span class="sy" aria-hidden="true">✕</span>Rød</span><span class="txt"><span class="nm">Kvitholmen</span><span class="mt">Lokalitetsnr. 56789 · Smøla, Møre og Romsdal</span><span class="st">Varsel: grensen nås om 3 uker (uke 45)</span></span></a></li>
+      <li><a href="#"><span class="pill st-yellow"><span class="sy" aria-hidden="true">!</span>Gul</span><span class="txt"><span class="nm">Langøya</span><span class="mt">Lokalitetsnr. 23456 · Austevoll, Vestland</span><span class="st">Følg med: grensen kan nås om 5 uker (uke 47)</span></span></a></li>
+      <li><a href="#"><span class="pill st-green"><span class="sy" aria-hidden="true">✓</span>Grønn</span><span class="txt"><span class="nm">Brattvika</span><span class="mt">Lokalitetsnr. 67890 · Kvinnherad, Vestland</span><span class="st">Ingen kryssing ventet innen 6 uker</span></span></a></li>
+      <li><a href="#"><span class="pill st-green"><span class="sy" aria-hidden="true">✓</span>Grønn</span><span class="txt"><span class="nm">Langneset</span><span class="mt">Lokalitetsnr. 34567 · Lurøy, Nordland</span><span class="st">Ingen kryssing ventet innen 6 uker</span></span></a></li>
+      <li><a href="#"><span class="pill st-grey"><span class="sy" aria-hidden="true">–</span>Grå</span><span class="txt"><span class="nm">Hamnøy</span><span class="mt">Lokalitetsnr. 89012 · Flakstad, Nordland</span><span class="st">Ingen ny telling siden uke 40</span></span></a></li>
+      <li><a href="#"><span class="pill st-grey"><span class="sy" aria-hidden="true">–</span>Grå</span><span class="txt"><span class="nm">Sandøyfjorden</span><span class="mt">Lokalitetsnr. 78901 · Senja, Troms</span><span class="st">For lite data</span></span></a></li>
+    </ul>
+  </main>
+</div></div></div></div>
+
+<div><p class="cap">Mobil · 375px</p>
+<div class="phone"><div class="notch"></div><div class="dA is-phone">
+  <header class="a-top"><a class="logo" href="#">Marin</a><a class="lnk push" href="#">Søk / bytt</a><a class="lnk" href="#">Last opp egne tall</a></header>
+  <main class="a-main">
+    <p class="skisse">Skisse – ikke del av v1</p>
+    <h1>Alle anlegg</h1>
+    <p class="sub">Prognose regnet fra uke 42, 2026 · sortert etter hvor snart grensen nås</p>
+    <ul class="ov">
+      <li><a href="#"><span class="pill st-red"><span class="sy" aria-hidden="true">✕</span>Rød</span><span class="txt"><span class="nm">Storskjæret</span><span class="mt">Lokalitetsnr. 45678 · Frøya, Trøndelag</span><span class="st">Brudd nå</span></span></a></li>
+      <li><a href="#"><span class="pill st-red"><span class="sy" aria-hidden="true">✕</span>Rød</span><span class="txt"><span class="nm">Langholmen</span><span class="mt">Lokalitetsnr. 12345 · Hitra, Trøndelag</span><span class="st">Varsel: grensen nås om 2 uker (uke 44)</span></span></a></li>
+      <li><a href="#"><span class="pill st-red"><span class="sy" aria-hidden="true">✕</span>Rød</span><span class="txt"><span class="nm">Kvitholmen</span><span class="mt">Lokalitetsnr. 56789 · Smøla, Møre og Romsdal</span><span class="st">Varsel: grensen nås om 3 uker (uke 45)</span></span></a></li>
+      <li><a href="#"><span class="pill st-yellow"><span class="sy" aria-hidden="true">!</span>Gul</span><span class="txt"><span class="nm">Langøya</span><span class="mt">Lokalitetsnr. 23456 · Austevoll, Vestland</span><span class="st">Følg med: grensen kan nås om 5 uker (uke 47)</span></span></a></li>
+      <li><a href="#"><span class="pill st-green"><span class="sy" aria-hidden="true">✓</span>Grønn</span><span class="txt"><span class="nm">Brattvika</span><span class="mt">Lokalitetsnr. 67890 · Kvinnherad, Vestland</span><span class="st">Ingen kryssing ventet innen 6 uker</span></span></a></li>
+      <li><a href="#"><span class="pill st-green"><span class="sy" aria-hidden="true">✓</span>Grønn</span><span class="txt"><span class="nm">Langneset</span><span class="mt">Lokalitetsnr. 34567 · Lurøy, Nordland</span><span class="st">Ingen kryssing ventet innen 6 uker</span></span></a></li>
+      <li><a href="#"><span class="pill st-grey"><span class="sy" aria-hidden="true">–</span>Grå</span><span class="txt"><span class="nm">Hamnøy</span><span class="mt">Lokalitetsnr. 89012 · Flakstad, Nordland</span><span class="st">Ingen ny telling siden uke 40</span></span></a></li>
+      <li><a href="#"><span class="pill st-grey"><span class="sy" aria-hidden="true">–</span>Grå</span><span class="txt"><span class="nm">Sandøyfjorden</span><span class="mt">Lokalitetsnr. 78901 · Senja, Troms</span><span class="st">For lite data</span></span></a></li>
+    </ul>
+  </main>
+</div></div></div>
+</div>
+</section>
+
+</div></body></html>

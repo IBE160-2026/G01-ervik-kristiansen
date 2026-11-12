@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marin fargetemaer</title>
+<style>
+/* =====================================================================
+   Marin – fargetemaer, runde 1 (kun lys modus)
+   Kontrast = WCAG 2.x-forhold, beregnet. Alle tekstpar >= 4.5:1.
+   Statusrollene er faste: rød (brudd/varsel), gul (følg med),
+   grønn (ingen kryssing), grå (ingen prognose). Alltid farge + symbol + tekst.
+   CVD: rød er dyp, varm rød; grønn er mørk blågrønn; gul er lys/ravgul.
+   De skilles derfor også på lyshet og symbol, ikke bare kulør.
+   ===================================================================== */
+
+/* ---------- 1. Fjordskifer — kjølig hav/skifer ----------
+   background   #F4F6F8
+   surface      #FFFFFF
+   text-primary #1B2733  (14.0:1 på bg)
+   text-second. #4F5D6B  (6.8:1 på surface)
+   border       #D5DCE3
+   accent       #1F5A85  (7.3:1 på surface)
+   rød   tekst #B3261E på tint #FBEAE8 (5.6:1), kant #E3A39D
+   gul   tekst #7A4B00 på tint #FFF3D1 (6.7:1), kant #E0B44A
+   grønn tekst #1B6E4F på tint #E3F3EC (5.4:1), kant #8CC7AE
+   grå   tekst #4B5560 på tint #EEF0F2 (6.6:1), kant #C3CAD1
+*/
+.t1{--bg:#F4F6F8;--surface:#FFFFFF;--text:#1B2733;--text2:#4F5D6B;--border:#D5DCE3;--accent:#1F5A85;--accent-tint:#E6EEF5;
+  --red:#B3261E;--red-t:#FBEAE8;--red-b:#E3A39D;--yel:#7A4B00;--yel-t:#FFF3D1;--yel-b:#E0B44A;
+  --grn:#1B6E4F;--grn-t:#E3F3EC;--grn-b:#8CC7AE;--gry:#4B5560;--gry-t:#EEF0F2;--gry-b:#C3CAD1;--radius:8px}
+
+/* ---------- 2. Papir og stein — varm papir/stein ----------
+   background   #F6F3EE
+   surface      #FFFDF9
+   text-primary #2B2622  (13.5:1 på bg)
+   text-second. #5E554C  (7.2:1 på surface)
+   border       #DDD5CA
+   accent       #3D5A6C  (7.2:1 på surface) – dempet skiferblå mot varm grunn
+   rød   tekst #A3271D på tint #F8E6E1 (6.1:1), kant #D9A296
+   gul   tekst #734700 på tint #FBEFCF (7.0:1), kant #D9B25A
+   grønn tekst #2A6A48 på tint #E4EFE4 (5.5:1), kant #9CC4A6
+   grå   tekst #575049 på tint #ECE7E0 (6.4:1), kant #CFC6BA
+*/
+.t2{--bg:#F6F3EE;--surface:#FFFDF9;--text:#2B2622;--text2:#5E554C;--border:#DDD5CA;--accent:#3D5A6C;--accent-tint:#E8EDEF;
+  --red:#A3271D;--red-t:#F8E6E1;--red-b:#D9A296;--yel:#734700;--yel-t:#FBEFCF;--yel-b:#D9B25A;
+  --grn:#2A6A48;--grn-t:#E4EFE4;--grn-b:#9CC4A6;--gry:#575049;--gry-t:#ECE7E0;--gry-b:#CFC6BA;--radius:4px}
+
+/* ---------- 3. Klar hvit — høy klarhet, én dyp aksent ----------
+   background   #FFFFFF
+   surface      #FFFFFF (skilles med kant, ikke tone)
+   text-primary #111418  (18.5:1)
+   text-second. #4A5059  (8.1:1)
+   border       #E3E6EA
+   accent       #0B3D91  (10.0:1) – dyp marineblå, eneste kulør utenom status
+   Status som HELE flater (best i sterkt sollys):
+   rød   hvit tekst på #B3261E (6.5:1)
+   gul   tekst #1A1400 på #F5B800 (10.3:1) – NB: gul flate mot hvit = 1.8:1, derfor mørk kant #8A6A00
+   grønn hvit tekst på #1B6E4F (6.2:1)
+   grå   tekst #3F4650 på hvit, stiplet kant #8A919A (9.5:1)
+*/
+.t3{--bg:#FFFFFF;--surface:#FFFFFF;--text:#111418;--text2:#4A5059;--border:#E3E6EA;--accent:#0B3D91;--accent-tint:#E7EDF7;
+  --red:#B3261E;--red-t:#B3261E;--red-b:#B3261E;--yel:#1A1400;--yel-t:#F5B800;--yel-b:#8A6A00;
+  --grn:#1B6E4F;--grn-t:#1B6E4F;--grn-b:#1B6E4F;--gry:#3F4650;--gry-t:#FFFFFF;--gry-b:#8A919A;--radius:6px}
+
+/* ---------- 4. Tang og tåke — myke fjordgrønne nøytraler ----------
+   background   #F2F5F3
+   surface      #FBFCFB
+   text-primary #1D2A25  (13.6:1 på bg)
+   text-second. #4E5E57  (6.7:1 på surface)
+   border       #D3DDD8
+   accent       #2F5D74  (6.9:1) – petrol, bevisst IKKE grønn så den ikke forveksles med status grønn
+   rød   tekst #AE2A1F på tint #F9E7E3 (5.6:1), kant #DFA59B
+   gul   tekst #704800 på tint #FCF1D4 (7.1:1), kant #D8B355
+   grønn tekst #1F6B4C på tint #E1F0E8 (5.5:1), kant #93C4AB
+   grå   tekst #4D5A55 på tint #E9EEEB (6.2:1), kant #C2CDC8
+*/
+.t4{--bg:#F2F5F3;--surface:#FBFCFB;--text:#1D2A25;--text2:#4E5E57;--border:#D3DDD8;--accent:#2F5D74;--accent-tint:#E4EDF0;
+  --red:#AE2A1F;--red-t:#F9E7E3;--red-b:#DFA59B;--yel:#704800;--yel-t:#FCF1D4;--yel-b:#D8B355;
+  --grn:#1F6B4C;--grn-t:#E1F0E8;--grn-b:#93C4AB;--gry:#4D5A55;--gry-t:#E9EEEB;--gry-b:#C2CDC8;--radius:12px}
+
+/* ---------- 5. Grafitt — dempet, lav metning, "instrumentpanel" ----------
+   background   #EEF0F1
+   surface      #FAFAFA
+   text-primary #202326  (13.8:1 på bg)
+   text-second. #555B61  (6.6:1 på surface)
+   border       #CDD2D6
+   accent       #454B85  (7.7:1) – dempet indigo
+   Status kun som kontur + farget tekst/symbol (roligst, minst flate):
+   rød   #B3261E på #FAFAFA (6.3:1)
+   gul   #8A5600 på #FAFAFA (5.9:1) – symbolfelt #F2C14E
+   grønn #1B6E4F på #FAFAFA (5.9:1)
+   grå   #555B61 på #FAFAFA (6.6:1)
+*/
+.t5{--bg:#EEF0F1;--surface:#FAFAFA;--text:#202326;--text2:#555B61;--border:#CDD2D6;--accent:#454B85;--accent-tint:#E9EAF3;
+  --red:#B3261E;--red-t:#FAFAFA;--red-b:#B3261E;--yel:#8A5600;--yel-t:#FAFAFA;--yel-b:#C99A2E;
+  --grn:#1B6E4F;--grn-t:#FAFAFA;--grn-b:#1B6E4F;--gry:#555B61;--gry-t:#FAFAFA;--gry-b:#9AA1A8;--radius:3px}
+
+/* ---------- Felles oppsett (ikke en del av temaene) ---------- */
+*{box-sizing:border-box}
+body{margin:0;background:#E9EBEE;color:#1B1F24;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.45}
+.page-head{max-width:1500px;margin:0 auto;padding:24px 16px 8px}
+.page-head h1{margin:0 0 4px;font-size:22px}
+.page-head p{margin:0;color:#4A5059;font-size:14px;max-width:80ch}
+.grid{max-width:1500px;margin:0 auto;padding:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px}
+.theme{background:var(--bg);color:var(--text);border:1px solid #C9CED4;border-radius:10px;padding:18px;display:flex;flex-direction:column;gap:14px}
+.theme h2{margin:0;font-size:18px}
+.register{margin:2px 0 0;color:var(--text2);font-size:14px}
+.chips{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+.chip{display:flex;align-items:center;gap:8px;font-size:12px;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:5px 7px}
+.sw{width:22px;height:22px;border-radius:4px;border:1px solid rgba(0,0,0,.15);flex:none}
+.chip b{display:block;font-weight:600}
+.chip code{color:var(--text2);font-family:ui-monospace,Consolas,monospace;font-size:11px}
+.lbl{font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.04em;margin:0}
+
+/* kort */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px}
+.card h3{margin:0;font-size:18px}
+.card h3 span{font-weight:400;color:var(--text2);font-size:14px}
+.meta{margin:2px 0 0;color:var(--text2);font-size:13px}
+.weekrow{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0;font-size:13px;flex-wrap:wrap}
+.weekrow a{color:var(--accent);font-weight:600}
+.weeksel{display:inline-block;background:var(--accent);color:#fff;border-radius:999px;padding:2px 10px;font-weight:600}
+.statusbox{border-radius:var(--radius);padding:10px 12px;display:flex;gap:10px;align-items:flex-start;font-size:14px}
+.statusbox .sym{flex:none;width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:15px}
+table{width:100%;border-collapse:collapse;margin:12px 0 8px;font-size:13px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:5px 6px;border-bottom:1px solid var(--border)}
+th{color:var(--text2);font-weight:600}
+td.num,th.num{text-align:right}
+td.missing{color:var(--text2);font-style:italic}
+tr.sel td{background:var(--accent-tint);font-weight:600}
+tr.sel td:first-child{box-shadow:inset 3px 0 0 var(--accent)}
+.note{font-size:12px;color:var(--text2);margin:0 0 12px}
+.btn{display:inline-block;background:var(--accent);color:#fff;border-radius:var(--radius);padding:8px 14px;font-size:14px;font-weight:600;text-decoration:none}
+.btn2{display:inline-block;color:var(--accent);border:1px solid var(--accent);border-radius:var(--radius);padding:7px 13px;font-size:14px;font-weight:600;margin-left:6px}
+
+/* status-piller */
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:3px 10px 3px 4px;font-size:13px;font-weight:600;border:1px solid}
+.pill .sym{width:18px;height:18px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}
+.p-red{color:var(--red);background:var(--red-t);border-color:var(--red-b)}
+.p-yel{color:var(--yel);background:var(--yel-t);border-color:var(--yel-b)}
+.p-grn{color:var(--grn);background:var(--grn-t);border-color:var(--grn-b)}
+.p-gry{color:var(--gry);background:var(--gry-t);border-color:var(--gry-b);border-style:dashed}
+.p-red .sym{background:var(--red);color:#fff}
+.p-yel .sym{background:var(--yel);color:#fff}
+.p-grn .sym{background:var(--grn);color:#fff}
+.p-gry .sym{background:var(--gry);color:#fff}
+.statusbox.p-yel{border:1px solid var(--yel-b);border-left-width:4px}
+
+/* variasjonsspesifikk statusstil */
+/* t2: firkantet, venstrekant */
+.t2 .pill{border-radius:3px}
+/* t3: fulle flater */
+.t3 .p-red,.t3 .p-grn{color:#fff}
+.t3 .p-red .sym,.t3 .p-grn .sym{background:#fff}
+.t3 .p-red .sym{color:#B3261E}.t3 .p-grn .sym{color:#1B6E4F}
+.t3 .p-yel .sym{background:#1A1400;color:#F5B800}
+.t3 .statusbox.p-yel{border:2px solid #8A6A00}
+/* t5: kun kontur, symbol i farget felt */
+.t5 .pill{border-radius:3px;background:var(--surface)}
+.t5 .p-yel .sym{background:#F2C14E;color:#2A1C00}
+.t5 .statusbox.p-yel{background:var(--surface);border:1px solid var(--border);border-left:4px solid #C99A2E}
+.t5 .statusbox.p-yel .sym{background:#F2C14E;color:#2A1C00}
+.contrast{font-size:12px;color:var(--text2);margin:0}
+.contrast b{color:var(--text)}
+</style>
+</head>
+<body>
+<header class="page-head">
+  <h1>Marin – fargetemaer, runde 1</h1>
+  <p>Fem varianter innenfor «rolig og nøytral». Alle er kun lys modus. Statusfargene er de samme fire rollene i hver variant, alltid vist med farge, symbol og tekst. Kontrasttallene gjelder teksten mot bakgrunnen den står på (WCAG, mål ≥ 4,5:1). Hex-verdier står i kommentarene i &lt;style&gt;.</p>
+</header>
+
+<main class="grid">
+
+<!-- ===================== 1 ===================== -->
+<section class="theme t1">
+  <div>
+    <h2>1 · Fjordskifer</h2>
+    <p class="register">Kjølig hav og skifer. Sindig og faglig, som et godt kartverk.</p>
+  </div>
+  <div class="chips">
+    <div class="chip"><span class="sw" style="background:#F4F6F8"></span><span><b>Bakgrunn</b><code>#F4F6F8</code></span></div>
+    <div class="chip"><span class="sw" style="background:#FFFFFF"></span><span><b>Flate</b><code>#FFFFFF</code></span></div>
+    <div class="chip"><span class="sw" style="background:#1B2733"></span><span><b>Tekst, primær</b><code>#1B2733 · 14,0:1</code></span></div>
+    <div class="chip"><span class="sw" style="background:#4F5D6B"></span><span><b>Tekst, sekundær</b><code>#4F5D6B · 6,8:1</code></span></div>
+    <div class="chip"><span class="sw" style="background:#D5DCE3"></span><span><b>Kant</b><code>#D5DCE3</code></span></div>
+    <div class="chip"><span class="sw" style="background:#1F5A85"></span><span><b>Aksent</b><code>#1F5A85 · 7,3:1</code></span></div>
+    <div class="chip"><span class="sw" style="background:#B3261E"></span><span><b>Rød · brudd</b><code>#B3261E / #FBEAE8 · 5,6:1</code></span></div>
+    <div class="chip"><span class="sw" style="background:#E0B44A"></span><span><b>Gul · følg med</b><code>#7A4B00 / #FFF3D1 · 6,7:1</code></span></div>
+    <div class="chip"><span class="sw" style="background:#1B6E4F"></span><span><b>Grønn · ingen kryssing</b><code>#1B6E4F / #E3F3EC · 5,4:1</code></span></div>
+    <div class="chip"><span class="sw" style="background:#4B5560"></span><span><b>Grå · ingen prognose</b><code>#4B5560 / #EEF0F2 · 6,6:1</code></span></div>
+  </div>
+
+  <article class="card">
+    <h3>Langholmen <span>(lokalitet 12345)</span></h3>
+    <p class="meta">Hitra, Trøndelag</p>
+    <div class="weekrow"><span>Prognose regnet fra <span class="weeksel">uke 42, 2026</span></span><a href="#">Bytt analyseuke</a></div>
+    <div class="statusbox p-yel"><span class="sym">!</span><span><b>Følg med:</b> grensen kan nås om 4 uker (uke 46)</span></div>
+    <table>
+      <thead><tr><th>Uke</th><th class="num">Voksne hunnlus per fisk</th><th class="num">Grense</th></tr></thead>
+      <tbody>
+        <tr><td>38</td><td class="num">0,18</td><td class="num">0,5</td></tr>
+        <tr><td>39</td><td class="num">0,22</td><td class="num">0,5</td></tr>
+        <tr><td>40</td><td class="num missing">ikke telt</td><td class="num">0,5</td></tr>
+        <tr><td>41</td><td class="num">0,29</td><td class="num">0,5</td></tr>
+        <tr class="sel"><td>42</td><td class="num">0,33</td><td class="num">0,5</td></tr>
+      </tbody>
+    </table>
+    <p class="note">Prognosen er en enkel trendberegning, ikke en garanti.</p>
+    <a class="btn" href="#">Se hele prognosen</a><span class="btn2">Til oversikt</span>
+  </article>
+
+  <p class="lbl">Statusfarger</p>
+  <div class="pills">
+    <span class="pill p-red"><span class="sym">✕</span>Brudd</span>
+    <span class="pill p-yel"><span class="sym">!</span>Følg med</span>
+    <span class="pill p-grn"><span class="sym">✓</span>Ingen kryssing</span>
+    <span class="pill p-gry"><span class="sym">–</span>Ingen prognose</span>
+  </div>
+  <p class="contrast"><b>Kontrast:</b> alle statustekster 5,4–6,7:1 mot sin tint; rød 6,0:1 og grønn 5,7:1 direkte på bakgrunnen. Tintene er lyse nok til å holde ute i sol.</p>
+</section>
+
+<!-- ===================== 2 ===================== -->
+<section class="theme t2">
+  <div>
+    <h2>2 · Papir og stein</h2>
+    <p class="register">Varm, papiraktig grunn. Lavmælt og jordnær, som en ryddig loggbok.</p>
+  </div>
+  <div class="chips">
+    <div class="chip"><span class="sw" style="background:#F6F3EE"></span><span><b>Bakgrunn</b><code>#F6F3EE</code></span></div>
+    <div class="chip"><span class="sw" style="background:#FFFDF9"></span><span><b>Flate</b><code>#FFFDF9</code></span></div>
+    <div class="chip"><span class="sw" style="background:#2B2622"></span><span><b>Tekst, primær</b><code>#2B2622 · 13,5:1</code></span></div>
+    <div class="chip"><span class="sw" style="background:#5E554C"></span><span><b>Tekst, sekundær</b><code>#5E554C · 7,2:1</code></span></div>
+    <div class="chip"><span class="sw" style="background:#DDD5CA"></span><span><b>Kant</b><code>#DDD5CA</code></span></div>
+    <div class="chip"><span class="sw" style="background:#3D5A6C"></span><span><b>Aksent</b><code>#3D5A6C · 7,2:1</code></span></div>
+    <div class="chip"><span class="sw" style="background:#A3271D"></span><span><b>Rød · brudd</b><code>#A3271D / #F8E6E1 · 6,1:1</code></span></div>
+    <div class="chip"><span class="sw" style="background:#D9B25A"></span><span><b>Gul · følg med</b><code>#734700 / #FBEFCF · 7,0:1</code></span></div>
+    <div class="chip"><span class="sw" style="background:#2A6A48"></span><span><b>Grønn · ingen kryssing</b><code>#2A6A48 / #E4EFE4 · 5,5:1</code></span></div>
+    <div class="chip"><span class="sw" style="background:#575049"></span><span><b>Grå · ingen prognose</b><code>#575049 / #ECE7E0 · 6,4:1</code></span></div>
+  </div>
+
+  <article class="card">
+    <h3>Langholmen <span>(lokalitet 12345)</span></h3>
+    <p class="meta">Hitra, Trøndelag</p>
+    <div class="weekrow"><span>Prognose regnet fra <span class="weeksel">uke 42, 2026</span></span><a href="#">Bytt analyseuke</a></div>
+    <div class="statusbox p-yel"><span class="sym">!</span><span><b>Følg med:</b> grensen kan nås om 4 uker (uke 46)</span></div>
+    <table>
+      <thead><tr><th>Uke</th><th class="num">Voksne hunnlus per fisk</th><th class="num">Grense</th></tr></thead>
+      <tbody>
+        <tr><td>38</td><td class="num">0,18</td><td class="num">0,5</td></tr>
+        <tr><td>39</td><td class="num">0,22</td><td class="num">0,5</td></tr>
+        <tr><td>40</td><td class="num missing">ikke telt</td><td class="num">0,5</td></tr>
+        <tr><td>41</td><td class="num">0,29</td><td class="num">0,5</td></tr>
+        <tr class="sel"><td>42</td><td class="num">0,33</td><td class="num">0,5</td></tr>
+      </tbody>
+    </table>
+    <p class="note">Prognosen er en enkel trendberegning, ikke en garanti.</p>
+    <a class="btn" href="#">Se hele prognosen</a><span class="btn2">Til oversikt</span>
+  </article>
+
+  <p class="lbl">Statusfarger</p>
+  <div class="pills">
+    <span class="pill p-red"><span class="sym">✕</span>Brudd</span>
+    <span class="pill p-yel"><span class="sym">!</span>Følg med</span>
+    <span class="pill p-grn"><span class="sym">✓</span>Ingen kryssing</span>
+    <span class="pill p-gry"><span class="sym">–</span>Ingen prognose</span>
+  </div>
+  <p class="contrast"><b>Kontrast:</b> statustekster 5,5–7,0:1. Varm grunn gjør at gul og grå ligger nærmere bakgrunnen enn i de kjølige variantene; symbolene bærer forskjellen.</p>
+</section>
+
+<!-- ===================== 3 ===================== -->
+<section class="theme t3">
+  <div>
+    <h2>3 · Klar hvit</h2>
+    <p class="register">Hvitt, skarpt og tydelig, med én dyp marineblå aksent. Leses best i sterkt sollys.</p>
+  </div>
+  <div class="chips">
+    <div class="chip"><span class="sw" style="background:#FFFFFF"></span><span><b>Bakgrunn</b><code>#FFFFFF</code></span></div>
+    <div class="chip"><span class="sw" style="background:#FFFFFF"></span><span><b>Flate (kant skiller)</b><code>#FFFFFF</code></span></div>
+    <div class="chip"><span class="sw" style="background:#111418"></span><span><b>Tekst, primær</b><code>#111418 · 18,5:1</code></span></div>
+    <div class="chip"><span class="sw" style="background:#4A5059"></span><span><b>Tekst, sekundær</b><code>#4A5059 · 8,1:1</code></span></div>
+    <div class="chip"><span class="sw" style="background:#E3E6EA"></span><span><b>Kant</b><code>#E3E6EA</code></span></div>
+    <div class="chip"><span class="sw" style="background:#0B3D91"></span><span><b>Aksent</b><code>#0B3D91 · 10,0:1</code></span></div>
+    <div class="chip"><span class="sw" style="background:#B3261E"></span><span><b>Rød · brudd</b><code>hvit på #B3261E · 6,5:1</code></span></div>
+    <div class="chip"><span class="sw" style="background:#F5B800"></span><span><b>Gul · følg med</b><code>#1A1400 på #F5B800 · 10,3:1</code></span></div>
+    <div class="chip"><span class="sw" style="background:#1B6E4F"></span><span><b>Grønn · ingen kryssing</b><code>hvit på #1B6E4F · 6,2:1</code></span></div>
+    <div class="chip"><span class="sw" style="background:#FFFFFF;border:1px dashed #8A919A"></span><span><b>Grå · ingen prognose</b><code>#3F4650, stiplet kant · 9,5:1</code></span></div>
+  </div>
+
+  <article class="card">
+    <h3>Langholmen <span>(lokalitet 12345)</span></h3>
+    <p class="meta">Hitra, Trøndelag</p>
+    <div class="weekrow"><span>Prognose regnet fra <span class="weeksel">uke 42, 2026</span></span><a href="#">Bytt analyseuke</a></div>
+    <div class="statusbox p-yel"><span class="sym">!</span><span><b>Følg med:</b> grensen kan nås om 4 uker (uke 46)</span></div>
+    <table>
+      <thead><tr><th>Uke</th><th class="num">Voksne hunnlus per fisk</th><th class="num">Grense</th></tr></thead>
+      <tbody>
+        <tr><td>38</td><td class="num">0,18</td><td class="num">0,5</td></tr>
+        <tr><td>39</td><td class="num">0,22</td><td class="num">0,5</td></tr>
+        <tr><td>40</td><td class="num missing">ikke telt</td><td class="num">0,5</td></tr>
+        <tr><td>41</td><td class="num">0,29</td><td class="num">0,5</td></tr>
+        <tr class="sel"><td>42</td><td class="num">0,33</td><td class="num">0,5</td></tr>
+      </tbody>
+    </table>
+    <p class="note">Prognosen er en enkel trendberegning, ikke en garanti.</p>
+    <a class="btn" href="#">Se hele prognosen</a><span class="btn2">Til oversikt</span>
+  </article>
+
+  <p class="lbl">Statusfarger</p>
+  <div class="pills">
+    <span class="pill p-red"><span class="sym">✕</span>Brudd</span>
+    <span class="pill p-yel"><span class="sym">!</span>Følg med</span>
+    <span class="pill p-grn"><span class="sym">✓</span>Ingen kryssing</span>
+    <span class="pill p-gry"><span class="sym">–</span>Ingen prognose</span>
+  </div>
+  <p class="contrast"><b>Kontrast:</b> fulle flater gir 6,2–10,3:1 og er sterkest ute. Advarsel: gul flate mot hvit bakgrunn er bare 1,8:1, så den trenger mørk kant (#8A6A00). Dette er den mest «høylytte» varianten.</p>
+</section>
+
+<!-- ===================== 4 ===================== -->
+<section class="theme t4">
+  <div>
+    <h2>4 · Tang og tåke</h2>
+    <p class="register">Myke nøytraler med et svakt grønt fjordskjær. Mildt og avslappet, med rundere former.</p>
+  </div>
+  <div class="chips">
+    <div class="chip"><span class="sw" style="background:#F2F5F3"></span><span><b>Bakgrunn</b><code>#F2F5F3</code></span></div>
+    <div class="chip"><span class="sw" style="background:#FBFCFB"></span><span><b>Flate</b><code>#FBFCFB</code></span></div>
+    <div class="chip"><span class="sw" style="background:#1D2A25"></span><span><b>Tekst, primær</b><code>#1D2A25 · 13,6:1</code></span></div>
+    <div class="chip"><span class="sw" style="background:#4E5E57"></span><span><b>Tekst, sekundær</b><code>#4E5E57 · 6,7:1</code></span></div>
+    <div class="chip"><span class="sw" style="background:#D3DDD8"></span><span><b>Kant</b><code>#D3DDD8</code></span></div>
+    <div class="chip"><span class="sw" style="background:#2F5D74"></span><span><b>Aksent (petrol)</b><code>#2F5D74 · 6,9:1</code></span></div>
+    <div class="chip"><span class="sw" style="background:#AE2A1F"></span><span><b>Rød · brudd</b><code>#AE2A1F / #F9E7E3 · 5,6:1</code></span></div>
+    <div class="chip"><span class="sw" style="background:#D8B355"></span><span><b>Gul · følg med</b><code>#704800 / #FCF1D4 · 7,1:1</code></span></div>
+    <div class="chip"><span class="sw" style="background:#1F6B4C"></span><span><b>Grønn · ingen kryssing</b><code>#1F6B4C / #E1F0E8 · 5,5:1</code></span></div>
+    <div class="chip"><span class="sw" style="background:#4D5A55"></span><span><b>Grå · ingen prognose</b><code>#4D5A55 / #E9EEEB · 6,2:1</code></span></div>
+  </div>
+
+  <article class="card">
+    <h3>Langholmen <span>(lokalitet 12345)</span></h3>
+    <p class="meta">Hitra, Trøndelag</p>
+    <div class="weekrow"><span>Prognose regnet fra <span class="weeksel">uke 42, 2026</span></span><a href="#">Bytt analyseuke</a></div>
+    <div class="statusbox p-yel"><span class="sym">!</span><span><b>Følg med:</b> grensen kan nås om 4 uker (uke 46)</span></div>
+    <table>
+      <thead><tr><th>Uke</th><th class="num">Voksne hunnlus per fisk</th><th class="num">Grense</th></tr></thead>
+      <tbody>
+        <tr><td>38</td><td class="num">0,18</td><td class="num">0,5</td></tr>
+        <tr><td>39</td><td class="num">0,22</td><td class="num">0,5</td></tr>
+        <tr><td>40</td><td class="num missing">ikke telt</td><td class="num">0,5</td></tr>
+        <tr><td>41</td><td class="num">0,29</td><td class="num">0,5</td></tr>
+        <tr class="sel"><td>42</td><td class="num">0,33</td><td class="num">0,5</td></tr>
+      </tbody>
+    </table>
+    <p class="note">Prognosen er en enkel trendberegning, ikke en garanti.</p>
+    <a class="btn" href="#">Se hele prognosen</a><span class="btn2">Til oversikt</span>
+  </article>
+
+  <p class="lbl">Statusfarger</p>
+  <div class="pills">
+    <span class="pill p-red"><span class="sym">✕</span>Brudd</span>
+    <span class="pill p-yel"><span class="sym">!</span>Følg med</span>
+    <span class="pill p-grn"><span class="sym">✓</span>Ingen kryssing</span>
+    <span class="pill p-gry"><span class="sym">–</span>Ingen prognose</span>
+  </div>
+  <p class="contrast"><b>Kontrast:</b> statustekster 5,5–7,1:1. Risiko: den grønne grunntonen gjør at status grønn skiller seg mindre ut, derfor er aksenten petrol, ikke grønn.</p>
+</section>
+
+<!-- ===================== 5 ===================== -->
+<section class="theme t5">
+  <div>
+    <h2>5 · Grafitt</h2>
+    <p class="register">Dempet grått med indigo aksent. Nøkternt som et instrumentpanel; farge brukes nesten bare til status.</p>
+  </div>
+  <div class="chips">
+    <div class="chip"><span class="sw" style="background:#EEF0F1"></span><span><b>Bakgrunn</b><code>#EEF0F1</code></span></div>
+    <div class="chip"><span class="sw" style="background:#FAFAFA"></span><span><b>Flate</b><code>#FAFAFA</code></span></div>
+    <div class="chip"><span class="sw" style="background:#202326"></span><span><b>Tekst, primær</b><code>#202326 · 13,8:1</code></span></div>
+    <div class="chip"><span class="sw" style="background:#555B61"></span><span><b>Tekst, sekundær</b><code>#555B61 · 6,6:1</code></span></div>
+    <div class="chip"><span class="sw" style="background:#CDD2D6"></span><span><b>Kant</b><code>#CDD2D6</code></span></div>
+    <div class="chip"><span class="sw" style="background:#454B85"></span><span><b>Aksent</b><code>#454B85 · 7,7:1</code></span></div>
+    <div class="chip"><span class="sw" style="background:#B3261E"></span><span><b>Rød · brudd</b><code>#B3261E på flate · 6,3:1</code></span></div>
+    <div class="chip"><span class="sw" style="background:#F2C14E"></span><span><b>Gul · følg med</b><code>#8A5600 · 5,9:1, felt #F2C14E</code></span></div>
+    <div class="chip"><span class="sw" style="background:#1B6E4F"></span><span><b>Grønn · ingen kryssing</b><code>#1B6E4F på flate · 5,9:1</code></span></div>
+    <div class="chip"><span class="sw" style="background:#555B61"></span><span><b>Grå · ingen prognose</b><code>#555B61 på flate · 6,6:1</code></span></div>
+  </div>
+
+  <article class="card">
+    <h3>Langholmen <span>(lokalitet 12345)</span></h3>
+    <p class="meta">Hitra, Trøndelag</p>
+    <div class="weekrow"><span>Prognose regnet fra <span class="weeksel">uke 42, 2026</span></span><a href="#">Bytt analyseuke</a></div>
+    <div class="statusbox p-yel"><span class="sym">!</span><span><b>Følg med:</b> grensen kan nås om 4 uker (uke 46)</span></div>
+    <table>
+      <thead><tr><th>Uke</th><th class="num">Voksne hunnlus per fisk</th><th class="num">Grense</th></tr></thead>
+      <tbody>
+        <tr><td>38</td><td class="num">0,18</td><td class="num">0,5</td></tr>
+        <tr><td>39</td><td class="num">0,22</td><td class="num">0,5</td></tr>
+        <tr><td>40</td><td class="num missing">ikke telt</td><td class="num">0,5</td></tr>
+        <tr><td>41</td><td class="num">0,29</td><td class="num">0,5</td></tr>
+        <tr class="sel"><td>42</td><td class="num">0,33</td><td class="num">0,5</td></tr>
+      </tbody>
+    </table>
+    <p class="note">Prognosen er en enkel trendberegning, ikke en garanti.</p>
+    <a class="btn" href="#">Se hele prognosen</a><span class="btn2">Til oversikt</span>
+  </article>
+
+  <p class="lbl">Statusfarger</p>
+  <div class="pills">
+    <span class="pill p-red"><span class="sym">✕</span>Brudd</span>
+    <span class="pill p-yel"><span class="sym">!</span>Følg med</span>
+    <span class="pill p-grn"><span class="sym">✓</span>Ingen kryssing</span>
+    <span class="pill p-gry"><span class="sym">–</span>Ingen prognose</span>
+  </div>
+  <p class="contrast"><b>Kontrast:</b> statustekster 5,9–6,6:1 rett på flaten. Roligst, men statusen synes minst på avstand i sol; den bæres av kontur og symbol, ikke flate.</p>
+</section>
+
+</main>
+</body>
+</html>

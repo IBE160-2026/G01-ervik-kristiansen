@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="nb"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Marin – nøkkelskjerm: forside og søk</title>
+<style>
+/* ===== Nøkkelskjerm: Forside / søk =====
+   Styrende spine-seksjoner (spinene gjelder ved konflikt med denne skissen):
+   - EXPERIENCE.md: Information Architecture (Forside / søk; Ruting ved åpning pkt. 3 og 5),
+     Voice and Tone (Annen mikrotekst: forsideintro, «Statusfargene», fargeforklaring, «Finn anlegget ditt»,
+     søkeetikett, plassholder desktop/mobil, «Søk», ingen treff; Sted),
+     Component Patterns (Toppfelt, Søkefelt, Trefliste, Fargeforklaring, Statusmerke, Knapp),
+     State Patterns – Andre tilstander (Første besøk: opplastingslenken bare i toppfeltet; Ingen treff),
+     Interaction Primitives (44px trykkflater), Key Flows UJ-1 «Første gang»,
+     Accessibility Floor (aria-live for ingen treff, NFR4), Responsive & Platform (600px).
+   - DESIGN.md: Colors (status nøytral, statusmarkør), Typography (body, meta, pill, field, button),
+     Layout & Spacing (target-min 44px, control/button-padding), Components (top-bar – forsiden viser bare logo og
+     «Last opp egne tall»; search-field; hit-list-row; status-pill med statusmarkør; status-legend; button-primary; link; focus-ring).
+   - PRD §5.2 (FR4–FR6), §8 pkt. 1.
+   Kopi av .working/key-forside.html, rettet mot gjeldende spiner.
+   Presentasjonsflaten rundt rammene bruker #F4F5F7 bare for å skille skissene fra arket. */
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;color:#111418;background:#F4F5F7;line-height:1.45}
+.sheet{max-width:1560px;margin:0 auto;padding:32px 24px 80px}
+.sheet>header h1{font-size:28px;margin:0 0 6px}
+.sheet>header p{max-width:900px;color:#4A5059;margin:4px 0}
+.dir{background:#fff;border:1px solid #E3E6EA;border-radius:10px;padding:28px;margin-top:36px}
+.dir>h2{font-size:24px;margin:0}
+.dir .why{max-width:960px;color:#4A5059;margin:8px 0 0}
+.cap{font-size:13px;color:#4A5059;margin:0 0 8px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.row{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start;margin-top:24px}
+/* rammer */
+.browser{border:1px solid #C9CDD3;border-radius:10px;overflow:hidden;background:#fff;box-shadow:0 2px 10px rgba(17,20,24,.06)}
+.bbar{display:flex;align-items:center;gap:6px;padding:9px 12px;border-bottom:1px solid #E3E6EA;background:#fff}
+.bbar i{width:10px;height:10px;border-radius:50%;background:#E3E6EA;display:block}
+.bbar .url{margin-left:12px;font-size:12px;color:#4A5059;border:1px solid #E3E6EA;border-radius:6px;padding:3px 10px;flex:1;max-width:520px}
+.bview{width:1080px;max-width:100%;overflow:hidden}
+.phone{width:375px;border:10px solid #111418;border-radius:36px;overflow:hidden;background:#fff}
+.notch{height:22px;background:#111418;width:120px;margin:0 auto;border-radius:0 0 12px 12px}
+/* ===== Produktet ===== */
+a{color:#0B3D91}
+.logo{font-weight:800;letter-spacing:.02em;color:#0B3D91;font-size:20px;text-decoration:none;display:inline-flex;align-items:center;min-height:44px}
+.dA{font-size:18px;line-height:1.55;background:#fff}
+.a-top{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;padding:16px 32px;border-bottom:1px solid #E3E6EA}
+.a-top .push{margin-left:auto}
+.a-top a.lnk{font-size:16px;white-space:nowrap;display:inline-flex;align-items:center;min-height:24px}
+.a-main{max-width:760px;margin:0 auto;padding:36px 32px 48px}
+.dA h2{font-size:20px;font-weight:600;margin:40px 0 12px}
+.intro{margin:0;font-size:18px}
+.lbl{display:block;font-weight:600;font-size:16px;margin:0 0 6px}
+.srow{display:flex;gap:10px;align-items:stretch;max-width:540px}
+.sfield{flex:1;min-width:0;max-width:420px;font:inherit;font-size:17px;line-height:1.3;color:#111418;background:#fff;border:1px solid #8A919A;border-radius:6px;padding:10px 12px;min-height:44px}
+.sfield::placeholder{color:#4A5059}
+.btn{font:inherit;font-size:17px;font-weight:600;line-height:1.2;border-radius:6px;padding:10px 20px;min-height:44px;cursor:pointer}
+.btn-primary{background:#0B3D91;color:#fff;border:1px solid #0B3D91}
+.focus{outline:2px solid #0B3D91;outline-offset:2px}
+/* trefliste */
+.hits{list-style:none;margin:16px 0 0;padding:0;border-top:1px solid #E3E6EA}
+.hits li{border-bottom:1px solid #E3E6EA}
+.hits a{display:block;padding:12px 8px;min-height:44px;color:#111418;text-decoration:none}
+.hits .nm{font-weight:600;font-size:18px;display:block}
+.hits .mt{font-size:16px;color:#4A5059;display:block}
+.hits li.active a{background:#E7EDF7}
+/* ingen treff */
+.nohit{margin:16px 0 0;font-size:18px}
+/* fargeforklaring */
+.legend{list-style:none;margin:0;padding:0}
+.legend li{display:flex;gap:14px;align-items:baseline;padding:10px 0;border-bottom:1px solid #E3E6EA}
+.legend li:first-child{border-top:1px solid #E3E6EA}
+.legend .pill{flex:none;min-width:96px}
+.legend .ex{color:#4A5059;font-size:16px}
+/* statusmerke: hvit pille, statusmarkør i *-fill, symbol i *-symbol */
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:9999px;font-weight:600;line-height:1.2;font-size:13px;padding:3px 10px;background:#fff;color:#111418;border:1px solid #E3E6EA}
+.pill .mk{width:10px;height:10px;border-radius:9999px;flex:none}
+.pill .sy{font-weight:800}
+.st-red .mk{background:#B3261E}.st-red .sy{color:#B3261E}
+.st-yellow{border-color:#8A6A00}.st-yellow .mk{background:#F5B800;border:1px solid #8A6A00}.st-yellow .sy{color:#1A1400}
+.st-green .mk{background:#1B6E4F}.st-green .sy{color:#1B6E4F}
+.st-grey{border:1px dashed #8A919A}.st-grey .mk{background:#fff;border:1px dashed #8A919A}.st-grey .sy{color:#3F4650}
+/* mobil (< 600px) */
+.dA.is-phone{font-size:16px}
+.dA.is-phone .a-top{padding:12px 16px;gap:4px 14px}
+.dA.is-phone .a-top a.lnk{font-size:15px;min-height:44px}
+.dA.is-phone .a-main{padding:20px 16px 32px}
+.dA.is-phone h2{font-size:18px;margin-top:28px}
+.dA.is-phone .intro{font-size:16px}
+.dA.is-phone .lbl{font-size:14px}
+.dA.is-phone .sfield{font-size:16px}
+.dA.is-phone .btn{font-size:16px}
+.dA.is-phone .hits .nm{font-size:16px}
+.dA.is-phone .hits .mt{font-size:14px}
+.dA.is-phone .hits a{padding:11px 6px}
+.dA.is-phone .legend li{flex-direction:column;gap:4px}
+.dA.is-phone .legend .ex{font-size:14px}
+.dA.is-phone .nohit{font-size:16px}
+</style></head>
+<body><div class="sheet">
+<header>
+<h1>Marin · nøkkelskjerm – Forside / søk</h1>
+<p>Forsiden slik Kari ser den ved første besøk (ingen husket anlegg), med søk på «lang» og tilstanden «ingen treff». Intro og fargeforklaring vises alltid på forsiden. Toppfeltet viser bare logoen og «Last opp egne tall»; lenken gjentas ikke på selve siden. Retning A «Rolig rapport», tema «Klar hvit», status nøytral.</p>
+</header>
+
+<!-- ============ 1. Første besøk ============ -->
+<section class="dir">
+<h2>1 · Første besøk</h2>
+<p class="why">Én setning om hva Marin er, fargeforklaringen med fire nøytrale statusmerker (hvit pille, liten statusmarkør i statusfargen, symbolet i statusfarge) og søkefelt med synlig etikett og «Søk». Søkefeltet har fokus. Plassholderen er kortere på mobil.</p>
+<div class="row">
+<div><p class="cap">Desktop · 1080px</p>
+<div class="browser"><div class="bbar"><i></i><i></i><i></i><span class="url">marin /</span></div><div class="bview"><div class="dA">
+  <header class="a-top"><a class="logo" href="#">Marin</a><a class="lnk push" href="#">Last opp egne tall</a></header>
+  <main class="a-main">
+    <p class="intro">Marin viser om lusetallene på anlegget ditt er på vei mot lusegrensen, og omtrent når grensen kan nås.</p>
+    <h2>Statusfargene</h2>
+    <ul class="legend">
+      <li><span class="pill st-red"><span class="mk"></span><span class="sy" aria-hidden="true">✕</span>Rød</span><span class="ex">Brudd nå, eller grensen nås om 1–3 uker.</span></li>
+      <li><span class="pill st-yellow"><span class="mk"></span><span class="sy" aria-hidden="true">!</span>Gul</span><span class="ex">Grensen kan nås om 4–6 uker.</span></li>
+      <li><span class="pill st-green"><span class="mk"></span><span class="sy" aria-hidden="true">✓</span>Grønn</span><span class="ex">Ingen kryssing ventet innen 6 uker.</span></li>
+      <li><span class="pill st-grey"><span class="mk"></span><span class="sy" aria-hidden="true">–</span>Grå</span><span class="ex">Ingen prognose: for lite data, ingen ny telling eller ukjent område.</span></li>
+    </ul>
+    <h2>Finn anlegget ditt</h2>
+    <form role="search"><label class="lbl" for="s1">Søk anlegg</label>
+    <div class="srow"><input id="s1" class="sfield focus" type="search" placeholder="Søk anlegg – navn eller lokalitetsnr."><button class="btn btn-primary" type="submit">Søk</button></div></form>
+  </main>
+</div></div></div></div>
+
+<div><p class="cap">Mobil · 375px</p>
+<div class="phone"><div class="notch"></div><div class="dA is-phone">
+  <header class="a-top"><a class="logo" href="#">Marin</a><a class="lnk push" href="#">Last opp egne tall</a></header>
+  <main class="a-main">
+    <p class="intro">Marin viser om lusetallene på anlegget ditt er på vei mot lusegrensen, og omtrent når grensen kan nås.</p>
+    <h2>Statusfargene</h2>
+    <ul class="legend">
+      <li><span class="pill st-red"><span class="mk"></span><span class="sy" aria-hidden="true">✕</span>Rød</span><span class="ex">Brudd nå, eller grensen nås om 1–3 uker.</span></li>
+      <li><span class="pill st-yellow"><span class="mk"></span><span class="sy" aria-hidden="true">!</span>Gul</span><span class="ex">Grensen kan nås om 4–6 uker.</span></li>
+      <li><span class="pill st-green"><span class="mk"></span><span class="sy" aria-hidden="true">✓</span>Grønn</span><span class="ex">Ingen kryssing ventet innen 6 uker.</span></li>
+      <li><span class="pill st-grey"><span class="mk"></span><span class="sy" aria-hidden="true">–</span>Grå</span><span class="ex">Ingen prognose: for lite data, ingen ny telling eller ukjent område.</span></li>
+    </ul>
+    <h2>Finn anlegget ditt</h2>
+    <form role="search"><label class="lbl" for="s2">Søk anlegg</label>
+    <div class="srow"><input id="s2" class="sfield focus" type="search" placeholder="Søk navn eller nr."><button class="btn btn-primary" type="submit">Søk</button></div></form>
+  </main>
+</div></div></div>
+</div>
+</section>
+
+<!-- ============ 2. Treff på «lang» ============ -->
+<section class="dir">
+<h2>2 · Søk på «lang» – trefliste</h2>
+<p class="why">Delvis treff på navn, sortert alfabetisk. Hver rad: lokalitetsnavn, deretter lokalitetsnr., kommune og fylke (FR5), minst 44px høy. Ingen status i listen. Første rad er markert som aktiv ved tastaturnavigering (aksent-tone).</p>
+<div class="row">
+<div><p class="cap">Desktop · 1080px</p>
+<div class="browser"><div class="bbar"><i></i><i></i><i></i><span class="url">marin / ?sok=lang</span></div><div class="bview"><div class="dA">
+  <header class="a-top"><a class="logo" href="#">Marin</a><a class="lnk push" href="#">Last opp egne tall</a></header>
+  <main class="a-main">
+    <p class="intro">Marin viser om lusetallene på anlegget ditt er på vei mot lusegrensen, og omtrent når grensen kan nås.</p>
+    <h2>Statusfargene</h2>
+    <ul class="legend">
+      <li><span class="pill st-red"><span class="mk"></span><span class="sy" aria-hidden="true">✕</span>Rød</span><span class="ex">Brudd nå, eller grensen nås om 1–3 uker.</span></li>
+      <li><span class="pill st-yellow"><span class="mk"></span><span class="sy" aria-hidden="true">!</span>Gul</span><span class="ex">Grensen kan nås om 4–6 uker.</span></li>
+      <li><span class="pill st-green"><span class="mk"></span><span class="sy" aria-hidden="true">✓</span>Grønn</span><span class="ex">Ingen kryssing ventet innen 6 uker.</span></li>
+      <li><span class="pill st-grey"><span class="mk"></span><span class="sy" aria-hidden="true">–</span>Grå</span><span class="ex">Ingen prognose: for lite data, ingen ny telling eller ukjent område.</span></li>
+    </ul>
+    <h2>Finn anlegget ditt</h2>
+    <form role="search"><label class="lbl" for="s3">Søk anlegg</label>
+    <div class="srow"><input id="s3" class="sfield" type="search" value="lang"><button class="btn btn-primary" type="submit">Søk</button></div></form>
+    <ul class="hits">
+      <li class="active"><a href="#"><span class="nm">Langholmen</span><span class="mt">Lokalitetsnr. 12345 · Hitra, Trøndelag</span></a></li>
+      <li><a href="#"><span class="nm">Langneset</span><span class="mt">Lokalitetsnr. 34567 · Lurøy, Nordland</span></a></li>
+      <li><a href="#"><span class="nm">Langøya</span><span class="mt">Lokalitetsnr. 23456 · Austevoll, Vestland</span></a></li>
+    </ul>
+  </main>
+</div></div></div></div>
+
+<div><p class="cap">Mobil · 375px</p>
+<div class="phone"><div class="notch"></div><div class="dA is-phone">
+  <header class="a-top"><a class="logo" href="#">Marin</a><a class="lnk push" href="#">Last opp egne tall</a></header>
+  <main class="a-main">
+    <p class="intro">Marin viser om lusetallene på anlegget ditt er på vei mot lusegrensen, og omtrent når grensen kan nås.</p>
+    <h2>Statusfargene</h2>
+    <ul class="legend">
+      <li><span class="pill st-red"><span class="mk"></span><span class="sy" aria-hidden="true">✕</span>Rød</span><span class="ex">Brudd nå, eller grensen nås om 1–3 uker.</span></li>
+      <li><span class="pill st-yellow"><span class="mk"></span><span class="sy" aria-hidden="true">!</span>Gul</span><span class="ex">Grensen kan nås om 4–6 uker.</span></li>
+      <li><span class="pill st-green"><span class="mk"></span><span class="sy" aria-hidden="true">✓</span>Grønn</span><span class="ex">Ingen kryssing ventet innen 6 uker.</span></li>
+      <li><span class="pill st-grey"><span class="mk"></span><span class="sy" aria-hidden="true">–</span>Grå</span><span class="ex">Ingen prognose: for lite data, ingen ny telling eller ukjent område.</span></li>
+    </ul>
+    <h2>Finn anlegget ditt</h2>
+    <form role="search"><label class="lbl" for="s4">Søk anlegg</label>
+    <div class="srow"><input id="s4" class="sfield" type="search" value="lang"><button class="btn btn-primary" type="submit">Søk</button></div></form>
+    <ul class="hits">
+      <li class="active"><a href="#"><span class="nm">Langholmen</span><span class="mt">Lokalitetsnr. 12345 · Hitra, Trøndelag</span></a></li>
+      <li><a href="#"><span class="nm">Langneset</span><span class="mt">Lokalitetsnr. 34567 · Lurøy, Nordland</span></a></li>
+      <li><a href="#"><span class="nm">Langøya</span><span class="mt">Lokalitetsnr. 23456 · Austevoll, Vestland</span></a></li>
+    </ul>
+  </main>
+</div></div></div>
+</div>
+</section>
+
+<!-- ============ 3. Ingen treff ============ -->
+<section class="dir">
+<h2>3 · Ingen treff (FR6)</h2>
+<p class="why">Utsnitt av søkedelen. Meldingen står under søkefeltet og leses opp via aria-live. Søketeksten beholdes, så Kari kan prøve lokalitetsnummeret i stedet.</p>
+<div class="row">
+<div><p class="cap">Desktop · utsnitt</p>
+<div class="browser"><div class="bbar"><i></i><i></i><i></i><span class="url">marin / ?sok=langvik</span></div><div class="bview" style="width:820px"><div class="dA">
+  <main class="a-main" style="padding-top:24px;padding-bottom:28px">
+    <h2 style="margin-top:0">Finn anlegget ditt</h2>
+    <form role="search"><label class="lbl" for="s5">Søk anlegg</label>
+    <div class="srow"><input id="s5" class="sfield" type="search" value="langvik"><button class="btn btn-primary" type="submit">Søk</button></div></form>
+    <p class="nohit" role="status" aria-live="polite">Fant ingen anlegg som passer «langvik». Søk på lokalitetsnavn eller lokalitetsnummer.</p>
+  </main>
+</div></div></div></div>
+
+<div><p class="cap">Mobil · utsnitt</p>
+<div class="phone"><div class="notch"></div><div class="dA is-phone">
+  <main class="a-main">
+    <h2 style="margin-top:0">Finn anlegget ditt</h2>
+    <form role="search"><label class="lbl" for="s6">Søk anlegg</label>
+    <div class="srow"><input id="s6" class="sfield" type="search" value="langvik"><button class="btn btn-primary" type="submit">Søk</button></div></form>
+    <p class="nohit" role="status" aria-live="polite">Fant ingen anlegg som passer «langvik». Søk på lokalitetsnavn eller lokalitetsnummer.</p>
+  </main>
+</div></div></div>
+</div>
+</section>
+
+</div></body></html>
