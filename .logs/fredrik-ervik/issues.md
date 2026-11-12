@@ -18,3 +18,8 @@
 - [ ] 2026-11-11 [prd-marin](997-2026-11-03-18-45-24-prd-marin.md) — A3: stack og arbeidsdeling avklares med Ella i arkitektursteget
 - [ ] 2026-11-12 [ux-marin](996-2026-11-12-16-33-51-ux-marin.md) — før UX-1 til UX-7 inn som FR i PRD-en før epics og stories
 - [ ] 2026-11-12 [ux-marin](996-2026-11-12-16-33-51-ux-marin.md) — vurder lave funn fra UX-valideringen (review-rubric.md, review-accessibility.md)
+- [ ] 2026-11-12 [prd-marin](997-2026-11-03-18-45-24-prd-marin.md) — bekreft PRD-tolkninger: ingen grenselinje ved ukjent område (FR20a/T7), FR19 uten resultatfil, FR18 unntar brudd nå
+- [ ] 2026-11-12 [prd-marin](997-2026-11-03-18-45-24-prd-marin.md) — juster Kari-utkastet i J1–J3 om ønskelig
+- [ ] 2026-11-12 [prd-marin](997-2026-11-03-18-45-24-prd-marin.md) — avstem UX EXPERIENCE.md med PRD: J3 norsk CSV er nå FR21b (kan kuttes), FR9-tekst i statusboksen
+- [ ] 2026-11-12 [prd-marin](997-2026-11-03-18-45-24-prd-marin.md) — svar på refleksjonsspørsmålene i PRD-tilbakemeldingen i refleksjonsrapporten
+- [ ] 2026-11-12 [prd-marin](997-2026-11-03-18-45-24-prd-marin.md) — sett PRD til final når A4 og A5 (backtest) er gjort
