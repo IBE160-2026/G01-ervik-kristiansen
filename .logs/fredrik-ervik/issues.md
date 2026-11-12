@@ -16,3 +16,5 @@
 - [ ] 2026-11-11 [prd-marin](997-2026-11-03-18-45-24-prd-marin.md) — A4: kontroller fasit T10–T12 for hånd; avklar om merkingen av T5, T6, T8 i briefen kan fjernes
 - [ ] 2026-11-11 [prd-marin](997-2026-11-03-18-45-24-prd-marin.md) — kjør backtesten på nytt med FR27 og oppdater tallene i PRD kap. 11
 - [ ] 2026-11-11 [prd-marin](997-2026-11-03-18-45-24-prd-marin.md) — A3: stack og arbeidsdeling avklares med Ella i arkitektursteget
+- [ ] 2026-11-12 [ux-marin](996-2026-11-12-16-33-51-ux-marin.md) — før UX-1 til UX-7 inn som FR i PRD-en før epics og stories
+- [ ] 2026-11-12 [ux-marin](996-2026-11-12-16-33-51-ux-marin.md) — vurder lave funn fra UX-valideringen (review-rubric.md, review-accessibility.md)
