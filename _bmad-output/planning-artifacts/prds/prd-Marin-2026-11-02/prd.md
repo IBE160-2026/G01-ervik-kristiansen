@@ -2,12 +2,13 @@
 title: "PRD: Marin"
 status: draft
 created: 2026-11-03
-updated: 2026-11-12
+updated: 2026-11-16
 inputs:
   - briefs/brief-Marin-2026-09-17/brief.md
   - briefs/brief-Marin-2026-09-17/addendum.md
   - briefs/brief-Marin-2026-09-17/tilbakemelding-product-brief.md
   - prds/prd-Marin-2026-11-02/tilbakemelding-prd.md
+  - ux-designs/ux-Marin-2026-11-11/EXPERIENCE.md
 ---
 
 # PRD: Marin
@@ -87,9 +88,9 @@ Hovedpersonen i alle tre reisene er Kari, driftsleder på et anlegg på Hitra i 
 
 *Onsdag morgen sitter Kari på kontoret. Siste telling er lagt inn, og hun vil vite om hun må planlegge avlusing de neste ukene.*
 
-1. Kari åpner appen og søker opp anlegget sitt på navn eller lokalitetsnummer (FR4, FR6).
+1. Kari åpner appen. Har hun sett på anlegget sitt før i samme nettleser, åpner Marin detaljsiden for det direkte (FR6b). Ellers ser hun forsiden med en kort forklaring av Marin og fargene (FR6a) og søker opp anlegget på navn eller lokalitetsnummer (FR4, FR6).
 2. Hun velger anlegget fra treflisten, der kommune og fylke skiller det fra anlegg med samme navn (FR5).
-3. Detaljsiden viser status med farge, symbol og tekst, de siste ukenes lusetall, trendlinja fram i tid, grensen per uke og estimert uke for når grensen nås (FR15–FR18).
+3. Detaljsiden viser status med farge, symbol, tekst og en forklarende setning (FR15, FR15a). Den viser også de siste ukenes lusetall, trendlinja fram i tid, grensen per uke og estimert uke for når grensen nås (FR16–FR18).
 4. Kari vurderer om tiltak må planlegges. Teksten om usikkerhet minner henne om hvor ofte varslene slår til (FR19).
 
 ### J2 Se hvilken status Marin ville vist tidligere
@@ -106,12 +107,14 @@ Hovedpersonen i alle tre reisene er Kari, driftsleder på et anlegg på Hitra i 
 
 1. Kari går til opplastingssiden og laster opp et Excel-uttrekk fra BarentsWatch eller en CSV-fil fra sitt eget regneark (FR21, FR21b, FR22).
 2. For Excel-filer med fylke viser appen området den har utledet. For CSV-filer og Excel-filer uten fylke velger Kari område, sør eller nord (FR23, FR23a).
-3. Appen validerer fila og viser feil på en forståelig måte (FR24), eller viser detaljsiden for de opplastede dataene (FR25).
-4. Dataene lagres ikke. De forsvinner når fanen lukkes, når en ny fil lastes opp, eller når appen startes på nytt (FR26).
+3. Appen validerer fila og viser feil på en forståelig måte (FR24), eller viser detaljsiden for de opplastede dataene, merket «Dine opplastede tall» i statusboksen (FR25, FR25a).
+4. Dataene lagres ikke. De forsvinner når fanen lukkes, når Kari går bort fra detaljsiden for dem, når en ny fil lastes opp, eller når appen startes på nytt (FR26).
 
 ## 5. Funksjonelle krav
 
 Krav som gjelder det brukeren ser, har **testbare konsekvenser** med konkrete verdier. En story er ferdig når alle konsekvensene for kravene den dekker, er oppfylt. Eksemplene bruker data fra testtilfellene i briefen (R6), og fasiten arver forbeholdet i A4 til den er kontrollert for hånd.
+
+UX-1 til UX-7 i sporingskolonnen viser til tilleggene fra UX-steget (`ux-designs/ux-Marin-2026-11-11/EXPERIENCE.md`, «Avvik og tillegg til PRD»), ført inn 2026-11-16.
 
 ### 5.1 Datagrunnlag
 
@@ -128,6 +131,13 @@ Krav som gjelder det brukeren ser, har **testbare konsekvenser** med konkrete ve
 | FR4 | Brukeren kan søke etter anlegg på lokalitetsnavn (delvis treff, uavhengig av store og små bokstaver) eller lokalitetsnummer. | J1, SK3 |
 | FR5 | Treflisten viser lokalitetsnavn, lokalitetsnummer, kommune og fylke, slik at anlegg med like navn kan skilles fra hverandre. | J1, SK3 |
 | FR6 | Gir søket ingen treff, viser appen en melding om det. | J1 |
+| FR6a | Forsiden viser én setning om hva Marin er og en fargeforklaring for statusene rød, gul, grønn og grå, hver med farge, symbol og navn. Forsiden ser lik ut ved første besøk og når brukeren kommer dit via «Bytt anlegg». | J1, SK4, UX-2 |
+| FR6b | Marin husker sist viste innebygde anlegg per nettleser og enhet, uten innlogging. Finnes et husket anlegg i datagrunnlaget, åpner Marin detaljsiden for det direkte, med «Sist viste anlegg» over tittelen og analyseuka satt til standardvalget i FR7. Ellers åpnes forsiden. Bare lokalitetsnummeret lagres. Analyseuke, lusetall og opplastede data lagres ikke (FR26, NFR6). Lagringsteknikken avgjøres i arkitektursteget. | J1, UX-1 |
+
+**Testbare konsekvenser**
+
+- **FR6a** (1) Forsiden viser introsetningen og alle fire statusfargene med symbol og navn. (2) Forklaringen vises også når brukeren kommer til forsiden via «Bytt anlegg» med et husket anlegg.
+- **FR6b** (1) Brukeren viser et anlegg med analyseuke 2025 uke 30, lukker fanen og åpner appen igjen i samme nettleser. Da vises detaljsiden for samme anlegg med «Sist viste anlegg» og analyseuke 2026 uke 42. (2) Ved første besøk, eller etter at nettleserdataene er tømt, åpnes forsiden. (3) Etter at brukeren har sett opplastede data, viser neste åpning det sist viste innebygde anlegget, eller forsiden. Opplastede data vises aldri. (4) Finnes ikke det huskede lokalitetsnummeret lenger i datagrunnlaget, åpnes forsiden uten feilmelding. (5) Nettleseren inneholder ingen lusetall fra Marin, bare lokalitetsnummeret.
 
 ### 5.3 Analyseuke
 
@@ -160,6 +170,8 @@ FR10–FR14 er beregninger. De testes automatisk med T1–T12 (NFR2) og trenger 
 | ID | Krav | Sporing |
 |---|---|---|
 | FR15 | Detaljsiden viser status med farge, symbol og tekst etter R4. | J1, SK3, SK4 |
+| FR15a | Under R4-teksten i statusboksen står én forklarende setning etter malene i `EXPERIENCE.md` (Voice and Tone). R4-teksten endres ikke. Retningsordet («har steget», «har falt», «har ligget stabilt») følger fortegnet på trendlinja, og grensen i setningen er grensen som gjelder i den estimerte uka. | J1, UX-3 |
+| FR15b | Statusboksen kan forstås alene i et skjermbilde. I tillegg til status og teksten fra FR9 inneholder den anleggsnavn, lokalitetsnummer, kommune og fylke. | J1, SK3, UX-6 |
 | FR16 | Detaljsiden viser en graf med målte lusetall i vinduet, trendlinja forlenget til uke a + 6 og grensen per uke (som trapp når vårgrensen slår inn). | J1, SK3, R3 |
 | FR17 | Detaljsiden viser en tabell med de 5 ukene i vinduet (uke og lusetall, eller «ikke telt»). | J1, SK3 |
 | FR18 | Ved rød eller gul status (unntatt brudd nå) viser detaljsiden estimert ISO-uke for når grensen nås, og antall uker dit, regnet fra analyseuka. | J1, SK3, R2, T10 |
@@ -170,6 +182,8 @@ FR10–FR14 er beregninger. De testes automatisk med T1–T12 (NFR2) og trenger 
 **Testbare konsekvenser**
 
 - **FR15** (1) T5 med analyseuke 34 gir gul farge og teksten «! Følg med: grensen kan nås om 4 uker». (2) T6 gir rød farge og «✕ Varsel: grensen nås om 2 uker». T11 gir rød farge og «✕ Brudd nå». (3) For hver av de sju statustekstene i R4 er teksten på skjermen tegn for tegn lik teksten i briefen, med symbolet først. (4) I et skjermbilde i gråtoner kan statusen fortsatt leses ut av symbol og tekst (NFR4).
+- **FR15a** (1) T5 med analyseuke 34 (anlegg i sør) gir setningen «Lusetallene har steget de siste ukene. Fortsetter trenden, kan anlegget passere grensen på 0,5 i uke 38.» (2) T7 gir «Anlegget mangler fylke i datagrunnlaget. Da vet ikke Marin hvilken lusegrense som gjelder, og lager ingen prognose.» (3) Hver status viser nøyaktig én forklarende setning, og R4-teksten over er fortsatt tegn for tegn lik briefen (FR15 (3)).
+- **FR15b** (1) Med T5 og analyseuke 34 viser statusboksen anleggsnavn, lokalitetsnummer, kommune, fylke, «Prognose regnet fra uke 34, …» og status. (2) Et skjermbilde beskåret til bare statusboksen viser hvilket anlegg, hvilken analyseuke og hvilken status det gjelder. (3) Byttes analyseuka, oppdateres teksten fra FR9 i statusboksen samtidig med statusen.
 - **FR16** (1) T5 med analyseuke 34: grafen viser 5 målte punkter (uke 30–34), en trendlinje fra uke 30 til uke 40 og en flat grenselinje på 0,5. (2) T6 med analyseuke 14: grenselinja er 0,5 i uke 15 og faller som en trapp til 0,2 i uke 16–20. (3) T8: uker uten telling (37 og 39) vises ikke som punkter, og ingen punkter vises med verdien 0.
 - **FR17** (1) T8 med analyseuke 40: tabellen har radene uke 36–40 med 0,20 / ikke telt / 0,28 / ikke telt / 0,36. (2) Ukene skrives som ISO-uker på formen «uke 36, {år}» (NFR5). (3) Byttes analyseuka, viser tabellen vinduet for den nye uka.
 - **FR18** (1) T5 med analyseuke 34: estimert uke er uke 38, og antall uker dit er 4. Den nøyaktige ordlyden bestemmes i UX-steget. (2) T10 med analyseuke 41: uke 44, om 3 uker, regnet fra analyseuka og ikke fra siste telling. (3) Ved grønn status, grå status og brudd nå vises ingen estimert uke.
@@ -186,11 +200,12 @@ Opplasting er et tillegg til v1 (kap. 9) og bygges i denne rekkefølgen: Excel f
 | FR21 | Brukeren kan laste opp en CSV-fil for ett anlegg med kolonnene `år`, `uke` og `voksne_hunnlus`, komma som skilletegn, desimalpunktum og tegnkoden UTF-8. Kolonnenavn leses uavhengig av store og små bokstaver. Tom verdi betyr uke uten telling. | J3 |
 | FR21b | Appen godtar også CSV med semikolon som skilletegn og desimalkomma (norsk Excel), og tegnkoden Windows-1252. Formatet finnes ut fra overskriftsraden. Kuttes FR21b, avviser appen slike filer med en feilmelding etter FR24. | J3 |
 | FR22 | Brukeren kan laste opp et Excel-uttrekk i samme format som BarentsWatch-fila «Lakselus per fisk». Inneholder fila flere anlegg, velger brukeren ett etter opplasting. | J3 |
-| FR23 | Ved Excel-opplasting der `Fylke` er utfylt, utleder appen område av `Fylke` etter R1, på samme måte som for det innebygde datasettet. Appen viser brukeren området (f.eks. «Område: sør (Vestland)»). Brukeren velger ikke område. | J3, R1 |
+| FR23 | Ved Excel-opplasting der `Fylke` er utfylt, utleder appen område av `Fylke` etter R1, på samme måte som for det innebygde datasettet. Appen viser brukeren området med fylket først og regelen forklart (f.eks. «Område: Trøndelag – grense som for sør»). Brukeren velger ikke område. | J3, R1, UX-4 |
 | FR23a | Ved CSV-opplasting, og ved Excel-opplasting der `Fylke` mangler eller er tom, velger brukeren område (sør eller nord). Grensen bestemmes ut fra valget etter R1. | J3, R1 |
 | FR24 | Appen validerer fila og viser en feilmelding som sier hva som er galt og i hvilken rad: ukjent format (feilmeldingen nevner formatene som godtas), manglende kolonner, år utenfor 2000 til inneværende år, uke utenfor 1–53, eller uke 53 i et ISO-år som ikke har uke 53, negative eller ikke-numeriske lusetall, og samme uke flere ganger. Ugyldige filer gir ingen prognose. | J3 |
 | FR25 | Etter vellykket opplasting vises samme detaljside som for BarentsWatch-anlegg (FR15–FR20a), med analyseuke lik siste uke i fila. Brukeren kan velge analyseuke blant ukene fila dekker. Intervallet i FR7 gjelder ikke for opplastede data. | J3 |
-| FR26 | Opplastede data ligger bare i minnet til den kjørende appen og skrives aldri til disk. De forsvinner når fanen lukkes, når en ny fil lastes opp, eller når appen startes på nytt. | J3, NFR6 |
+| FR25a | Når detaljsiden viser opplastede data, står «Dine opplastede tall: {filnavn}» inne i statusboksen, slik at et skjermbilde ikke kan forveksles med tall fra BarentsWatch-utdraget. «Sist viste anlegg» vises ikke for opplastede data. | J3, UX-5 |
+| FR26 | Opplastede data ligger bare i minnet til den kjørende appen og skrives aldri til disk. De forsvinner når fanen lukkes, når brukeren forlater detaljsiden for dem i samme fane, når en ny fil lastes opp, eller når appen startes på nytt. Tilbakeknappen fra detaljsiden går til opplastingssiden. Opplastingssiden har en kort lagringsnotis som sier dette. | J3, NFR6, UX-7 |
 
 ### 5.7 Backtest (utviklerverktøy)
 
@@ -212,11 +227,11 @@ Opplasting er et tillegg til v1 (kap. 9) og bygges i denne rekkefølgen: Excel f
 | NFR3 | R1 testes i tillegg mot BarentsWatch-kolonnen `Lusegrense uke` som uavhengig fasit, med 0 avvik. | R1, addendum |
 | NFR4 | Status kan forstås uten fargesyn: alltid farge, symbol og tekst sammen. | SK4 |
 | NFR5 | Brukergrensesnittet er på norsk (bokmål). Uker vises som ISO-uker, f.eks. «uke 38, 2026». | SK3 |
-| NFR6 | Appen behandler ingen personopplysninger. Lusetall per anlegg er offentlige data. | Tilbakemelding (sikkerhet og personvern) |
+| NFR6 | Appen behandler ingen personopplysninger. Lusetall per anlegg er offentlige data. Nettleseren lagrer bare lokalitetsnummeret til sist viste anlegg (FR6b). | Tilbakemelding (sikkerhet og personvern) |
 | NFR7 | Appen inneholder ingen KI eller språkmodell. Prognosen er ren statistikk. | Brief |
 | NFR8 | Detaljsiden vises på under 2 sekunder på en vanlig bærbar PC etter at appen har startet. | SK3 |
 | NFR9 | Ingen hemmeligheter eller nøkler ligger i repoet. Datasett ligger i `data/`, testdata i en egen testmappe. | Tilbakemelding (ryddighet i repoet) |
-| NFR10 | Utover T1–T12 finnes automatiske tester for søk (FR4–FR6: delvis treff, store og små bokstaver, lokalitetsnummer, ingen treff), analyseuke (konsekvensene for FR7 og FR8), opplasting (FR21–FR24: én testfil per feiltype og per godkjent format, i testmappa) og backtest (FR27: et lite, konstruert datasett med kryssinger og treff regnet ut for hånd). Konsekvensene for detaljsiden (FR9, FR15–FR20a) testes automatisk der verdien kan hentes ut uten nettleser (tekster, tabellrader, estimert uke). Resten kontrolleres manuelt etter en sjekkliste i README. Sjekklisten er en ordrett kopi av konsekvensene i kap. 5.3 og 5.5. | Tilbakemelding (kvalitetssikring og testing) |
+| NFR10 | Utover T1–T12 finnes automatiske tester for søk (FR4–FR6: delvis treff, store og små bokstaver, lokalitetsnummer, ingen treff), analyseuke (konsekvensene for FR7 og FR8), opplasting (FR21–FR24: én testfil per feiltype og per godkjent format, i testmappa) og backtest (FR27: et lite, konstruert datasett med kryssinger og treff regnet ut for hånd). Konsekvensene for detaljsiden (FR9, FR15–FR20a) testes automatisk der verdien kan hentes ut uten nettleser (tekster, tabellrader, estimert uke). Resten, også FR6a og FR6b, kontrolleres manuelt etter en sjekkliste i README. Sjekklisten er en ordrett kopi av konsekvensene i kap. 5.2, 5.3 og 5.5. | Tilbakemelding (kvalitetssikring og testing) |
 | NFR11 | README oppgir datakilden (BarentsWatch, «Lakselus per fisk»), lisens (NLOD), nedlastingsdato (27.10.2026) og hvordan dataene ble hentet. | Tilbakemelding, SK5 |
 
 ## 7. Data
@@ -255,9 +270,9 @@ Samme fil i norsk format (FR21b):
 
 ## 8. Skjermbilder
 
-1. **Forside / søk:** søkefelt, trefliste (FR4–FR6) og lenke til opplasting.
-2. **Detaljside:** anleggsnavn og -info, analyseuke-velger, statusboks med «Prognose regnet fra», graf, ukestabell og usikkerhetstekst (FR7–FR20a).
-3. **Opplasting:** filvelger, valg eller visning av område, eventuelt valg av anlegg, feilmeldinger (FR21–FR24).
+1. **Forside / søk:** introsetning og fargeforklaring (FR6a), søkefelt, trefliste (FR4–FR6) og lenke til opplasting. Med et husket anlegg åpner appen detaljsiden i stedet (FR6b).
+2. **Detaljside:** anleggsnavn og -info, analyseuke-velger, statusboks med anleggsnavn og sted, «Prognose regnet fra», status og forklarende setning (FR9, FR15–FR15b), graf, ukestabell og usikkerhetstekst (FR7–FR20a). For opplastede data også «Dine opplastede tall» (FR25a).
+3. **Opplasting:** filvelger, valg eller visning av område, eventuelt valg av anlegg, feilmeldinger og lagringsnotis (FR21–FR24, FR26).
 
 Skissene ligger i UX-steget (`ux-designs/ux-Marin-2026-11-11/mockups/`).
 
@@ -265,14 +280,14 @@ Skissene ligger i UX-steget (`ux-designs/ux-Marin-2026-11-11/mockups/`).
 
 **V1 er ferdig** når prioritet 1 og 2 er ferdig og testet. Opplasting (prioritet 3) er et tillegg. V1 kan leveres uten opplasting.
 
-1. **Kjerneflyt:** datagrunnlag, søk, analyseuke, prognose og detaljside (FR1–FR20a), med T1–T12 og konsekvensene i kap. 5.3 og 5.5.
+1. **Kjerneflyt:** datagrunnlag, forside, søk, husket anlegg, analyseuke, prognose og detaljside (FR1–FR20a, inkludert FR6a, FR6b, FR15a og FR15b), med T1–T12 og konsekvensene i kap. 5.2, 5.3 og 5.5.
 2. **Backtest-skript** (FR27–FR29).
 3. **Tillegg: opplasting av egne lusetall** (FR21–FR26), i denne rekkefølgen:
-   - 3a. Excel fra BarentsWatch: FR22, FR23, FR23a, FR24, FR25, FR26.
+   - 3a. Excel fra BarentsWatch: FR22, FR23, FR23a, FR24, FR25, FR25a, FR26.
    - 3b. CSV med komma og UTF-8: FR21.
    - 3c. CSV i norsk format: FR21b. Kuttes først ved tidsnød.
 
-**Tillegg i PRD-en utover briefens omfang:** valg av analyseuke (J2, FR7–FR9) og opplasting av egne lusetall (J3, FR21–FR26). Begge er bevisste tillegg. Briefens omfang nevner dem ikke.
+**Tillegg i PRD-en utover briefens omfang:** valg av analyseuke (J2, FR7–FR9) og opplasting av egne lusetall (J3, FR21–FR26). Begge er bevisste tillegg. Briefens omfang nevner dem ikke. Fra UX-steget kommer i tillegg forklaring på forsiden (FR6a) og husket anlegg (FR6b). Begge er del av kjerneflyten (avgjort 2026-11-16).
 
 **Beslutninger 2026-11-03** (gruppens PRD-utkast, ført i `.memlog.md`): ingen samlet oversikt over anlegg i v1, backtesten finnes bare som skript (FR29), og opplastede data lagres ikke (FR26).
 
@@ -300,8 +315,8 @@ Skissene ligger i UX-steget (`ux-designs/ux-Marin-2026-11-11/mockups/`).
 | R6 / T1–T12 | NFR2 (T10: FR8, FR18, FR20; T11: FR14; T12: FR11). T5–T11 er også eksempeldata i konsekvensene i kap. 5.3 og 5.5. |
 | SK1 | NFR2, NFR10 |
 | SK2 | FR8, FR19, FR27, FR27a, FR28 |
-| SK3 | FR4, FR5, FR15–FR18, NFR5, NFR8 |
-| SK4 | FR15, NFR4 |
+| SK3 | FR4, FR5, FR15–FR18 (inkludert FR15b), NFR5, NFR8 |
+| SK4 | FR6a, FR15, NFR4 |
 | SK5 | FR1, NFR1, NFR11 |
 
 ## 11. Forutsetninger og risiko
@@ -330,4 +345,4 @@ A1–A5 er PRD-ens egne ID-er og har ingen sammenheng med briefen.
 2. Implementere backtest-skriptet (FR27–FR28) tidlig og kjøre det (A5). Oppdatere kap. 11, M1-C-vurderingen og eventuelt FR19.
 3. Sette PRD-en til `final` når A4 og A5 er gjort.
 4. Arkitektursteget: velge og begrunne stack, dataflyt og mappestruktur (A3).
-5. Epics og stories med henvisning til FR- og NFR-ID-ene. README-sjekklisten for detaljsiden kopieres fra konsekvensene i kap. 5.3 og 5.5.
+5. Epics og stories med henvisning til FR- og NFR-ID-ene. README-sjekklisten kopieres fra konsekvensene i kap. 5.2, 5.3 og 5.5.

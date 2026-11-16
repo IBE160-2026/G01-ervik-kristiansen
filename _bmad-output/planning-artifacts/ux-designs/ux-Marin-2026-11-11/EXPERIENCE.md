@@ -2,7 +2,7 @@
 title: "EXPERIENCE: Marin"
 status: final
 created: 2026-11-11
-updated: 2026-11-12
+updated: 2026-11-16
 sources:
   - ../../prds/prd-Marin-2026-11-02/prd.md
   - ../../briefs/brief-Marin-2026-09-17/brief.md
@@ -24,8 +24,8 @@ sources:
 
 | Flate | Nås fra | Formål | Krav |
 |---|---|---|---|
-| **Forside / søk** | Åpning uten husket anlegg; «Bytt anlegg» / «Søk / bytt»; logoen; søk fra toppfeltet | Søke opp og velge anlegg. Ved første besøk også én setning om hva Marin er og en fargeforklaring. Opplasting nås via «Last opp egne tall» i toppfeltet. | FR4, FR5, FR6, NFR4, NFR5; UX-1 og UX-2 (se *Avvik og tillegg til PRD*) |
-| **Detaljside** | Valg i treflisten; åpning med husket anlegg; vellykket opplasting | Status for ett anlegg for valgt analyseuke: statusboks, graf, ukestabell, usikkerhetstekst. Skisse: `mockups/key-detaljside.html` | FR7–FR20a, FR25, NFR4, NFR5, NFR8 |
+| **Forside / søk** | Åpning uten husket anlegg; «Bytt anlegg» / «Søk / bytt»; logoen; søk fra toppfeltet | Søke opp og velge anlegg. Ved første besøk også én setning om hva Marin er og en fargeforklaring. Opplasting nås via «Last opp egne tall» i toppfeltet. | FR4, FR5, FR6, FR6a, FR6b, NFR4, NFR5 (tidligere UX-1 og UX-2, se *Avvik og tillegg til PRD*) |
+| **Detaljside** | Valg i treflisten; åpning med husket anlegg; vellykket opplasting | Status for ett anlegg for valgt analyseuke: statusboks, graf, ukestabell, usikkerhetstekst. Skisse: `mockups/key-detaljside.html` | FR7–FR20a (inkludert FR15a og FR15b), FR25, FR25a, NFR4, NFR5, NFR8 |
 | **Opplasting** | «Last opp egne tall» i toppfeltet, også på forsiden (oppfyller lenkekravet i PRD §8) | Laste opp CSV eller Excel, velge eller se område, velge anlegg, se feil | FR21–FR24, FR26 |
 
 Krav uten egen flate: FR1–FR3 (datagrunnlag), FR27–FR28 (backtest-skript; tallene vises i usikkerhetsteksten, FR19). FR29: backtesten har ingen side. Samlet oversikt over alle anlegg er ute av v1.
@@ -261,7 +261,7 @@ Feil: uka hun velger har «– Ingen ny telling siden uke X» (telling annenhver
 Kari har nettopp talt lus denne uka. Tallet er ikke med i utdraget, og hun vil se prognosen med de nyeste tallene.
 
 1. Fra detaljsiden velger Kari «Last opp egne tall».
-2. Hun velger en CSV-fil med de siste ukene, lagret fra sitt eget regneark (semikolon og desimalkomma, FR21).
+2. Hun velger en CSV-fil med de siste ukene, lagret fra sitt eget regneark (semikolon og desimalkomma, FR21b). Kuttes FR21b, lagrer hun fila som CSV med komma og desimalpunktum i stedet (FR21).
 3. Marin leser fila. Siden det er CSV, ber Marin henne velge område; hun velger sør (FR23a).
 4. Hun trykker «Vis prognose».
 5. Detaljsiden for de opplastede dataene åpner med analyseuke lik siste uke i fila (FR25).
@@ -287,15 +287,15 @@ Ikke i v1: å legge inn enkelttall i BarentsWatch-serien for et innebygd anlegg.
 
 ## Avvik og tillegg til PRD
 
-Hvert UX-tillegg har en midlertidig ID (UX-1, UX-2, …). Hvert av dem trenger en FR i PRD-en (ny FR eller presisering av en eksisterende, via `bmad-prd` eller `bmad-correct-course`) før epics og stories lages. Til da kan epics vise til UX-ID-en.
+Hvert UX-tillegg fikk en midlertidig ID (UX-1, UX-2, …). Alle sju er ført inn i PRD-en 2026-11-16, og epics og stories skal vise til FR-ID-ene. UX-ID-ene står igjen i sporingskolonnen i PRD-en.
 
-| ID | Tema | Hva UX bestemmer | Konsekvens for PRD |
+| ID | Tema | Hva UX bestemmer | Ført inn i PRD |
 |---|---|---|---|
-| UX-1 | Husk siste anlegg | Marin husker sist viste innebygde anlegg per nettleser og enhet, uten innlogging, og åpner det direkte. Gjelder ikke opplastede data. | **Ny FR trengs** (ikke i PRD v1). Må forenes med FR26 og NFR6: bare anleggets ID lagres lokalt, ingen lusetall eller personopplysninger. |
-| UX-2 | Forklaring ved første besøk | Forsiden har én setning om hva Marin er og en fargeforklaring for de fire statusene. | Tillegg til PRD §8 Forside (som bare nevner søkefelt, trefliste og lenke). FR trengs (ny FR eller presisering av §8). |
-| UX-3 | Forklarende setning under status | Under R4-teksten kommer én forklarende setning. R4-teksten er uendret. | Tillegg til FR15/FR18; FR trengs. T5–T12 tester fortsatt bare R4-teksten. Malene trenger egne kontrollpunkter i README-sjekklista (NFR10). |
-| UX-4 | Områdetekst ved opplasting | Utledet område ved Excel-opplasting vises med fylket først og regelen forklart: «Område: Trøndelag – grense som for sør». | Avviker fra eksempelteksten i PRD FR23 («Område: sør (Vestland)»). Oppførselen er den samme; bare ordlyden endres. FR23 må presiseres. |
-| UX-5 | «Dine opplastede tall» i statusboksen | Når detaljsiden viser opplastede data, står «Dine opplastede tall: {filnavn}» inne i statusboksen, så et skjermbilde ikke kan forveksles med BarentsWatch-tall. | Tillegg til FR25; FR trengs. |
-| UX-6 | Statusboksen inneholder anleggsnavn og sted | Navn, lokalitetsnr., kommune, fylke og analyseuke gjentas inne i statusboksen for skjermbilde. | Presisering av FR15 og FR9; FR trengs. |
-| UX-7 | Opplastede data forkastes ved navigering bort | Opplastede data forkastes når brukeren forlater detaljsiden for dem i samme fane; tilbakeknappen går til opplastingssiden. Lagringsnotisen sier dette. | Presisering av FR26 (som bare nevner lukket fane og ny fil); FR trengs. |
+| UX-1 | Husk siste anlegg | Marin husker sist viste innebygde anlegg per nettleser og enhet, uten innlogging, og åpner det direkte. Gjelder ikke opplastede data. | **FR6b** (ny), del av kjerneflyten. NFR6 presisert: bare lokalitetsnummeret lagres i nettleseren. |
+| UX-2 | Forklaring ved første besøk | Forsiden har én setning om hva Marin er og en fargeforklaring for de fire statusene. | **FR6a** (ny), del av kjerneflyten. Kap. 8 oppdatert. |
+| UX-3 | Forklarende setning under status | Under R4-teksten kommer én forklarende setning. R4-teksten er uendret. | **FR15a** (ny). T5–T12 tester fortsatt bare R4-teksten. Konsekvensene står i README-sjekklista (NFR10). |
+| UX-4 | Områdetekst ved opplasting | Utledet område ved Excel-opplasting vises med fylket først og regelen forklart: «Område: Trøndelag – grense som for sør». | **FR23** presisert med den nye ordlyden. |
+| UX-5 | «Dine opplastede tall» i statusboksen | Når detaljsiden viser opplastede data, står «Dine opplastede tall: {filnavn}» inne i statusboksen, så et skjermbilde ikke kan forveksles med BarentsWatch-tall. | **FR25a** (ny), i opplastingspunkt 3a. |
+| UX-6 | Statusboksen inneholder anleggsnavn og sted | Navn, lokalitetsnr., kommune, fylke og analyseuke gjentas inne i statusboksen for skjermbilde. | **FR15b** (ny), sammen med FR9. |
+| UX-7 | Opplastede data forkastes ved navigering bort | Opplastede data forkastes når brukeren forlater detaljsiden for dem i samme fane; tilbakeknappen går til opplastingssiden. Lagringsnotisen sier dette. | **FR26** presisert. |
 | – | Samlet oversikt | Skissert i `mockups/key-oversikt-skisse.html` som mulig neste versjon (PRD §9). Ikke del av v1. I skissen vises R4-teksten med symbolet i statusmerket. | Ingen endring i v1. Skissen er grunnlag om oversikten tas inn i en senere versjon. |
