@@ -91,7 +91,7 @@ POST /api/prognose body = { info, serie, omrade: sor|nord, analyseuke }
 
 - **Binds:** FR21–FR26, NFR6
 - **Prevents:** at opplastede data havner på disk eller blir liggende på serveren
-- **Rule:** Fila sendes som rå body (høyst 4 MB, under Vercels grense på 4,5 MB) og leses med `await request.body()`, aldri som multipart (Starlette skriver multipart over 1 MB til disk). For stor fil gir en FR24-feil. Ingenting skrives til disk eller holdes etter svaret. En test laster opp en fil over 1 MB mens `tempfile` er satt til å feile. Det eneste backend holder i minnet, er `datasett.json` og backtestresultatet, som lastes ved oppstart. PRD FR26 og J3 sier «i minnet i nettleserfanen» (oppdatert 2026-11-18).
+- **Rule:** Fila sendes som rå body (høyst 4 MB, under Vercels grense på 4,5 MB) og leses med `await request.body()`, aldri som multipart (Starlette skriver multipart over 1 MB til disk). For stor fil gir en FR24-feil. Vercel avviser forespørsler over 4,5 MB før de når FastAPI, så frontend sjekker størrelsen før fila sendes og viser samme feil, med teksten i `tekster.ts` og samme ordlyd som i `kilder`. Backend-sjekken gjelder lokal kjøring (lagt til 2026-11-18). Ingenting skrives til disk eller holdes etter svaret. En test laster opp en fil over 1 MB mens `tempfile` er satt til å feile. Det eneste backend holder i minnet, er `datasett.json` og backtestresultatet, som lastes ved oppstart. PRD FR26 og J3 sier «i minnet i nettleserfanen» (oppdatert 2026-11-18).
 
 ### AD-5 — Ingen systemdato i reglene [ADOPTED]
 
