@@ -98,7 +98,7 @@ Vanntemperatur og sesongjustering av trenden brukes ikke i v1. Prognosen bygger 
 
 ### R6 Testtilfeller med fasit
 
-Tabellen er utgangspunkt for automatiske tester. Fasit regnes ut av gruppen for hånd, ikke av KI.
+Tabellen er utgangspunkt for automatiske tester. Fasit regnes ut av gruppen for hånd, ikke av KI. Unntak: fasiten for T5, T6, T8 og T10–T12 er regnet av KI med eksakte mellomregninger og kontrollert steg for steg av gruppen 2026-11-18 (`a4-handkontroll.md`).
 
 | ID | Regel | Inndata | Forventet resultat |
 |---|---|---|---|
@@ -106,14 +106,14 @@ Tabellen er utgangspunkt for automatiske tester. Fasit regnes ut av gruppen for 
 | T2 | R1 | Sør, uke 22 | Grense 0,5 |
 | T3 | R1 | Nord, uke 21 | Grense 0,2 |
 | T4 | R1 | Nord, uke 20 | Grense 0,5 |
-| T5 | R2, R4 | Anlegg i sør, uke 30–34: 0,06 / 0,12 / 0,18 / 0,24 / 0,30 | b = 0,06 per uke. Estimat 0,48 i uke 37 og 0,54 i uke 38. Grensen nås om 4 uker (uke 38). Status gul: «! Følg med: grensen kan nås om 4 uker». [FASIT MÅ KONTROLLERES FOR HÅND AV GRUPPEN] |
-| T6 | R3 | Anlegg i sør, uke 10–14: 0,10 / 0,12 / 0,14 / 0,16 / 0,18 | Sammenlignes mot 0,5 i uke 15 og 0,2 i uke 16–20. b = 0,02 per uke. Estimat 0,20 i uke 15 (under 0,5) og 0,22 i uke 16 (over 0,2). Grensen nås om 2 uker (uke 16). Status rød: «✕ Varsel: grensen nås om 2 uker». Sammenlignet feilaktig med 0,5 i alle ukene ville status blitt grønn. [FASIT MÅ KONTROLLERES FOR HÅND AV GRUPPEN] |
+| T5 | R2, R4 | Anlegg i sør, uke 30–34: 0,06 / 0,12 / 0,18 / 0,24 / 0,30 | b = 0,06 per uke. Estimat 0,48 i uke 37 og 0,54 i uke 38. Grensen nås om 4 uker (uke 38). Status gul: «! Følg med: grensen kan nås om 4 uker». |
+| T6 | R3 | Anlegg i sør, uke 10–14: 0,10 / 0,12 / 0,14 / 0,16 / 0,18 | Sammenlignes mot 0,5 i uke 15 og 0,2 i uke 16–20. b = 0,02 per uke. Estimat 0,20 i uke 15 (under 0,5) og 0,22 i uke 16 (over 0,2). Grensen nås om 2 uker (uke 16). Status rød: «✕ Varsel: grensen nås om 2 uker». Sammenlignet feilaktig med 0,5 i alle ukene ville status blitt grønn. |
 | T7 | R1, R4 | Anlegg uten fylke, fem ukers lusetall | Ingen prognose, grå status «Ukjent område» |
-| T8 | R2, R4 | Anlegg i sør, telling bare i uke 36, 38 og 40 (annenhver uke): 0,20 / 0,28 / 0,36 | Prognose beregnes fra 3 punkter. b = 0,04 per uke (0,08 over 2 uker). Estimat 0,48 i uke 43 og 0,52 i uke 44. Grensen nås om 4 uker (uke 44). Status gul: «! Følg med: grensen kan nås om 4 uker». Med tellingsnummer i stedet for ISO-uke som x-verdi ville b blitt 0,08, og status feilaktig rød (2 uker). [FASIT MÅ KONTROLLERES FOR HÅND AV GRUPPEN] |
+| T8 | R2, R4 | Anlegg i sør, telling bare i uke 36, 38 og 40 (annenhver uke): 0,20 / 0,28 / 0,36 | Prognose beregnes fra 3 punkter. b = 0,04 per uke (0,08 over 2 uker). Estimat 0,48 i uke 43 og 0,52 i uke 44. Grensen nås om 4 uker (uke 44). Status gul: «! Følg med: grensen kan nås om 4 uker». Med tellingsnummer i stedet for ISO-uke som x-verdi ville b blitt 0,08, og status feilaktig rød (2 uker). |
 | T9 | R2, R4 | Telling bare i uke t − 2 og t | Ingen prognose, grå status «For lite data» |
-| T10 | R2, R4 | Anlegg i sør, analyseuke 42, telling i uke 36, 38 og 40, ingen telling i uke 41–42 | Siste telling (uke 40) er mer enn én uke eldre enn analyseuka. Ingen prognose, grå status «– Ingen ny telling siden uke 40». Med analyseuke 41 (siste telling én uke eldre) gir samme data samme linje som i T8, men uker til grensen telles fra uke 41: estimat 0,52 i uke 44, grensen nås om 3 uker (uke 44), status rød «✕ Varsel: grensen nås om 3 uker». [FASIT MÅ KONTROLLERES FOR HÅND AV GRUPPEN] |
-| T11 | R2, R4 | Anlegg i sør, analyseuke 30, telling bare i uke 29 (0,30) og 30 (0,60) | Bare 2 tellinger i vinduet, men siste telling (0,60) er ≥ grensen 0,5 i uke 30. Brudd nå går foran for lite data: status rød «✕ Brudd nå», ikke «For lite data». [FASIT MÅ KONTROLLERES FOR HÅND AV GRUPPEN] |
-| T12 | R2, R4 | Anlegg i sør, analyseuke 2026 uke 2, telling i 2025 uke 50, 51, 52 og 2026 uke 1, 2: 0,30 / 0,34 / 0,38 / 0,42 / 0,46 | Årsskiftet er sammenhengende tid: b = 0,04 per uke. Estimat 0,50 i 2026 uke 3 (avrundet til 2 desimaler), som er ≥ grensen 0,5. Grensen nås om 1 uke (2026 uke 3). Status rød «✕ Varsel: grensen nås om 1 uke». Med ISO-uke direkte som x-verdi (50, 51, 52, 1, 2) ville stigningen blitt negativ og status feilaktig grønn. Uten avrunding kan flyttall gi 0,4999… og feilaktig grønn. [FASIT MÅ KONTROLLERES FOR HÅND AV GRUPPEN] |
+| T10 | R2, R4 | Anlegg i sør, analyseuke 42, telling i uke 36, 38 og 40, ingen telling i uke 41–42 | Siste telling (uke 40) er mer enn én uke eldre enn analyseuka. Ingen prognose, grå status «– Ingen ny telling siden uke 40». Med analyseuke 41 (siste telling én uke eldre) gir samme data samme linje som i T8, men uker til grensen telles fra uke 41: estimat 0,52 i uke 44, grensen nås om 3 uker (uke 44), status rød «✕ Varsel: grensen nås om 3 uker». |
+| T11 | R2, R4 | Anlegg i sør, analyseuke 30, telling bare i uke 29 (0,30) og 30 (0,60) | Bare 2 tellinger i vinduet, men siste telling (0,60) er ≥ grensen 0,5 i uke 30. Brudd nå går foran for lite data: status rød «✕ Brudd nå», ikke «For lite data». |
+| T12 | R2, R4 | Anlegg i sør, analyseuke 2026 uke 2, telling i 2025 uke 50, 51, 52 og 2026 uke 1, 2: 0,30 / 0,34 / 0,38 / 0,42 / 0,46 | Årsskiftet er sammenhengende tid: b = 0,04 per uke. Estimat 0,50 i 2026 uke 3 (avrundet til 2 desimaler), som er ≥ grensen 0,5. Grensen nås om 1 uke (2026 uke 3). Status rød «✕ Varsel: grensen nås om 1 uke». Med ISO-uke direkte som x-verdi (50, 51, 52, 1, 2) ville stigningen blitt negativ og status feilaktig grønn. Uten avrunding kan flyttall gi 0,4999… og feilaktig grønn. |
 
 ## Hva gjør dette annerledes
 
