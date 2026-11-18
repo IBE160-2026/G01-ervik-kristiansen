@@ -13,7 +13,7 @@
 - [x] 2026-11-03 [prd-marin](997-2026-11-03-18-45-24-prd-marin.md) — PRD A2: områdevalg ved Excel-opplasting når fila har `Fylke` (løst 2026-11-11)
 - [x] 2026-11-03 [prd-marin](997-2026-11-03-18-45-24-prd-marin.md) — PRD kap. 11: stem av «29 % treff» mot 28–35 % og bekreft nedlastingsdato 27.10.2026 (løst 2026-11-11)
 - [x] 2026-11-03 [prd-marin](997-2026-11-03-18-45-24-prd-marin.md) — PRD-avslutning: memlog-gjennomgang, avstemming mot brief/addendum, reviewer-pass, status final (løst 2026-11-11)
-- [ ] 2026-11-11 [prd-marin](997-2026-11-03-18-45-24-prd-marin.md) — A4: kontroller fasit T10–T12 for hånd; avklar om merkingen av T5, T6, T8 i briefen kan fjernes
+- [x] 2026-11-11 [prd-marin](997-2026-11-03-18-45-24-prd-marin.md) — A4: kontroller fasit T10–T12 for hånd; avklar om merkingen av T5, T6, T8 i briefen kan fjernes (løst 2026-11-18, kontrollert steg for steg, se a4-handkontroll.md)
 - [ ] 2026-11-11 [prd-marin](997-2026-11-03-18-45-24-prd-marin.md) — kjør backtesten på nytt med FR27 og oppdater tallene i PRD kap. 11
 - [ ] 2026-11-11 [prd-marin](997-2026-11-03-18-45-24-prd-marin.md) — A3: stack og arbeidsdeling avklares med Ella i arkitektursteget
 - [x] 2026-11-12 [ux-marin](996-2026-11-12-16-33-51-ux-marin.md) — før UX-1 til UX-7 inn som FR i PRD-en før epics og stories (løst 2026-11-16)

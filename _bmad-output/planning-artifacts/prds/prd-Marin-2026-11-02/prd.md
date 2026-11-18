@@ -14,7 +14,7 @@ inputs:
 
 # PRD: Marin
 
-> **Status: utkast.** PRD-en settes til `final` når håndkontrollen av fasit (A4) og den første backtestkjøringen (A5) er gjort, og tallene i kap. 11 er oppdatert.
+> **Status: utkast.** PRD-en settes til `final` når den første backtestkjøringen (A5) er gjort og tallene i kap. 11 er oppdatert. Kontrollen av fasit (A4) ble gjort 2026-11-18.
 
 ## 1. Formål og bakgrunn
 
@@ -22,7 +22,7 @@ Marin er en web-app som gir driftsledere og fiskehelseansvarlige ved norske laks
 
 Problemet, løsningen og avgrensningene er beskrevet i product brief (`briefs/brief-Marin-2026-09-17/brief.md`).
 
-**Normativ kilde.** Briefen i commit `fa12838` er normativ for reglene R1–R5, testtilfellene T1–T12 og suksesskriteriene SK1–SK5. Tabellen under er en kortversjon, slik at kravene kan leses uten briefen. Hvis kortversjonen og briefen er uenige, gjelder briefen. Endres briefen, oppdateres PRD-en og commit-hashen her samme dag.
+**Normativ kilde.** Briefen i commit `633ca2f` er normativ for reglene R1–R5, testtilfellene T1–T12 og suksesskriteriene SK1–SK5. Tabellen under er en kortversjon, slik at kravene kan leses uten briefen. Hvis kortversjonen og briefen er uenige, gjelder briefen. Endres briefen, oppdateres PRD-en og commit-hashen her samme dag.
 
 | Regel | Kortversjon | Brief |
 |---|---|---|
@@ -113,7 +113,7 @@ Hovedpersonen i alle tre reisene er Kari, driftsleder på et anlegg på Hitra i 
 
 ## 5. Funksjonelle krav
 
-Krav som gjelder det brukeren ser, har **testbare konsekvenser** med konkrete verdier. En story er ferdig når alle konsekvensene for kravene den dekker, er oppfylt. Eksemplene bruker data fra testtilfellene i briefen (R6), og fasiten arver forbeholdet i A4 til den er kontrollert for hånd.
+Krav som gjelder det brukeren ser, har **testbare konsekvenser** med konkrete verdier. En story er ferdig når alle konsekvensene for kravene den dekker, er oppfylt. Eksemplene bruker data fra testtilfellene i briefen (R6). Fasiten er kontrollert (A4).
 
 UX-1 til UX-7 i sporingskolonnen viser til tilleggene fra UX-steget (`ux-designs/ux-Marin-2026-11-11/EXPERIENCE.md`, «Avvik og tillegg til PRD»), ført inn 2026-11-16.
 
@@ -330,7 +330,7 @@ Skissene ligger i UX-steget (`ux-designs/ux-Marin-2026-11-11/mockups/`).
 | **Treffsikkerhet:** tallene er fra den grove skissen i addendumet (2026-10-29), regnet før A1, før uker til grensen ble regnet fra analyseuka, før SK2 ble presisert 2026-11-11 og før presisjon og kanttilfeller ble definert 2026-11-18. Skissen ga omtrent 29 % treff og omtrent 14 % presisjon. Tallene regnes på nytt med FR27 (A5), og marginen til 25 % kan bli mindre. Er presisjonen fortsatt rundt 14 %, er den under grensen i M1-C, og Marin skal da presenteres som en tidlig indikator. | Gruppen (A5) |
 | **Datakvalitet:** utdraget er et fast øyeblikksbilde lastet ned 27.10.2026. Senere rettinger hos BarentsWatch kommer ikke med. | Fredrik |
 | **Opplastede filer:** filer laget for hånd kan ha komma som desimaltegn, feil kolonnenavn eller hull. FR21 og FR21b godtar de vanlige formatene, og FR24 avviser resten med en forståelig feilmelding uten at appen krasjer. | Den som bygger opplasting (avklares i A3) |
-| **Kontroll på KI-ens arbeid:** regelkoden skrives med Claude Code. Gruppen regner ut fasiten i T1–T12 for hånd før regelkoden skrives. Denne fasiten er kontrollen. Fasit som ikke er kontrollert ennå, er merket «[FASIT MÅ KONTROLLERES FOR HÅND AV GRUPPEN]» i briefen (se A4). | Gruppen (A4) |
+| **Kontroll på KI-ens arbeid:** regelkoden skrives med Claude Code, og fasiten i T1–T12 er kontrollen på den. T5, T6, T8 og T10–T12 var merket som ukontrollert. De ble regnet av Claude med eksakte brøker og alle mellomregninger vist, og Fredrik kontrollerte hvert steg 2026-11-18 (`briefs/brief-Marin-2026-09-17/a4-handkontroll.md`). Den kontrollen er ikke helt uavhengig av KI, så risikoen er at KI-en og regelkoden gjør samme tolkningsfeil. R1 testes i tillegg mot BarentsWatch-kolonnen `Lusegrense uke` (NFR3). | Gruppen (A4) |
 | **Publisering på Vercel:** oppsettet bruker Vercel Services, som er i beta. Endres tjenesten, er reserveplanen to Vercel-prosjekter i samme repo (arkitekturen, «Åpne punkter»). Grensen på 4,5 MB per forespørsel gjør at opplastingen godtar høyst 4 MB (FR24). | Gruppen |
 | **Briefen og PRD-en i takt:** reglene står i kortversjon i kap. 1. Endres briefen uten at PRD-en oppdateres, kan krav og fasit gli fra hverandre. | Fredrik |
 
@@ -341,14 +341,14 @@ A1–A6 er PRD-ens egne ID-er og har ingen sammenheng med briefen.
 - ~~**A1 Hvilken uke er t når brukeren velger analyseuke?**~~ Avgjort 2026-11-11: t er siste uke med telling til og med analyseuka, høyst én uke eldre enn analyseuka. Ellers grå status «ingen ny telling». Ført inn i R2, R4 og T10 i briefen og i FR8, FR20 og NFR2.
 - ~~**A2 Område for Excel-opplasting**~~ Avgjort 2026-11-11: område utledes av `Fylke` når det finnes. Brukeren velger område for CSV og for Excel uten fylke. Ført inn i FR23, FR23a, J3 og kap. 8.
 - **A3 Teknisk stack og arbeidsdeling:** stacken ble avgjort i arkitektursteget 2026-11-16 (Python/FastAPI og Next.js, publisert på Vercel, se `architecture/architecture-Marin-2026-11-16/ARCHITECTURE-SPINE.md`). Arbeidsdelingen avgjøres når epics og stories lages. Eier: Fredrik og Ella.
-- **A4 Håndkontroll av fasit:** gruppen regner ut fasiten for T5, T6, T8 og T10–T12 for hånd og fjerner merkingen i briefen. Gir håndregningen et annet svar, rettes briefen, kortversjonen i kap. 1 og konsekvensene i kap. 5 samme dag. Eier: gruppen. Må være gjort før epics og stories.
+- ~~**A4 Håndkontroll av fasit**~~ Gjort 2026-11-18: Claude regnet T5, T6, T8 og T10–T12 med eksakte brøker og alle mellomregninger, og Fredrik kontrollerte hvert steg. Alle seks stemte med briefen. Merkingen er fjernet fra briefen (commit `633ca2f`). Avvik fra planen: fasiten ble ikke regnet for hånd av gruppen, men kontrollert steg for steg (se kap. 11). Dette er et punkt for refleksjonsrapporten.
 - **A5 Første backtestkjøring:** kjernen og backtest-skriptet bygges som første epic, med de samme kjernefunksjonene som appen bruker (arkitektur AD-1). FR27 kjøres så snart den epicen er ferdig, før noen andre stories startes, og tallene i kap. 11 oppdateres. Rekkefølgen ble endret 2026-11-18, fordi backtesten må bygges som kode i story-løpet. Tallene avgjør om M1 holder, og om reaksjonen på M1-C slår inn. Eier: gruppen.
 - ~~**A6 Definisjon av presisjon og kanttilfeller**~~ Avgjort 2026-11-18: et varsel er en uke med «✕ Varsel …» (ikke «brudd nå»), brudd er en telling ≥ grensen i en av de 4 neste ukene, og kryssinger før 2025 uke 9 og varsler etter 2026 uke 38 holdes utenfor og telles opp. Ført inn i SK2 i briefen, ordlista og FR28.
 
 ## 13. Neste steg
 
 1. ~~Arkitektursteget: velge og begrunne stack, dataflyt og mappestruktur (A3).~~ Gjort 2026-11-16.
-2. Håndkontroll av fasit for T5, T6, T8 og T10–T12 (A4).
+2. ~~Håndkontroll av fasit for T5, T6, T8 og T10–T12 (A4).~~ Gjort 2026-11-18.
 3. Epics og stories med henvisning til FR- og NFR-ID-ene. Første epic er kjernen (R1–R4 og SK2) og backtest-skriptet (FR27–FR28). README-sjekklisten kopieres fra konsekvensene i kap. 5.2, 5.3 og 5.5.
 4. Bygge første epic og kjøre backtesten (A5) før andre stories startes. Oppdatere kap. 11, M1-C-vurderingen og eventuelt FR19 og storyene som bygger på den.
-5. Sette PRD-en til `final` når A4 og A5 er gjort.
+5. Sette PRD-en til `final` når A5 er gjort.
