@@ -2,13 +2,14 @@
 title: "PRD: Marin"
 status: draft
 created: 2026-11-03
-updated: 2026-11-16
+updated: 2026-11-18
 inputs:
   - briefs/brief-Marin-2026-09-17/brief.md
   - briefs/brief-Marin-2026-09-17/addendum.md
   - briefs/brief-Marin-2026-09-17/tilbakemelding-product-brief.md
   - prds/prd-Marin-2026-11-02/tilbakemelding-prd.md
   - ux-designs/ux-Marin-2026-11-11/EXPERIENCE.md
+  - architecture/architecture-Marin-2026-11-16/ARCHITECTURE-SPINE.md
 ---
 
 # PRD: Marin
@@ -21,13 +22,13 @@ Marin er en web-app som gir driftsledere og fiskehelseansvarlige ved norske laks
 
 Problemet, løsningen og avgrensningene er beskrevet i product brief (`briefs/brief-Marin-2026-09-17/brief.md`).
 
-**Normativ kilde.** Briefen i commit `536e09f` er normativ for reglene R1–R5, testtilfellene T1–T12 og suksesskriteriene SK1–SK5. Tabellen under er en kortversjon, slik at kravene kan leses uten briefen. Hvis kortversjonen og briefen er uenige, gjelder briefen. Endres briefen, oppdateres PRD-en og commit-hashen her samme dag.
+**Normativ kilde.** Briefen i commit `fa12838` er normativ for reglene R1–R5, testtilfellene T1–T12 og suksesskriteriene SK1–SK5. Tabellen under er en kortversjon, slik at kravene kan leses uten briefen. Hvis kortversjonen og briefen er uenige, gjelder briefen. Endres briefen, oppdateres PRD-en og commit-hashen her samme dag.
 
 | Regel | Kortversjon | Brief |
 |---|---|---|
 | Grense | 0,2 voksne hunnlus per fisk i uke 16–21 (sør) og uke 21–26 (nord), ellers 0,5. En verdi ≥ grensen er brudd. Nord = Nordland, Troms og Finnmark, ellers sør. | R1 |
 | Vindu | De 5 siste ukene, t − 4 til og med t. Minst 3 uker med telling, ellers «for lite data». t er høyst én uke eldre enn analyseuka, ellers «ingen ny telling». | R2 |
-| Trend | Lineær regresjon med løpende ukenummer som x (årsskiftet er ett steg på +1). Estimatet avrundes til 2 desimaler, og negative estimater settes til 0. | R2 |
+| Trend | Lineær regresjon med løpende ukenummer som x (årsskiftet er ett steg på +1). Estimatet avrundes til 2 desimaler (halvdeler opp), og negative estimater settes til 0. | R2 |
 | Horisont | Uke a + 1 til og med a + 6, regnet fra analyseuka a. Hver uke sammenlignes med grensen som gjelder i den uka. | R2, R3 |
 | Statusfarge | Rød: brudd nå eller grensen nås om 1–3 uker. Gul: 4–6 uker. Grønn: ingen kryssing innen 6 uker. Grå: ingen prognose. | R4 |
 | Rekkefølge | 1) ukjent område, 2) ingen ny telling, 3) brudd nå, 4) for lite data, 5) prognose. Den første som slår til, gjelder. | R4 |
@@ -37,7 +38,7 @@ Andre ID-er fra briefen som brukes i PRD-en:
 - **R6 / T1–T12:** testtilfeller med fasit
 - **SK1–SK5:** suksesskriteriene i briefen, nummerert i samme rekkefølge
 
-Hvert krav i PRD-en har en ID (FR, NFR), slik at epics, stories og tester kan vise til kravet. De åpne punktene A1–A5 (kap. 12) er PRD-ens egne ID-er. Briefen bruker ikke A-ID-er.
+Hvert krav i PRD-en har en ID (FR, NFR), slik at epics, stories og tester kan vise til kravet. De åpne punktene A1–A6 (kap. 12) er PRD-ens egne ID-er. Briefen bruker ikke A-ID-er.
 
 **Ordliste**
 
@@ -53,11 +54,11 @@ Hvert krav i PRD-en har en ID (FR, NFR), slik at epics, stories og tester kan vi
 | Uker til grensen | Antall uker fra a til første uke der estimatet er ≥ grensen (R2, R3). |
 | Brudd nå | Siste målte verdi er ≥ grensen som gjelder i analyseuka. Gir rød status uten prognose (R2, R4). |
 | Status | Resultatet appen viser for et anlegg og en analyseuke: rød, gul, grønn eller grå, alltid med symbol og tekst (R4). |
-| Varsel | Rød status. Bare rød status regnes som varsel i backtesten og suksesskriteriene (R4, SK2). |
+| Varsel | Rød status. I presisjonen teller bare rød status med prognose («✕ Varsel …»), ikke «✕ Brudd nå» (R4, SK2, FR28). |
 | Kryssing | En uke med telling ≥ grensen der forrige telling var under (SK2). |
 | Rød periode | Sammenhengende uker med rød status. Alle andre statuser bryter den (SK2). |
-| Treffandel | Andelen kryssinger der en rød periode begynte 2–4 uker før (SK2, M1). |
-| Presisjon | Andelen varsler som ble fulgt av brudd innen 4 uker (M1-C, FR28). |
+| Treffandel | Andelen kryssinger der en rød periode begynte 2–4 uker før. Kryssinger før 2025 uke 9 er ikke med (SK2, M1). |
+| Presisjon | Andelen varsler (uker med «✕ Varsel …») der minst én telling i de 4 neste ukene er ≥ grensen. Varsler etter 2026 uke 38 er ikke med (SK2, M1-C, FR28). |
 | Detaljside | Skjermbildet som viser status, graf, tabell og forklaringer for ett anlegg og én analyseuke (kap. 5.5, kap. 8). |
 
 ## 2. Mål
@@ -108,7 +109,7 @@ Hovedpersonen i alle tre reisene er Kari, driftsleder på et anlegg på Hitra i 
 1. Kari går til opplastingssiden og laster opp et Excel-uttrekk fra BarentsWatch eller en CSV-fil fra sitt eget regneark (FR21, FR21b, FR22).
 2. For Excel-filer med fylke viser appen området den har utledet. For CSV-filer og Excel-filer uten fylke velger Kari område, sør eller nord (FR23, FR23a).
 3. Appen validerer fila og viser feil på en forståelig måte (FR24), eller viser detaljsiden for de opplastede dataene, merket «Dine opplastede tall» i statusboksen (FR25, FR25a).
-4. Dataene lagres ikke. De forsvinner når fanen lukkes, når Kari går bort fra detaljsiden for dem, når en ny fil lastes opp, eller når appen startes på nytt (FR26).
+4. Dataene lagres ikke, verken på serveren eller i nettleseren. De forsvinner når fanen lukkes eller siden lastes på nytt, når Kari går bort fra detaljsiden for dem, eller når en ny fil lastes opp (FR26).
 
 ## 5. Funksjonelle krav
 
@@ -120,7 +121,7 @@ UX-1 til UX-7 i sporingskolonnen viser til tilleggene fra UX-steget (`ux-designs
 
 | ID | Krav | Sporing |
 |---|---|---|
-| FR1 | Appen leser lusetall fra BarentsWatch-utdraget i `data/barentswatch/` (2025 uke 1 til og med 2026 uke 42). Uker etter 2026 uke 42 leses ikke inn. | Omfang, SK5 |
+| FR1 | Appen bruker lusetall fra BarentsWatch-utdraget i `data/barentswatch/` (2025 uke 1 til og med 2026 uke 42). Uker etter 2026 uke 42 leses ikke inn. Et skript gjør utdraget om til en forhåndsbehandlet datafil som committes, og appen leser den fila (arkitektur AD-10). | Omfang, SK5 |
 | FR2 | En uke regnes som «uke med telling» når `Voksne hunnlus` har en verdi. Uker uten verdi regnes som uker uten telling, og ingen verdier fylles inn. | R2 |
 | FR3 | Område (sør/nord) utledes av kolonnen `Fylke` etter R1. Mangler fylke, får anlegget område «ukjent». | R1 |
 
@@ -202,10 +203,10 @@ Opplasting er et tillegg til v1 (kap. 9) og bygges i denne rekkefølgen: Excel f
 | FR22 | Brukeren kan laste opp et Excel-uttrekk i samme format som BarentsWatch-fila «Lakselus per fisk». Inneholder fila flere anlegg, velger brukeren ett etter opplasting. | J3 |
 | FR23 | Ved Excel-opplasting der `Fylke` er utfylt, utleder appen område av `Fylke` etter R1, på samme måte som for det innebygde datasettet. Appen viser brukeren området med fylket først og regelen forklart (f.eks. «Område: Trøndelag – grense som for sør»). Brukeren velger ikke område. | J3, R1, UX-4 |
 | FR23a | Ved CSV-opplasting, og ved Excel-opplasting der `Fylke` mangler eller er tom, velger brukeren område (sør eller nord). Grensen bestemmes ut fra valget etter R1. | J3, R1 |
-| FR24 | Appen validerer fila og viser en feilmelding som sier hva som er galt og i hvilken rad: ukjent format (feilmeldingen nevner formatene som godtas), manglende kolonner, år utenfor 2000 til inneværende år, uke utenfor 1–53, eller uke 53 i et ISO-år som ikke har uke 53, negative eller ikke-numeriske lusetall, og samme uke flere ganger. Ugyldige filer gir ingen prognose. | J3 |
-| FR25 | Etter vellykket opplasting vises samme detaljside som for BarentsWatch-anlegg (FR15–FR20a), med analyseuke lik siste uke i fila. Brukeren kan velge analyseuke blant ukene fila dekker. Intervallet i FR7 gjelder ikke for opplastede data. | J3 |
+| FR24 | Appen validerer fila og viser en feilmelding som sier hva som er galt og i hvilken rad: ukjent format (feilmeldingen nevner formatene som godtas), manglende kolonner, år utenfor 2000 til inneværende år, uke utenfor 1–53, eller uke 53 i et ISO-år som ikke har uke 53, negative eller ikke-numeriske lusetall, og samme uke flere ganger. Er fila større enn 4 MB, avvises den med en feilmelding som ber brukeren laste ned bare sitt eget anlegg. Grensen følger av Vercel (NFR12), og et årsuttrekk for alle anlegg er større. Ugyldige filer gir ingen prognose. | J3, NFR12 |
+| FR25 | Etter vellykket opplasting vises samme detaljside som for BarentsWatch-anlegg (FR15–FR20a), med analyseuke lik uka på siste rad i fila. Brukeren kan velge blant alle ISO-uker fra første til siste rad i fila, også uker uten rad imellom (avgjort 2026-11-18). Intervallet i FR7 gjelder ikke for opplastede data. | J3 |
 | FR25a | Når detaljsiden viser opplastede data, står «Dine opplastede tall: {filnavn}» inne i statusboksen, slik at et skjermbilde ikke kan forveksles med tall fra BarentsWatch-utdraget. «Sist viste anlegg» vises ikke for opplastede data. | J3, UX-5 |
-| FR26 | Opplastede data ligger bare i minnet til den kjørende appen og skrives aldri til disk. De forsvinner når fanen lukkes, når brukeren forlater detaljsiden for dem i samme fane, når en ny fil lastes opp, eller når appen startes på nytt. Tilbakeknappen fra detaljsiden går til opplastingssiden. Opplastingssiden har en kort lagringsnotis som sier dette. | J3, NFR6, UX-7 |
+| FR26 | Opplastede data ligger bare i minnet i nettleserfanen. Serveren leser fila og svarer, men lagrer den ikke, og dataene skrives aldri til disk eller nettleserlagring. De forsvinner når fanen lukkes eller siden lastes på nytt, når brukeren forlater detaljsiden for dem i samme fane, eller når en ny fil lastes opp. Tilbakeknappen fra detaljsiden går til opplastingssiden. Opplastingssiden har en kort lagringsnotis som sier dette. | J3, NFR6, UX-7 |
 
 ### 5.7 Backtest (utviklerverktøy)
 
@@ -213,7 +214,7 @@ Opplasting er et tillegg til v1 (kap. 9) og bygges i denne rekkefølgen: Excel f
 |---|---|---|
 | FR27 | Et skript kjører backtesten på hele datagrunnlaget etter definisjonen i SK2. Status for hver uke a er den statusen appen viser med analyseuke a, beregnet bare med data til og med a. Kryssinger og røde perioder bestemmes som i SK2: forrige telling i uke w − 1 eller w − 2, og alle andre statuser bryter en rød periode. | SK2, FR8 |
 | FR27a | Parameterne i R2 og R4 (vindu 5 uker, minst 3 tellinger, horisont 6 uker, rød ved 0–3 uker) fryses før den endelige backtesten. Resultatet rapporteres uendret i README og refleksjonsrapporten, også om treffandelen er under 25 % eller presisjonen under 20 %. Parameterne justeres ikke for å nå tersklene. | SK2, M1-C |
-| FR28 | Skriptet rapporterer antall grensekryssinger, antall treff, treffandel og presisjon (andelen varsler som ble fulgt av brudd innen 4 uker). Resultatet skrives til en fil i repoet, slik at FR19 kan vise både treffandelen og presisjonen. | SK2, M1-C, FR19 |
+| FR28 | Skriptet rapporterer antall grensekryssinger, antall treff, treffandel, antall varsler og presisjon, pluss hvor mange kryssinger og varsler som er holdt utenfor. Treffandel og presisjon regnes som i SK2 og ordlista: et varsel er en uke a med «✕ Varsel …» (ikke «✕ Brudd nå»), og det er fulgt av brudd hvis minst én telling i uke a + 1 til a + 4 er ≥ grensen i sin uke. Kryssinger før 2025 uke 9 og varsler etter 2026 uke 38 holdes utenfor. Resultatet skrives til en fil i repoet sammen med parameterne fra FR27a, slik at FR19 kan vise både treffandelen og presisjonen. | SK2, M1-C, FR19 |
 | FR29 | Backtesten vises ikke som egen side i appen i v1. | Beslutning 2026-11-03 (kap. 9) |
 
 ## 6. Ikke-funksjonelle krav
@@ -222,7 +223,7 @@ Opplasting er et tillegg til v1 (kap. 9) og bygges i denne rekkefølgen: Excel f
 
 | ID | Krav | Sporing |
 |---|---|---|
-| NFR1 | Appen kan kjøres lokalt etter oppskriften i README, med datasettet i repoet, uten API-nøkler, betalte kontoer eller nettilgang. | SK5 |
+| NFR1 | Appen kan kjøres lokalt etter oppskriften i README, med datasettet i repoet, uten API-nøkler eller betalte kontoer. Nett trengs bare for å installere avhengigheter. Når appen kjører, bruker den ikke nett. | SK5 |
 | NFR2 | T1–T12 finnes som automatiske tester og består. Testene kan kjøres med én kommando beskrevet i README. | SK1 |
 | NFR3 | R1 testes i tillegg mot BarentsWatch-kolonnen `Lusegrense uke` som uavhengig fasit, med 0 avvik. | R1, addendum |
 | NFR4 | Status kan forstås uten fargesyn: alltid farge, symbol og tekst sammen. | SK4 |
@@ -230,9 +231,10 @@ Opplasting er et tillegg til v1 (kap. 9) og bygges i denne rekkefølgen: Excel f
 | NFR6 | Appen behandler ingen personopplysninger. Lusetall per anlegg er offentlige data. Nettleseren lagrer bare lokalitetsnummeret til sist viste anlegg (FR6b). | Tilbakemelding (sikkerhet og personvern) |
 | NFR7 | Appen inneholder ingen KI eller språkmodell. Prognosen er ren statistikk. | Brief |
 | NFR8 | Detaljsiden vises på under 2 sekunder på en vanlig bærbar PC etter at appen har startet. | SK3 |
-| NFR9 | Ingen hemmeligheter eller nøkler ligger i repoet. Datasett ligger i `data/`, testdata i en egen testmappe. | Tilbakemelding (ryddighet i repoet) |
-| NFR10 | Utover T1–T12 finnes automatiske tester for søk (FR4–FR6: delvis treff, store og små bokstaver, lokalitetsnummer, ingen treff), analyseuke (konsekvensene for FR7 og FR8), opplasting (FR21–FR24: én testfil per feiltype og per godkjent format, i testmappa) og backtest (FR27: et lite, konstruert datasett med kryssinger og treff regnet ut for hånd). Konsekvensene for detaljsiden (FR9, FR15–FR20a) testes automatisk der verdien kan hentes ut uten nettleser (tekster, tabellrader, estimert uke). Resten, også FR6a og FR6b, kontrolleres manuelt etter en sjekkliste i README. Sjekklisten er en ordrett kopi av konsekvensene i kap. 5.2, 5.3 og 5.5. | Tilbakemelding (kvalitetssikring og testing) |
+| NFR9 | Ingen hemmeligheter eller nøkler ligger i repoet. Kildedataene ligger i `data/`, den forhåndsbehandlede datafila og backtestresultatet i backend-pakken (arkitektur AD-10), og testdata i en egen testmappe. | Tilbakemelding (ryddighet i repoet) |
+| NFR10 | Utover T1–T12 finnes automatiske tester for søk (FR4–FR6: delvis treff, store og små bokstaver, lokalitetsnummer, ingen treff), analyseuke (konsekvensene for FR7 og FR8), opplasting (FR21–FR24: én testfil per feiltype og per godkjent format, i testmappa) og backtest (FR27 og FR28: et lite, konstruert datasett med kryssinger, treff, varsler, presisjon og utelatte kanttilfeller regnet ut for hånd). Konsekvensene for detaljsiden (FR9, FR15–FR20a) testes automatisk der verdien kan hentes ut uten nettleser (tekster, tabellrader, estimert uke). Resten, også FR6a og FR6b, kontrolleres manuelt etter en sjekkliste i README. Sjekklisten er en ordrett kopi av konsekvensene i kap. 5.2, 5.3 og 5.5. | Tilbakemelding (kvalitetssikring og testing) |
 | NFR11 | README oppgir datakilden (BarentsWatch, «Lakselus per fisk»), lisens (NLOD), nedlastingsdato (27.10.2026) og hvordan dataene ble hentet. | Tilbakemelding, SK5 |
+| NFR12 | Appen er publisert på Vercel med samme funksjoner og data som lokalt, uten hemmeligheter. Adressen står i README. Fordi Vercel begrenser forespørsler til 4,5 MB, godtar opplastingen filer på høyst 4 MB (FR24). | Emnekrav (README) |
 
 ## 7. Data
 
@@ -247,6 +249,8 @@ Opplasting er et tillegg til v1 (kap. 9) og bygges i denne rekkefølgen: Excel f
 | `Lusegrense uke` | Bare som fasit i tester (NFR3), ikke i selve beregningen |
 
 Øvrige kolonner (sjøtemperatur, produksjonsområde, koordinater og andre lusestadier) brukes ikke i v1.
+
+Appen leser ikke Excel-filene direkte når den kjører. Et skript gjør dem om til en kompakt datafil i backend-pakken, med kontrollsum for kildefilene, og fila committes (FR1, arkitektur AD-10). Da starter appen raskt, også på Vercel (NFR8, NFR12).
 
 **CSV for opplasting** (FR21), eksempel:
 
@@ -287,7 +291,7 @@ Skissene ligger i UX-steget (`ux-designs/ux-Marin-2026-11-11/mockups/`).
    - 3b. CSV med komma og UTF-8: FR21.
    - 3c. CSV i norsk format: FR21b. Kuttes først ved tidsnød.
 
-**Tillegg i PRD-en utover briefens omfang:** valg av analyseuke (J2, FR7–FR9) og opplasting av egne lusetall (J3, FR21–FR26). Begge er bevisste tillegg. Briefens omfang nevner dem ikke. Fra UX-steget kommer i tillegg forklaring på forsiden (FR6a) og husket anlegg (FR6b). Begge er del av kjerneflyten (avgjort 2026-11-16).
+**Tillegg i PRD-en utover briefens omfang:** valg av analyseuke (J2, FR7–FR9) og opplasting av egne lusetall (J3, FR21–FR26). Begge er bevisste tillegg. Briefens omfang nevner dem ikke. Fra UX-steget kommer i tillegg forklaring på forsiden (FR6a) og husket anlegg (FR6b). Begge er del av kjerneflyten (avgjort 2026-11-16). Publisering på Vercel (NFR12) er et emnekrav og ikke nevnt i briefen.
 
 **Beslutninger 2026-11-03** (gruppens PRD-utkast, ført i `.memlog.md`): ingen samlet oversikt over anlegg i v1, backtesten finnes bare som skript (FR29), og opplastede data lagres ikke (FR26).
 
@@ -323,26 +327,28 @@ Skissene ligger i UX-steget (`ux-designs/ux-Marin-2026-11-11/mockups/`).
 
 | Forutsetning eller risiko | Eier |
 |---|---|
-| **Treffsikkerhet:** tallene er fra den grove skissen i addendumet (2026-10-29), regnet før A1, før uker til grensen ble regnet fra analyseuka og før SK2 ble presisert 2026-11-11. Skissen ga omtrent 29 % treff og omtrent 14 % presisjon. Tallene regnes på nytt med FR27 (A5), og marginen til 25 % kan bli mindre. Er presisjonen fortsatt rundt 14 %, er den under grensen i M1-C, og Marin skal da presenteres som en tidlig indikator. | Gruppen (A5) |
+| **Treffsikkerhet:** tallene er fra den grove skissen i addendumet (2026-10-29), regnet før A1, før uker til grensen ble regnet fra analyseuka, før SK2 ble presisert 2026-11-11 og før presisjon og kanttilfeller ble definert 2026-11-18. Skissen ga omtrent 29 % treff og omtrent 14 % presisjon. Tallene regnes på nytt med FR27 (A5), og marginen til 25 % kan bli mindre. Er presisjonen fortsatt rundt 14 %, er den under grensen i M1-C, og Marin skal da presenteres som en tidlig indikator. | Gruppen (A5) |
 | **Datakvalitet:** utdraget er et fast øyeblikksbilde lastet ned 27.10.2026. Senere rettinger hos BarentsWatch kommer ikke med. | Fredrik |
 | **Opplastede filer:** filer laget for hånd kan ha komma som desimaltegn, feil kolonnenavn eller hull. FR21 og FR21b godtar de vanlige formatene, og FR24 avviser resten med en forståelig feilmelding uten at appen krasjer. | Den som bygger opplasting (avklares i A3) |
 | **Kontroll på KI-ens arbeid:** regelkoden skrives med Claude Code. Gruppen regner ut fasiten i T1–T12 for hånd før regelkoden skrives. Denne fasiten er kontrollen. Fasit som ikke er kontrollert ennå, er merket «[FASIT MÅ KONTROLLERES FOR HÅND AV GRUPPEN]» i briefen (se A4). | Gruppen (A4) |
+| **Publisering på Vercel:** oppsettet bruker Vercel Services, som er i beta. Endres tjenesten, er reserveplanen to Vercel-prosjekter i samme repo (arkitekturen, «Åpne punkter»). Grensen på 4,5 MB per forespørsel gjør at opplastingen godtar høyst 4 MB (FR24). | Gruppen |
 | **Briefen og PRD-en i takt:** reglene står i kortversjon i kap. 1. Endres briefen uten at PRD-en oppdateres, kan krav og fasit gli fra hverandre. | Fredrik |
 
 ## 12. Åpne punkter
 
-A1–A5 er PRD-ens egne ID-er og har ingen sammenheng med briefen.
+A1–A6 er PRD-ens egne ID-er og har ingen sammenheng med briefen.
 
 - ~~**A1 Hvilken uke er t når brukeren velger analyseuke?**~~ Avgjort 2026-11-11: t er siste uke med telling til og med analyseuka, høyst én uke eldre enn analyseuka. Ellers grå status «ingen ny telling». Ført inn i R2, R4 og T10 i briefen og i FR8, FR20 og NFR2.
 - ~~**A2 Område for Excel-opplasting**~~ Avgjort 2026-11-11: område utledes av `Fylke` når det finnes. Brukeren velger område for CSV og for Excel uten fylke. Ført inn i FR23, FR23a, J3 og kap. 8.
-- **A3 Teknisk stack og arbeidsdeling:** avklares med Ella i arkitektursteget. Eier: Fredrik og Ella.
+- **A3 Teknisk stack og arbeidsdeling:** stacken ble avgjort i arkitektursteget 2026-11-16 (Python/FastAPI og Next.js, publisert på Vercel, se `architecture/architecture-Marin-2026-11-16/ARCHITECTURE-SPINE.md`). Arbeidsdelingen avgjøres når epics og stories lages. Eier: Fredrik og Ella.
 - **A4 Håndkontroll av fasit:** gruppen regner ut fasiten for T5, T6, T8 og T10–T12 for hånd og fjerner merkingen i briefen. Gir håndregningen et annet svar, rettes briefen, kortversjonen i kap. 1 og konsekvensene i kap. 5 samme dag. Eier: gruppen. Må være gjort før epics og stories.
-- **A5 Første backtestkjøring:** kjør FR27 så tidlig som mulig, før epics og stories, og oppdater tallene i kap. 11. Tallene avgjør om M1 holder, og om reaksjonen på M1-C slår inn. Eier: gruppen.
+- **A5 Første backtestkjøring:** kjernen og backtest-skriptet bygges som første epic, med de samme kjernefunksjonene som appen bruker (arkitektur AD-1). FR27 kjøres så snart den epicen er ferdig, før noen andre stories startes, og tallene i kap. 11 oppdateres. Rekkefølgen ble endret 2026-11-18, fordi backtesten må bygges som kode i story-løpet. Tallene avgjør om M1 holder, og om reaksjonen på M1-C slår inn. Eier: gruppen.
+- ~~**A6 Definisjon av presisjon og kanttilfeller**~~ Avgjort 2026-11-18: et varsel er en uke med «✕ Varsel …» (ikke «brudd nå»), brudd er en telling ≥ grensen i en av de 4 neste ukene, og kryssinger før 2025 uke 9 og varsler etter 2026 uke 38 holdes utenfor og telles opp. Ført inn i SK2 i briefen, ordlista og FR28.
 
 ## 13. Neste steg
 
-1. Håndkontroll av fasit for T5, T6, T8 og T10–T12 (A4).
-2. Implementere backtest-skriptet (FR27–FR28) tidlig og kjøre det (A5). Oppdatere kap. 11, M1-C-vurderingen og eventuelt FR19.
-3. Sette PRD-en til `final` når A4 og A5 er gjort.
-4. Arkitektursteget: velge og begrunne stack, dataflyt og mappestruktur (A3).
-5. Epics og stories med henvisning til FR- og NFR-ID-ene. README-sjekklisten kopieres fra konsekvensene i kap. 5.2, 5.3 og 5.5.
+1. ~~Arkitektursteget: velge og begrunne stack, dataflyt og mappestruktur (A3).~~ Gjort 2026-11-16.
+2. Håndkontroll av fasit for T5, T6, T8 og T10–T12 (A4).
+3. Epics og stories med henvisning til FR- og NFR-ID-ene. Første epic er kjernen (R1–R4 og SK2) og backtest-skriptet (FR27–FR28). README-sjekklisten kopieres fra konsekvensene i kap. 5.2, 5.3 og 5.5.
+4. Bygge første epic og kjøre backtesten (A5) før andre stories startes. Oppdatere kap. 11, M1-C-vurderingen og eventuelt FR19 og storyene som bygger på den.
+5. Sette PRD-en til `final` når A4 og A5 er gjort.

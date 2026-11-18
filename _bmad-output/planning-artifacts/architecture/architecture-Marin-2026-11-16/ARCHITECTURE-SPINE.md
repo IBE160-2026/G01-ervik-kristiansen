@@ -7,7 +7,7 @@ paradigm: 'funksjonell kjerne / imperativt skall (ports-and-adapters light)'
 scope: 'Marin v1: webapp som varsler når voksne hunnlus per fisk forventes å nå lusegrensen, pluss backtest-skript'
 status: final
 created: '2026-11-16'
-updated: '2026-11-16'
+updated: '2026-11-18'
 binds: [FR1-FR29, NFR1-NFR11]
 sources:
   - ../../prds/prd-Marin-2026-11-02/prd.md
@@ -91,7 +91,7 @@ POST /api/prognose body = { info, serie, omrade: sor|nord, analyseuke }
 
 - **Binds:** FR21–FR26, NFR6
 - **Prevents:** at opplastede data havner på disk eller blir liggende på serveren
-- **Rule:** Fila sendes som rå body (høyst 4 MB, under Vercels grense på 4,5 MB) og leses med `await request.body()`, aldri som multipart (Starlette skriver multipart over 1 MB til disk). For stor fil gir en FR24-feil. Ingenting skrives til disk eller holdes etter svaret. En test laster opp en fil over 1 MB mens `tempfile` er satt til å feile. Det eneste backend holder i minnet, er `datasett.json` og backtestresultatet, som lastes ved oppstart. **Avvik fra PRD:** FR26 og J3 sier «i minnet til den kjørende appen». Det skal stå «i minnet i nettleserfanen» (se Åpne punkter).
+- **Rule:** Fila sendes som rå body (høyst 4 MB, under Vercels grense på 4,5 MB) og leses med `await request.body()`, aldri som multipart (Starlette skriver multipart over 1 MB til disk). For stor fil gir en FR24-feil. Ingenting skrives til disk eller holdes etter svaret. En test laster opp en fil over 1 MB mens `tempfile` er satt til å feile. Det eneste backend holder i minnet, er `datasett.json` og backtestresultatet, som lastes ved oppstart. PRD FR26 og J3 sier «i minnet i nettleserfanen» (oppdatert 2026-11-18).
 
 ### AD-5 — Ingen systemdato i reglene [ADOPTED]
 
@@ -133,7 +133,7 @@ POST /api/prognose body = { info, serie, omrade: sor|nord, analyseuke }
 
 - **Binds:** FR1, FR19, FR27–FR29, NFR8, M1-C
 - **Prevents:** treg kald start på Vercel, data utenfor service-roten, og FR19-tall fra en annen modell enn den som kjører
-- **Rule:** `uv run python -m marin.forbered` leser `data/barentswatch/*.xlsx` med samme leser som opplastingen (AD-12), kutter etter `SISTE_UKE` og skriver `backend/src/marin/data/datasett.json` med sha256 av kildefilene. `uv run python -m marin.backtest` leser `datasett.json`, kaller kjernens SK2-funksjoner og skriver `backend/src/marin/data/backtest.json` (`Backtestresultat`: `versjon`, `parametere`, `siste_uke`, `antall_kryssinger`, `antall_treff`, `antall_varsler`, `treffandel`, `presisjon`, andeler 0–1). Begge filene committes. Stier regnes fra pakken (`importlib.resources`), aldri fra arbeidsmappa. API-et leser filene ved oppstart. Mangler backtestfila, er den ugyldig eller avviker parameterne fra kjernens konstanter, vises FR19 uten tall, og en advarsel skrives til stderr. En pytest sjekker at hashene i `datasett.json` stemmer med xlsx-filene.
+- **Rule:** `uv run python -m marin.forbered` leser `data/barentswatch/*.xlsx` med samme leser som opplastingen (AD-12), kutter etter `SISTE_UKE` og skriver `backend/src/marin/data/datasett.json` med sha256 av kildefilene. `uv run python -m marin.backtest` leser `datasett.json`, kaller kjernens SK2-funksjoner og skriver `backend/src/marin/data/backtest.json` (`Backtestresultat`: `versjon`, `parametere`, `siste_uke`, `antall_kryssinger`, `antall_treff`, `antall_varsler`, `utelatt_kryssinger`, `utelatt_varsler`, `treffandel`, `presisjon`, andeler 0–1). Begge filene committes. Stier regnes fra pakken (`importlib.resources`), aldri fra arbeidsmappa. API-et leser filene ved oppstart. Mangler backtestfila, er den ugyldig eller avviker parameterne fra kjernens konstanter, vises FR19 uten tall, og en advarsel skrives til stderr. En pytest sjekker at hashene i `datasett.json` stemmer med xlsx-filene.
 
 ### AD-11 — Kjernens typer, og område er alltid et eget argument [ADOPTED]
 
@@ -281,9 +281,9 @@ G01-ervik-kristiansen/
 
 | Punkt | Eier | Frist |
 | --- | --- | --- |
-| Definere presisjon i backtesten: varsel per uke eller per rød periode, om «brudd nå» teller, og kantene 2025 uke 1–4 og 2026 uke 39–42 | Gruppen (PRD) | Før A5 |
-| PRD-oppfølging: FR26 og J3 «i nettleserfanen», FR1 via `datasett.json`, ny FR24-feil for fil over 4 MB, NFR1 presisert (nett bare ved installasjon), nytt NFR for publisering på Vercel | Fredrik | Før epics |
-| Bekrefte at valgbare uker for opplastede data er alle ISO-uker fra første til siste rad (AD-14) | Gruppen | Før epics |
+| ~~Definere presisjon i backtesten~~ Avgjort 2026-11-18 (PRD A6, FR28, SK2 i briefen `fa12838`): varsel per rød uke med «✕ Varsel …», brudd er en telling ≥ grensen i uke a + 1 til a + 4, og kryssinger før 2025 uke 9 og varsler etter 2026 uke 38 holdes utenfor og telles opp. SK2-funksjonene i kjernen (AD-10) følger dette. | Gruppen | Gjort |
+| ~~PRD-oppfølging~~ Gjort 2026-11-18: FR1, FR24, FR25, FR26, J3, FR28, NFR1, NFR9 og ny NFR12 (Vercel) | Fredrik | Gjort |
+| ~~Bekrefte valgbare uker for opplastede data~~ Bekreftet 2026-11-18: alle ISO-uker fra første til siste rad (AD-14, FR25) | Gruppen | Gjort |
 | Vercel Services er i beta. Reserveplan: to Vercel-prosjekter i samme repo, med API-base-URL og CORS som eneste endring. | Gruppen | Ved første publisering |
 | Arbeidsdeling Fredrik og Ella (A3) | Fredrik og Ella | Ved epics og stories |
 
