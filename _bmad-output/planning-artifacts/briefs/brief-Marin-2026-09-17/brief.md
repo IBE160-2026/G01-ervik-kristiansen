@@ -2,7 +2,7 @@
 title: "Product Brief: Marin"
 status: final
 created: 2026-09-17
-updated: 2026-10-29
+updated: 2026-11-18
 ---
 
 # Product Brief: Marin
@@ -132,7 +132,7 @@ Sekundærbrukere kan være produksjonssjefer/regionledere som følger flere anle
 Hvert kriterium viser til reglene (R) og testtilfellene (T) over.
 
 1. **Regelkorrekthet:** Testtilfellene T1–T12 (R6) kjører som automatiske tester og består.
-2. **Treffsikkerhet (backtest):** Prognosen kjøres uke for uke på det historiske datasettet, med bare data fram til hver uke. En grensekryssing er en uke w med telling der målt verdi er ≥ grensen (R1), og forrige telling (i uke w − 1 eller w − 2) var under grensen som gjaldt i sin uke. Finnes ingen telling i uke w − 1 eller w − 2, regnes uka ikke som kryssing. Status for uke a er statusen appen viser med analyseuke a. En kryssing regnes som treff hvis den sammenhengende perioden med rød status (R4) rett før kryssingen begynte 2–4 uker før kryssingen. Alle andre statuser, også grå, bryter en rød periode. Rød status bare 1 uke før, eller en rød periode som begynte 5 uker eller mer før, er ikke treff. Minst **25 %** av kryssingene skal være treff. Andelen røde varsler som ikke ble fulgt av brudd innen 4 uker, rapporteres sammen med treffandelen. X ble satt etter en foreløpig skisse av backtesten (se addendum), og appens egen backtest er den som avgjør.
+2. **Treffsikkerhet (backtest):** Prognosen kjøres uke for uke på det historiske datasettet, med bare data fram til hver uke. En grensekryssing er en uke w med telling der målt verdi er ≥ grensen (R1), og forrige telling (i uke w − 1 eller w − 2) var under grensen som gjaldt i sin uke. Finnes ingen telling i uke w − 1 eller w − 2, regnes uka ikke som kryssing. Status for uke a er statusen appen viser med analyseuke a. En kryssing regnes som treff hvis den sammenhengende perioden med rød status (R4) rett før kryssingen begynte 2–4 uker før kryssingen. Alle andre statuser, også grå, bryter en rød periode. Rød status bare 1 uke før, eller en rød periode som begynte 5 uker eller mer før, er ikke treff. Minst **25 %** av kryssingene skal være treff. Kryssinger før 2025 uke 9 tas ikke med, fordi det ikke finnes nok data til en status 2–4 uker før dem. Andelen røde varsler som ikke ble fulgt av brudd innen 4 uker, rapporteres sammen med treffandelen. Et rødt varsel er en uke a med statusen «✕ Varsel …», ikke «✕ Brudd nå». Varselet er fulgt av brudd hvis minst én telling i uke a + 1 til a + 4 er ≥ grensen som gjelder i sin uke. Varsler etter 2026 uke 38 tas ikke med, fordi a + 4 ligger etter datagrunnlaget. Antallet kryssinger og varsler som er holdt utenfor, rapporteres. X ble satt etter en foreløpig skisse av backtesten (se addendum), og appens egen backtest er den som avgjør.
 3. **Kjerneflyt:** Brukeren kan velge et anlegg og se de 5 siste ukenes lusetall, trendlinjen, estimert uke for grensen og statusen (R2–R4).
 4. **Lesbar uten fargesyn:** Hver status vises med tekst og symbol i tillegg til farge (R4).
 5. **Kjørbar for sensor:** Appen kan kjøres lokalt etter README, med datasettet som ligger i repoet, uten API-nøkler eller nettilgang.
