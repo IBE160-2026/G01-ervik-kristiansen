@@ -1,0 +1,20 @@
+{
+  "beskrivelse": "Felles testvektorer for formatering i kjernen (format_lus, format_grense, format_uke) og i frontend (formatLus, formatGrense, formatUke), AD-6. Lusetallene har høyst 2 desimaler, slik API-et sender dem som JSON-tall.",
+  "lus": [
+    {"verdi": 0.06, "tekst": "0,06"},
+    {"verdi": 0.5, "tekst": "0,50"},
+    {"verdi": 0.00, "tekst": "0,00"},
+    {"verdi": 0.1, "tekst": "0,10"},
+    {"verdi": 1.2, "tekst": "1,20"},
+    {"verdi": 12.34, "tekst": "12,34"}
+  ],
+  "grense": [
+    {"verdi": 0.5, "tekst": "0,5"},
+    {"verdi": 0.2, "tekst": "0,2"}
+  ],
+  "uke": [
+    {"ar": 2026, "uke": 42, "tekst": "uke 42, 2026"},
+    {"ar": 2025, "uke": 1, "tekst": "uke 1, 2025"},
+    {"ar": 2026, "uke": 53, "tekst": "uke 53, 2026"}
+  ]
+}
