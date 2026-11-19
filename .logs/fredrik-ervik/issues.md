@@ -23,7 +23,10 @@
 - [x] 2026-11-12 [prd-marin](997-2026-11-03-18-45-24-prd-marin.md) — avstem UX EXPERIENCE.md med PRD: J3 norsk CSV er nå FR21b (kan kuttes), FR9-tekst i statusboksen (løst 2026-11-16)
 - [ ] 2026-11-12 [prd-marin](997-2026-11-03-18-45-24-prd-marin.md) — svar på refleksjonsspørsmålene i PRD-tilbakemeldingen i refleksjonsrapporten
 - [ ] 2026-11-12 [prd-marin](997-2026-11-03-18-45-24-prd-marin.md) — sett PRD til final når A4 og A5 (backtest) er gjort (A4 gjort 2026-11-18, venter på A5 i Story 1.7)
-- [ ] 2026-11-18 [arkitektur-a4-epics-marin](995-2026-11-18-13-23-05-arkitektur-a4-epics-marin.md) — kjør sprint planning i ny økt med Ella, og sett eier per story (A3)
+- [x] 2026-11-18 [arkitektur-a4-epics-marin](995-2026-11-18-13-23-05-arkitektur-a4-epics-marin.md) — kjør sprint planning i ny økt med Ella, og sett eier per story (A3) (løst 2026-11-19, Fredrik har alle storyene, se sprint-status.yaml)
 - [ ] 2026-11-18 [arkitektur-a4-epics-marin](995-2026-11-18-13-23-05-arkitektur-a4-epics-marin.md) — bekreft eller endre teksten for filer over 4 MB (Story 3.2 og 3.3)
 - [ ] 2026-11-18 [arkitektur-a4-epics-marin](995-2026-11-18-13-23-05-arkitektur-a4-epics-marin.md) — Vercel Services er i beta; bruk reserveplanen med to prosjekter hvis publiseringen feiler (Story 2.3)
 - [ ] 2026-11-18 [arkitektur-a4-epics-marin](995-2026-11-18-13-23-05-arkitektur-a4-epics-marin.md) — skriv i refleksjonsrapporten at fasiten (A4) ble regnet av KI og kontrollert av gruppen
+- [ ] 2026-11-19 [sprint-planning-marin](994-2026-11-19-08-40-39-sprint-planning-marin.md) — hvis Ella tar over stories, oppdater `eiere` i sprint-status.yaml
+- [ ] 2026-11-19 [story-1-1-grunnmur-marin](993-2026-11-19-10-58-08-story-1-1-grunnmur-marin.md) — Story 2.1: sjekk at Pydantic sender lusetall (Decimal) som JSON-tall, ikke tekst (AD-6, deferred-work.md)
+- [ ] 2026-11-19 [story-1-1-grunnmur-marin](993-2026-11-19-10-58-08-story-1-1-grunnmur-marin.md) — Story 1.3: lokalitetsnummeret må være heltall når leseren lager `AnleggInfo` (ingen typesjekk i modellen)

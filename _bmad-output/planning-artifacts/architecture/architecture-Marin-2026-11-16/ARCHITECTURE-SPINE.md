@@ -8,7 +8,7 @@ scope: 'Marin v1: webapp som varsler når voksne hunnlus per fisk forventes å n
 status: final
 created: '2026-11-16'
 updated: '2026-11-18'
-binds: [FR1-FR29, NFR1-NFR11]
+binds: [FR1-FR29, NFR1-NFR12]
 sources:
   - ../../prds/prd-Marin-2026-11-02/prd.md
   - ../../briefs/brief-Marin-2026-09-17/brief.md

@@ -475,7 +475,7 @@ slik at appen og backtesten alltid får samme svar (FR8, FR13, FR14, AD-1, AD-2,
 **Gitt** en vurdering
 **Når** resultatet leses
 **Så** har det `farge` (`rod`, `gul`, `gronn` eller `gra`) og `arsak` (`varsel`, `brudd_na`, `folg_med`, `ingen_kryssing`, `for_lite_data`, `ingen_ny_telling` eller `ukjent_omrade`) (AD-7)
-**Og** `symbol` er «✕», «!», «✓», «–» eller «?», `tekst` er R4-teksten uten symbol, og `uke_tekst` er «(uke Y)» ved varsel og følg med, ellers tom (AD-2)
+**Og** `symbol` er «✕», «!», «✓», «–» eller «?», `tekst` er R4-teksten uten symbol, og `uke_tekst` er «(uke Y)» ved varsel og følg med, ellers `null` (AD-2)
 **Og** resultatet har `uker_til` og `estimert_uke` ved varsel og følg med, og ingen av dem ved grønn, grå eller brudd nå (FR18)
 **Og** uker i statusteksten skrives med år når uka ligger i et annet år enn analyseuka, for eksempel «(uke 1, 2027)» og «– Ingen ny telling siden uke 50, 2025» med analyseuke 2026 uke 1 (EXPERIENCE.md, avgjort 2026-11-18). Ellers står bare ukenummeret, som i T10
 
@@ -500,7 +500,7 @@ slik at appen og backtesten alltid får samme svar (FR8, FR13, FR14, AD-1, AD-2,
 **Gitt** inngangen `vurder`
 **Når** den kalles
 **Så** tar den hele serien og ser selv bort fra tellinger etter analyseuka, og kallerne kutter aldri serien (AD-1)
-**Og** vindu (5), minste antall tellinger (3), horisont (6) og rød ved 1–3 uker er konstanter i kjernen som ikke kan overstyres med argumenter (FR27a)
+**Og** vindu (5), minste antall tellinger (3), horisont (6) og rød ved 0–3 uker (brudd nå er 0 uker) er konstanter i kjernen som ikke kan overstyres med argumenter (FR27a)
 
 ### Story 1.6: Backtest etter SK2
 
@@ -559,7 +559,7 @@ slik at vi vet om M1 holder før vi bygger brukergrensesnittet (A5, FR27a, AR26)
 
 **Gitt** at Story 1.1–1.6 er ferdige og `uv run pytest` består
 **Når** backtesten kjøres for første gang
-**Så** er parameterne de samme som i R2 og R4 (vindu 5, minst 3 tellinger, horisont 6, rød ved 1–3 uker)
+**Så** er parameterne de samme som i R2 og R4 (vindu 5, minst 3 tellinger, horisont 6, rød ved 0–3 uker, der brudd nå er 0 uker)
 **Og** parameterne endres ikke etter at resultatet er sett (FR27a)
 
 **Gitt** resultatet
