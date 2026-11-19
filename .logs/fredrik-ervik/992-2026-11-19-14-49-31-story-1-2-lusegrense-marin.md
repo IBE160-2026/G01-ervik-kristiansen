@@ -21,7 +21,7 @@ Han ville diskutere valgene før koden ble skrevet.
 
 ### Resultat
 - PR #2 er flettet (`00ba959`). Story 1.1 ble satt til `done` i `57c4eb9` på grenen for 1.2.
-- Story 1.2 er committet i `846b9fa` på `story/1-2-lusegrense-og-omrade-r1`. Den er ikke pushet. Den nye koden:
+- Story 1.2 er committet i `846b9fa` på `story/1-2-lusegrense-og-omrade-r1`, og grenen er pushet til origin (uten PR, som Fredrik ba om). Den nye koden:
   - `backend/src/marin/kjerne/omrade.py`: `Omrade` (StrEnum `sor`/`nord`/`ukjent`), en lukket tabell med 26 fylkesnavn og `omrade_fra_fylke`. Oppslaget ignorerer store og små bokstaver og ekstra mellomrom, også hardt mellomrom.
   - `backend/src/marin/kjerne/lusegrense.py`: `grense(omrade, uke)` gir 0,2 i uke 16–21 i sør og uke 21–26 i nord, ellers 0,5, og `None` ved ukjent område. `er_brudd(verdi, grense)` krever `Decimal` og en verdi som er avrundet til 2 desimaler.
   - Testene `test_lusegrense.py` (T1–T4 navngitt etter fasiten) og `test_omrade.py`. Testen av kjernens importer kjenner de nye modulene.
@@ -29,7 +29,7 @@ Han ville diskutere valgene før koden ble skrevet.
   - 4 rettet:
     - `er_brudd` avviser verdier som ikke er avrundet (0,495).
     - Docstringen for `Omrade` følger nå AD-13: `ukjent` blir `null` i API-et.
-    - Hardt mellomrom står som ` ` i testen.
+    - Hardt mellomrom står som `\u00a0` i testen.
     - Typesjekken for uke testes også ved ukjent område.
   - 1 utsatt: `uv run pytest` på denne maskinen.
   - 7 avvist med begrunnelse.
