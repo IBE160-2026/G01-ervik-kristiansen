@@ -3,7 +3,9 @@ name = "marin"
 version = "0.1.0"
 description = "Marin: prognose for når lusetallene på et oppdrettsanlegg kan nå lusegrensen"
 requires-python = ">=3.14"
-dependencies = []
+dependencies = [
+    "openpyxl==3.1.5",
+]
 
 [dependency-groups]
 dev = ["pytest==9.2.0"]
