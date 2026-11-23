@@ -51,6 +51,8 @@ def test_kjernen_har_moduler():
         "tall.py",
         "formatering.py",
         "konstanter.py",
+        "omrade.py",
+        "lusegrense.py",
     }
 
 

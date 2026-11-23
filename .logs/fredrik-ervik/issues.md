@@ -30,3 +30,4 @@
 - [ ] 2026-11-19 [sprint-planning-marin](994-2026-11-19-08-40-39-sprint-planning-marin.md) — hvis Ella tar over stories, oppdater `eiere` i sprint-status.yaml
 - [ ] 2026-11-19 [story-1-1-grunnmur-marin](993-2026-11-19-10-58-08-story-1-1-grunnmur-marin.md) — Story 2.1: sjekk at Pydantic sender lusetall (Decimal) som JSON-tall, ikke tekst (AD-6, deferred-work.md)
 - [ ] 2026-11-19 [story-1-1-grunnmur-marin](993-2026-11-19-10-58-08-story-1-1-grunnmur-marin.md) — Story 1.3: lokalitetsnummeret må være heltall når leseren lager `AnleggInfo` (ingen typesjekk i modellen)
+- [ ] 2026-11-19 [story-1-2-lusegrense-marin](992-2026-11-19-14-49-31-story-1-2-lusegrense-marin.md) — `uv run pytest` blokkeres av Windows Programkontroll på Fredriks maskin; sjekk Smart App Control eller skriv `uv run python -m pytest` som alternativ i README
