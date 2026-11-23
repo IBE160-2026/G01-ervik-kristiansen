@@ -36,3 +36,5 @@
 - [ ] 2026-11-23 [story-1-3-datasett-marin](991-2026-11-23-10-57-35-story-1-3-datasett-marin.md) — rett Design Notes i spec-1-3 («via `float`», 1,5 MB) så den stemmer med koden (Decimal, 1,6 MB)
 - [ ] 2026-11-23 [story-1-3-datasett-marin](991-2026-11-23-10-57-35-story-1-3-datasett-marin.md) — Epic 2: BarentsWatch-vilkårene krever at «Data levert av BarentsWatch» er godt synlig i appen (helst med lenke); det står ikke i PRD, UX eller epics ennå
 - [ ] 2026-11-23 [story-1-4-trend-marin](990-2026-11-23-12-44-19-story-1-4-trend-marin.md) — `uv run pytest` tok 56–62 s i dag (README sier omtrent 35), nesten alt i de to xlsx-testene; mål på nytt etter omstart og oppdater README om det holder seg
+- [ ] 2026-11-23 [story-1-5-status-marin](989-2026-11-23-14-32-46-story-1-5-status-marin.md) — implementer Story 1.5 med `bmad-build` (specen er `ready-for-dev`, `dd369cc`)
+- [ ] 2026-11-23 [story-1-5-status-marin](989-2026-11-23-14-32-46-story-1-5-status-marin.md) — Story 2.6: forklaringen lages som egen funksjon av `Vurdering` (valgt i spec 1.5); ved ingen telling gir malen «Bare 0 av de siste 5 ukene …», finn bedre ordlyd
