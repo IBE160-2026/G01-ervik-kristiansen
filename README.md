@@ -18,7 +18,9 @@ To av testene leser hele BarentsWatch-utdraget, så testene tar omtrent 35 sekun
 
 ## Data
 
-Lusetallene kommer fra BarentsWatch, datasettet «Lakselus per fisk», som bygger på anleggenes ukentlige rapportering. De ble lastet ned 27.10.2026 fra BarentsWatch Fiskehelse som Excel-uttrekk, ett per år (2025 og 2026), for alle lokaliteter. Dataene er lisensiert under Norsk lisens for offentlige data (NLOD) 2.0.
+Lusetallene kommer fra datasettet «Lakselus per fisk» i [BarentsWatch Fiskehelse](https://www.barentswatch.no/fiskehelse/). Det er anleggenes ukentlige rapportering av lakselus til Mattilsynet. Tallene ble lastet ned 27.10.2026 som Excel-uttrekk, ett per år (2025 og 2026). Uttrekkene har alle lokaliteter for laks, ørret og regnbueørret i akvakulturregisteret, unntatt dem på land. Arket «Om datasettet» i hver fil beskriver kolonnene.
+
+Dataene er lisensiert under [Norsk lisens for offentlige data (NLOD)](https://data.norge.no/nlod), se også [vilkårene til BarentsWatch](https://www.barentswatch.no/en/articles/api-terms-and-conditions). Data levert av BarentsWatch. Opplysninger om lakselus er hentet fra Mattilsynet.
 
 Appen bruker data fra 2025 uke 1 til og med 2026 uke 42. Uke 43 og 44 i 2026 var ikke ferdig rapportert da utdraget ble lastet ned, og leses ikke inn.
 
