@@ -1,8 +1,8 @@
 """Faste verdier i kjernen.
 
-Regelparameterne fra R2 og R4 (vindu, minste antall tellinger, horisont og grensen for
-rød status) samles også her når de lages i Story 1.4 og 1.5, slik at backtesten kan
-skrive dem ut som de er.
+Regelparameterne fra R2 (vindu, minste antall tellinger og horisont) ligger her, slik at
+backtesten kan skrive dem ut som de er. Grensen for rød status (R4) kommer hit i
+Story 1.5.
 """
 
 from typing import Final
@@ -14,3 +14,16 @@ SISTE_UKE: Final = Uke(2026, 42)
 
 Kjernen leser aldri klokka. Gjelder ikke opplastede data.
 """
+
+VINDU: Final = 5
+"""Antall uker i vinduet for trendlinja: uke t − 4 til og med t (R2).
+
+Parameterne i R2 og R4 er fryst før backtesten (FR27a). De kan ikke overstyres av den som
+kaller kjernen, og de justeres ikke for å nå tersklene i M1.
+"""
+
+MINSTE_TELLINGER: Final = 3
+"""Minste antall tellinger i vinduet for å lage en trendlinje (R2). Fryst etter FR27a."""
+
+HORISONT: Final = 6
+"""Antall uker etter analyseuka som prognosen ser fremover (R2). Fryst etter FR27a."""

@@ -53,6 +53,7 @@ def test_kjernen_har_moduler():
         "konstanter.py",
         "omrade.py",
         "lusegrense.py",
+        "trend.py",
     }
 
 
