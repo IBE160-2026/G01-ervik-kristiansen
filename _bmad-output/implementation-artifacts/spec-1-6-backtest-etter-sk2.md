@@ -51,7 +51,7 @@ Alle er i sør i 2026, hvis ikke annet står.
 | To tomme uker | 0,40 i uke 29, tomme uker 30–31, 0,60 i uke 32 | ingen kryssing | N/A |
 | Allerede over | 0,50 i uke 30, 0,60 i uke 31 | ingen kryssing | N/A |
 | Grense i sin uke | 0,30 i uke 15 og 16 | kryssing i uke 16 (0,5 → 0,2). 0,30 i uke 21 og 22 gir ingen | N/A |
-| Ukjent område | tellingene fra «Kryssing uka før» og T6, med `Omrade.UKJENT` | ingen kryssinger og ingen varsler (i sør gir de én kryssing og ett varsel) | N/A |
+| Ukjent område | tellingene fra «Kryssing uka før» og T6, med `Omrade.UKJENT` | ingen kryssinger og ingen varsler (i sør gir de én kryssing og tre varsler, i uke 13, 14 og 15) | N/A |
 | Treff | kryssing i uke 31, rød i uke 27–30, 28–30 eller 29–30 | treff | N/A |
 | Ikke treff | rød bare i uke 30, rød i uke 26–30 eller ingen rød i uke 30 | ikke treff | N/A |
 | Brutt periode | kryssing i uke 31, rød i uke 26 og 28–30 | treff (perioden begynte i uke 28) | N/A |
@@ -99,7 +99,7 @@ Alle er i sør i 2026, hvis ikke annet står.
 ## Implementation Notes
 
 - Skallet kaller også `omrade_fra_fylke`, som Boundaries krever, og `Backtestresultat.sammendrag(filnavn)`. Sammendraget ligger i kjernen fordi prosentene skal regnes fra antallene, og da regner skallet fortsatt ingenting selv. Akseptansekriterium 3 nevner bare tre kall og var for snevert formulert.
-- Raden «Ukjent område» i matrisen sier at tellingene gir ett varsel i sør. Over hele perioden gir T6 tre varsler (uke 13, 14 og 15), fordi vårgrensen i uke 16 er innen 3 uker i alle tre. Dette er kontrollert med `vurder` separat. Testen sjekker de tre ukene. Raden er låst, så Fredrik må rette den.
+- Raden «Ukjent område» i matrisen sier at tellingene gir ett varsel i sør. Over hele perioden gir T6 tre varsler (uke 13, 14 og 15), fordi vårgrensen i uke 16 er innen 3 uker i alle tre. Dette er kontrollert med `vurder` separat. Testen sjekker de tre ukene. Fredrik godkjente 2026-11-25 at den låste raden ble rettet.
 - Valg specen ikke tok: `fulgt_av_brudd` gir False ved ukjent område, kryssinger etter `SISTE_UKE` holdes ikke utenfor (`datasett.json` slutter der), og `Backtestresultat` avviser feil typer, negative antall og flere treff enn kryssinger. Avrundingen til 4 desimaler er en privat hjelper i `treffsikkerhet.py`, og `tall.py` er ikke endret.
 - `backtest_liten.md` har en linje der gruppen signerer kontrollen for hånd. Fasiten er kontrollert anlegg for anlegg i økten. Gruppens kontroll gjenstår før PR-en flettes.
 
