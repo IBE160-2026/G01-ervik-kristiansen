@@ -1,12 +1,19 @@
 """Faste verdier i kjernen.
 
-Regelparameterne fra R2 (vindu, minste antall tellinger og horisont) og grensen for rød
-status i R4 ligger her, slik at backtesten kan skrive dem ut som de er.
+Første og siste uke i det innebygde datagrunnlaget, regelparameterne fra R2 (vindu, minste
+antall tellinger og horisont) og grensen for rød status i R4 ligger her, slik at
+backtesten kan skrive dem ut som de er.
 """
 
 from typing import Final
 
 from marin.kjerne.modeller import Uke
+
+FORSTE_UKE: Final = Uke(2025, 1)
+"""Første analyseuke for de innebygde dataene (FR27).
+
+Backtesten regner status for hver uke fra og med FORSTE_UKE til og med SISTE_UKE.
+"""
 
 SISTE_UKE: Final = Uke(2026, 42)
 """Siste uke i det innebygde datagrunnlaget, og «nå» for innebygde data (AD-5).

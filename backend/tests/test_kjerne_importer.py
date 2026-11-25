@@ -55,6 +55,7 @@ def test_kjernen_har_moduler():
         "lusegrense.py",
         "trend.py",
         "status.py",
+        "treffsikkerhet.py",
     }
 
 

@@ -39,7 +39,16 @@ uv run python -m marin.forbered
 
 Skriptet stopper med en feilmelding hvis en fil har feil. Testene sjekker at sha256-hashene i `datasett.json` stemmer med Excel-filene, og at `datasett.json` er lik en ny kjøring av skriptet.
 
-Datasettet er knyttet til dette utdraget. Byttes utdraget ut, må også `SISTE_UKE` i `backend/src/marin/kjerne/konstanter.py` og tallene som testene sjekker mot utdraget (antall anlegg og rader i `test_datasett_fil.py` og `test_nfr3.py`), oppdateres.
+Backtesten etter SK2 leser `datasett.json`, regner treffandel og presisjon og skriver `backend/src/marin/data/backtest.json` og et sammendrag i terminalen:
+
+```sh
+cd backend
+uv run python -m marin.backtest
+```
+
+Skriptet skal ikke kjøres før Story 1.7. Der gjøres den første kjøringen, og `backtest.json` committes med tallene som de er (FR27a, A5).
+
+Datasettet er knyttet til dette utdraget. Byttes utdraget ut, må også `FORSTE_UKE` og `SISTE_UKE` i `backend/src/marin/kjerne/konstanter.py`, `FORSTE_KRYSSING` og `SISTE_VARSEL` i `backend/src/marin/kjerne/treffsikkerhet.py` og tallene som testene sjekker mot utdraget (antall anlegg og rader i `test_datasett_fil.py` og `test_nfr3.py`), oppdateres.
 
 ## Medlemmer
 
