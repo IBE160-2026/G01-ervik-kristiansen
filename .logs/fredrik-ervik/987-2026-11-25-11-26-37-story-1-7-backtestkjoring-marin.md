@@ -48,7 +48,8 @@ Fredrik flettet PR #7 for Story 1.6 og ba meg planlegge Story 1.7, første backt
   - PRD-en, som nå er `final`, med kap. 1, FR19, kap. 2, 11, 12 og 13 oppdatert
   - EXPERIENCE.md og Story 2.6
 - `uv run pytest` ga 492 bestått (490 fra før og 2 nye) på 53–64 sekunder.
-- Specen står som `done`, og Story 1.7 står som `review` i sprint-status. Grenen er ikke pushet.
+- Specen står som `done`, og Story 1.7 står som `review` i sprint-status.
+- Fredrik ba meg pushe og lage PR-en: [PR #8](https://github.com/IBE160-2026/G01-ervik-kristiansen/pull/8).
 - Lukket i `issues.md`:
   - ny kjøring med FR27 og oppdatering av PRD kap. 11
   - PRD-en til `final`
