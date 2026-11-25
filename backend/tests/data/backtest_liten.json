@@ -1,0 +1,9 @@
+{"siste_uke": {"ar": 2026, "uke": 42}, "kilder": {}, "anlegg": [
+{"lokalitetsnr": 1, "navn": "Anlegg A (treff)", "kommune": null, "fylke": "Vestland", "tellinger": [[2025,30,0.10],[2025,31,0.20],[2025,32,0.30],[2025,33,0.40],[2025,34,0.50]]},
+{"lokalitetsnr": 2, "navn": "Anlegg B (rød bare uka før)", "kommune": null, "fylke": "Nordland", "tellinger": [[2025,40,0.10],[2025,41,0.10],[2025,42,0.10],[2025,43,0.40],[2025,44,0.60]]},
+{"lokalitetsnr": 3, "navn": "Anlegg C (rød fra 5 uker før)", "kommune": null, "fylke": "Vestland", "tellinger": [[2026,23,0.20],[2026,24,0.30],[2026,25,0.40],[2026,26,0.42],[2026,27,0.44],[2026,28,0.46],[2026,29,0.48],[2026,30,0.50]]},
+{"lokalitetsnr": 4, "navn": "Anlegg D (brudd etter to tomme uker)", "kommune": null, "fylke": "Troms", "tellinger": [[2025,44,0.40],[2025,45,null],[2025,46,null],[2025,47,0.60]]},
+{"lokalitetsnr": 5, "navn": "Anlegg E (kryssing før uke 9)", "kommune": null, "fylke": "Vestland", "tellinger": [[2025,7,0.30],[2025,8,0.60]]},
+{"lokalitetsnr": 6, "navn": "Anlegg F (varsel i uke 38 og 39)", "kommune": null, "fylke": "Vestland", "tellinger": [[2026,36,0.30],[2026,37,0.36],[2026,38,0.42]]},
+{"lokalitetsnr": 7, "navn": "Anlegg G (ukjent område)", "kommune": null, "fylke": null, "tellinger": [[2025,30,0.10],[2025,31,0.20],[2025,32,0.30],[2025,33,0.40],[2025,34,0.50]]}
+]}

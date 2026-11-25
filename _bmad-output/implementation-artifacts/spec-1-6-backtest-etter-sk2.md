@@ -2,9 +2,10 @@
 title: 'Story 1.6: Backtest etter SK2'
 type: 'feature'
 created: '2026-11-25'
-status: 'ready-for-dev'
+status: 'done'
 route: 'dispatch'
 review_loop_iteration: 0
+baseline_commit: '7ebdec48816cf3ab15dda3a017dcfe5d2876feb9'
 context:
   - '{project-root}/_bmad-output/implementation-artifacts/epic-1-context.md'
 ---
@@ -81,14 +82,14 @@ Alle er i sør i 2026, hvis ikke annet står.
 ## Tasks & Acceptance
 
 **Execution:**
-- [ ] `backend/src/marin/kjerne/konstanter.py` -- `FORSTE_UKE: Final = Uke(2025, 1)`, den første analyseuka for de innebygde dataene
-- [ ] `backend/src/marin/kjerne/treffsikkerhet.py` -- `FORSTE_KRYSSING`, `SISTE_VARSEL`, `kryssinger(serie, omrade)`, `er_treff(kryssing, rode_uker)`, `fulgt_av_brudd(serie, omrade, varsel)`, `Backtestresultat` med `til_json()`, og `backtest(anlegg: Iterable[tuple[Serie, Omrade | str]]) -> Backtestresultat` etter Boundaries
-- [ ] `backend/src/marin/backtest/__init__.py` og `__main__.py` -- `resultatfil()` (pakkens `data/backtest.json`) og `kjor(datasett, utfil, ut=None) -> int`, som leser med `Datasett.fra_json`, kaller `backtest`, skriver fila og skriver sammendraget
-- [ ] `backend/tests/data/backtest_liten.json` og `backtest_liten.md` -- det lille datasettet i formatet til `datasett.json`, og tallene regnet ut for hånd med begrunnelse per anlegg
-- [ ] `backend/tests/test_treffsikkerhet.py` -- én test per rad i matrisen, og en test som sjekker tallene for det lille datasettet mot `backtest_liten.md`
-- [ ] `backend/tests/test_backtest.py` -- `kjor` på det lille datasettet til `tmp_path`: feltene og verdiene i fila, eksakt terminaltekst, byte-lik fil ved ny kjøring, ingen `\r\n`, og stien til `resultatfil()`
-- [ ] `backend/tests/test_kjerne_importer.py` -- legg `treffsikkerhet.py` til i modulsettet
-- [ ] `README.md` -- kommandoen `uv run python -m marin.backtest` ved siden av `marin.forbered`, med en setning om at den første kjøringen og tallene kommer i Story 1.7
+- [x] `backend/src/marin/kjerne/konstanter.py` -- `FORSTE_UKE: Final = Uke(2025, 1)`, den første analyseuka for de innebygde dataene
+- [x] `backend/src/marin/kjerne/treffsikkerhet.py` -- `FORSTE_KRYSSING`, `SISTE_VARSEL`, `kryssinger(serie, omrade)`, `er_treff(kryssing, rode_uker)`, `fulgt_av_brudd(serie, omrade, varsel)`, `Backtestresultat` med `til_json()`, og `backtest(anlegg: Iterable[tuple[Serie, Omrade | str]]) -> Backtestresultat` etter Boundaries
+- [x] `backend/src/marin/backtest/__init__.py` og `__main__.py` -- `resultatfil()` (pakkens `data/backtest.json`) og `kjor(datasett, utfil, ut=None) -> int`, som leser med `Datasett.fra_json`, kaller `backtest`, skriver fila og skriver sammendraget
+- [x] `backend/tests/data/backtest_liten.json` og `backtest_liten.md` -- det lille datasettet i formatet til `datasett.json`, og tallene regnet ut for hånd med begrunnelse per anlegg
+- [x] `backend/tests/test_treffsikkerhet.py` -- én test per rad i matrisen, og en test som sjekker tallene for det lille datasettet mot `backtest_liten.md`
+- [x] `backend/tests/test_backtest.py` -- `kjor` på det lille datasettet til `tmp_path`: feltene og verdiene i fila, eksakt terminaltekst, byte-lik fil ved ny kjøring, ingen `\r\n`, og stien til `resultatfil()`
+- [x] `backend/tests/test_kjerne_importer.py` -- legg `treffsikkerhet.py` til i modulsettet
+- [x] `README.md` -- kommandoen `uv run python -m marin.backtest` ved siden av `marin.forbered`, med en setning om at den første kjøringen og tallene kommer i Story 1.7
 
 **Acceptance Criteria:**
 - Gitt `uv run pytest`, når testene kjører, så består alle, også de 424 fra før.
@@ -97,9 +98,29 @@ Alle er i sør i 2026, hvis ikke annet står.
 
 ## Implementation Notes
 
+- Skallet kaller også `omrade_fra_fylke`, som Boundaries krever, og `Backtestresultat.sammendrag(filnavn)`. Sammendraget ligger i kjernen fordi prosentene skal regnes fra antallene, og da regner skallet fortsatt ingenting selv. Akseptansekriterium 3 nevner bare tre kall og var for snevert formulert.
+- Raden «Ukjent område» i matrisen sier at tellingene gir ett varsel i sør. Over hele perioden gir T6 tre varsler (uke 13, 14 og 15), fordi vårgrensen i uke 16 er innen 3 uker i alle tre. Dette er kontrollert med `vurder` separat. Testen sjekker de tre ukene. Raden er låst, så Fredrik må rette den.
+- Valg specen ikke tok: `fulgt_av_brudd` gir False ved ukjent område, kryssinger etter `SISTE_UKE` holdes ikke utenfor (`datasett.json` slutter der), og `Backtestresultat` avviser feil typer, negative antall og flere treff enn kryssinger. Avrundingen til 4 desimaler er en privat hjelper i `treffsikkerhet.py`, og `tall.py` er ikke endret.
+- `backtest_liten.md` har en linje der gruppen signerer kontrollen for hånd. Fasiten er kontrollert anlegg for anlegg i økten. Gruppens kontroll gjenstår før PR-en flettes.
+
 ## Spec Change Log
 
 ## Review Triage Log
+
+| # | Kilde | Funn | Vurdering | Rute | Begrunnelse |
+|---|---|---|---|---|---|
+| 1 | Verification Gap | Ingen test viser at uker med «✕ Brudd nå» teller som røde når `backtest` avgjør treff | medium | patch | Bekreftet med en mutasjon der bare varsel teller som rødt: alle testene består. Kontrollert: 0,30/0,40/0,55/0,45/0,60 i uke 30–34 gir brudd nå i uke 32, varsel i uke 33 og kryssinger i uke 32 og 34. Kryssingen i uke 34 er treff bare når uke 32 teller som rød. En test legges til. |
+| 2 | Blind Hunter | `SISTE_VARSEL` og `FORSTE_KRYSSING` er faste uker, ingen test knytter `SISTE_VARSEL` til `SISTE_UKE`, og README nevner dem ikke når utdraget byttes | low | patch | Bekreftet: avsnittet i README nevner bare `SISTE_UKE`. Flyttes `SISTE_UKE` uten `SISTE_VARSEL`, blir presisjonen feil uten at noen test feiler. Det legges til en test for `pluss(SISTE_VARSEL, 4) == SISTE_UKE`, og README nevner de nye konstantene. |
+| 3 | Blind Hunter | README ber leseren kjøre skriptet, som skriver `backtest.json` i pakken før Story 1.7 | low | patch | Bekreftet: teksten sier bare at den første kjøringen kommer i 1.7. Den som følger README, lager fila og kan committe den før A5. Setningen skrives om, så det står at skriptet ikke skal kjøres før Story 1.7. |
+| 4 | Edge Case + Blind Hunter | `kjor` sjekker ikke `siste_uke` i datasettet, så kryssinger etter `SISTE_UKE` telles som bom | false | avvist | `forbered` leser med `til_og_med=SISTE_UKE` og skriver `Datasett(SISTE_UKE, …)`, og `test_datasett_fil.py` sjekker at den committede fila er lik en ny kjøring. Datasettet kan ikke ha uker etter `SISTE_UKE`. |
+| 5 | Edge Case + Blind Hunter | `kjor` har ingen feilvei: en manglende fil, ugyldig JSON eller 0 kryssinger gir en traceback i stedet for en melding og kode 1 som i `forbered` | low | avvist | Bekreftet, men feilen er tydelig, Python avslutter med kode 1, og ingen fil skrives. Fiksen er en ny gren for feil som specen ikke krever. |
+| 6 | Edge Case | Akseptansekriterium 3 nevner bare tre kall, men skallet kaller også `omrade_fra_fylke` og `sammendrag` | low | avvist | Fiksen er å endre specen. Avviket står i Implementation Notes, og skallet regner ingenting selv. |
+| 7 | Edge Case + Blind Hunter | Matriseraden «Ukjent område» sier ett varsel i sør, men testen sjekker tre | low | avvist | Kontrollert med `vurder`: T6 gir varsel i uke 13, 14 og 15. Koden og testen er riktige. Raden er låst, så Fredrik blir bedt om å rette den. |
+| 8 | Blind Hunter | Det lille datasettet tar ikke vårgrensen, en w − 2-kryssing eller et årsskifte gjennom hele `backtest` | low | avvist | Hver regel er testet for seg (`test_grense_i_sin_uke`, `test_kryssing_w_minus_2`, `test_vargrense_etter_varsel`, `test_over_arsskiftet`), og `backtest` bruker de samme funksjonene. Nr. 1 dekker samspillet med brudd nå. Fiksen er nye anlegg med ny håndregning. |
+| 9 | Blind Hunter | Sprint-status står som `in-progress`, mens specen er `in-review` | false | avvist | Steg 5 i bmad-build setter `review` når endringen presenteres, som i 1.4 og 1.5. |
+| 10 | Blind Hunter | Avviket i matrisen og håndkontrollen av fasiten står bare i tekst og følges ikke opp noe sted | low | avvist | Spec Change Log er for review-runder som endrer specen. Håndkontrollen føres i `issues.md` og i sjekklista i PR-beskrivelsen når storyen presenteres. |
+| 11 | Blind Hunter | `__main__.py` importerer `datasettfil` fra `marin.forbered`, som laster openpyxl-leseren, og stien står to steder | low | avvist | Bekreftet, men det koster bare litt importtid. Specen ba om å bruke `datasettfil()` om igjen, og stien sto to steder før denne storyen. Fiksen er å flytte funksjoner. |
+| 12 | Blind Hunter | `backtest.json` har ikke `FORSTE_UKE`, `FORSTE_KRYSSING` og `SISTE_VARSEL`, og `sammendrag` blander `self` og konstanter | false | avvist | Feltlista er låst i specen og i AD-10. `parametere` og `siste_uke` kan ikke settes (`init=False`) og er alltid lik konstantene, så `sammendrag` kan ikke vise noe annet enn fila. |
 
 ## Design Notes
 
