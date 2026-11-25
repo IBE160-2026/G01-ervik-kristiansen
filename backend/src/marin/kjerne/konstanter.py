@@ -1,8 +1,7 @@
 """Faste verdier i kjernen.
 
-Regelparameterne fra R2 (vindu, minste antall tellinger og horisont) ligger her, slik at
-backtesten kan skrive dem ut som de er. Grensen for rød status (R4) kommer hit i
-Story 1.5.
+Regelparameterne fra R2 (vindu, minste antall tellinger og horisont) og grensen for rød
+status i R4 ligger her, slik at backtesten kan skrive dem ut som de er.
 """
 
 from typing import Final
@@ -27,3 +26,10 @@ MINSTE_TELLINGER: Final = 3
 
 HORISONT: Final = 6
 """Antall uker etter analyseuka som prognosen ser fremover (R2). Fryst etter FR27a."""
+
+MAKS_UKER_ROD: Final = 3
+"""Flest uker til grensen som gir rød status (R4). Fryst etter FR27a.
+
+Grensen nås om 1–3 uker gir rød «✕ Varsel», 4–6 uker gir gul «! Følg med». Brudd nå
+(0 uker) er også rødt, men avgjøres før prognosen.
+"""

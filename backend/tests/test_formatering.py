@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from marin.kjerne.formatering import format_grense, format_lus, format_uke
+from marin.kjerne.formatering import format_grense, format_lus, format_uke, format_uke_i_tekst
 from marin.kjerne.modeller import Uke
 
 # Flyttall i JSON leses som Decimal, så vektorene aldri går via binære flyttall.
@@ -48,3 +48,31 @@ def test_lusetall_rundes_halvdel_opp_ved_formatering():
 def test_formatering_tar_ikke_flyttall(funksjon):
     with pytest.raises(TypeError):
         funksjon(0.5)
+
+
+# Uker i statustekstene (bare i backend, så ingen vektorer i format.json)
+
+
+@pytest.mark.parametrize(
+    ("uke", "analyseuke", "tekst"),
+    [
+        (Uke(2026, 44), Uke(2026, 40), "uke 44"),
+        (Uke(2026, 40), Uke(2026, 42), "uke 40"),
+        (Uke(2026, 53), Uke(2026, 52), "uke 53"),
+        (Uke(2027, 1), Uke(2026, 52), "uke 1, 2027"),
+        (Uke(2025, 50), Uke(2026, 1), "uke 50, 2025"),
+    ],
+    ids=["senere i samme år", "tidligere i samme år", "uke 53 i samme år", "neste år", "året før"],
+)
+def test_format_uke_i_tekst_har_ar_bare_i_et_annet_ar(uke, analyseuke, tekst):
+    assert format_uke_i_tekst(uke, analyseuke) == tekst
+
+
+@pytest.mark.parametrize(
+    ("uke", "analyseuke"),
+    [((2026, 44), Uke(2026, 40)), (Uke(2026, 44), "2026-40")],
+    ids=["uke som tuppel", "analyseuke som tekst"],
+)
+def test_format_uke_i_tekst_tar_bare_uker(uke, analyseuke):
+    with pytest.raises(TypeError):
+        format_uke_i_tekst(uke, analyseuke)

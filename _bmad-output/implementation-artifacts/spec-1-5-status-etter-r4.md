@@ -2,9 +2,10 @@
 title: 'Story 1.5: Status etter R4'
 type: 'feature'
 created: '2026-11-23'
-status: 'ready-for-dev'
+status: 'done'
 route: 'dispatch'
 review_loop_iteration: 0
+baseline_commit: 'cd1b63ab825791b17981a42f69b0b877d10f8be4'
 context:
   - '{project-root}/_bmad-output/implementation-artifacts/epic-1-context.md'
 ---
@@ -69,14 +70,14 @@ Alle er i sør med analyseuke a lik siste uke, hvis ikke annet står. T5, T6, T8
 ## Tasks & Acceptance
 
 **Execution:**
-- [ ] `backend/src/marin/kjerne/konstanter.py` -- `MAKS_UKER_ROD: Final = 3`, og oppdatert docstring
-- [ ] `backend/src/marin/kjerne/formatering.py` -- `format_uke_i_tekst(uke, analyseuke)`: «uke 44» i samme år, ellers «uke 1, 2027». Docstringen sier at den bare brukes i backend, fordi backend eier statustekstene (AD-2), og derfor ikke har vektorer i `format.json`
-- [ ] `backend/src/marin/kjerne/status.py` -- `Farge`, `Arsak`, `EstimertUke`, `Vurdering` og `vurder` etter Boundaries
-- [ ] `backend/tests/hjelp_serie.py` -- flytt `lag_serie`, `fortlopende` og T5, T6, T8 og T12 hit fra `test_trend.py`
-- [ ] `backend/tests/test_trend.py` -- importer hjelperne fra `hjelp_serie`. `test_parameterne_er_fryst_etter_fr27a` sjekker også `MAKS_UKER_ROD == 3`
-- [ ] `backend/tests/test_formatering.py` -- `format_uke_i_tekst` i samme og i et annet år, begge veier
-- [ ] `backend/tests/test_status.py` -- én test per rad i matrisen. Fasiten heter `test_t5_…` til `test_t12_…` og sjekker `f"{symbol} {tekst}"` mot briefen. I tillegg: en tabell med de 7 årsakene og riktig `farge` og `symbol` for hver, og at `estimert_uke`, `uke_tekst` og `trend` bare finnes der Boundaries sier
-- [ ] `backend/tests/test_kjerne_importer.py` -- legg `status.py` til i settet over moduler
+- [x] `backend/src/marin/kjerne/konstanter.py` -- `MAKS_UKER_ROD: Final = 3`, og oppdatert docstring
+- [x] `backend/src/marin/kjerne/formatering.py` -- `format_uke_i_tekst(uke, analyseuke)`: «uke 44» i samme år, ellers «uke 1, 2027». Docstringen sier at den bare brukes i backend, fordi backend eier statustekstene (AD-2), og derfor ikke har vektorer i `format.json`
+- [x] `backend/src/marin/kjerne/status.py` -- `Farge`, `Arsak`, `EstimertUke`, `Vurdering` og `vurder` etter Boundaries
+- [x] `backend/tests/hjelp_serie.py` -- flytt `lag_serie`, `fortlopende` og T5, T6, T8 og T12 hit fra `test_trend.py`
+- [x] `backend/tests/test_trend.py` -- importer hjelperne fra `hjelp_serie`. `test_parameterne_er_fryst_etter_fr27a` sjekker også `MAKS_UKER_ROD == 3`
+- [x] `backend/tests/test_formatering.py` -- `format_uke_i_tekst` i samme og i et annet år, begge veier
+- [x] `backend/tests/test_status.py` -- én test per rad i matrisen. Fasiten heter `test_t5_…` til `test_t12_…` og sjekker `f"{symbol} {tekst}"` mot briefen. I tillegg: en tabell med de 7 årsakene og riktig `farge` og `symbol` for hver, og at `estimert_uke`, `uke_tekst` og `trend` bare finnes der Boundaries sier
+- [x] `backend/tests/test_kjerne_importer.py` -- legg `status.py` til i settet over moduler
 
 **Acceptance Criteria:**
 - Gitt `uv run pytest`, når testene kjører, så består alle, også de 359 fra før, og T1–T12 finnes som navngitte tester.
@@ -88,6 +89,23 @@ Alle er i sør med analyseuke a lik siste uke, hvis ikke annet står. T5, T6, T8
 ## Spec Change Log
 
 ## Review Triage Log
+
+| # | Kilde | Funn | Vurdering | Rute | Begrunnelse |
+|---|---|---|---|---|---|
+| 1 | Verification Gap | Ingen `vurder`-test har tellinger før t − 4, så en endring som dropper vinduet, blir ikke fanget | medium | patch | Bekreftet med en mutasjon: alle 53 testene i `test_status.py` består når vinduet erstattes med alle tellinger til og med a. Kontrollert: 0,10 i uke 20–22 og 0,30 i uke 33–34 med a = 34 gir «– For lite data». 5,00 i uke 29 foran T5 gir samme vurdering som T5 alene. To tilfeller legges til. |
+| 2 | Blind Hunter | Øvre del av gul (5 og 6 uker) og grønn ved 7 uker er ikke testet gjennom `vurder` | low | patch | Bekreftet: bare 3 og 4 uker er testet. 0,43/0,44/0,45, 0,42/0,43/0,44 og 0,41/0,42/0,43 i uke 30–32 med a = 32 gir 5 uker «(uke 37)», 6 uker «(uke 38)» og grønn. En parametrisert test legges til. |
+| 3 | Blind Hunter | `test_nord_har_vargrensen_i_uke_21_26` tester ikke det navnet sier | low | patch | Bekreftet: testen viser bare at nord ikke har vårgrense i uke 15–20. 0,30 i uke 20 i nord gir «✕ Brudd nå» med a = 21 (grensen 0,2), og «– For lite data» med a = 20. Det tilfellet legges til. |
+| 4 | Blind Hunter | Stien til `a4-handkontroll.md` i docstringen finnes ikke fra repo-roten | low | patch | Bekreftet: `briefs/…` mangler `_bmad-output/planning-artifacts/`. Stien er kopiert fra `test_trend.py` til `hjelp_serie.py` og rettes begge steder. |
+| 5 | Blind Hunter | Docstringen i `hjelp_serie.py` sier at fasiten står ett sted, men T9, T11 og FLAT står i `test_status.py` | false | avvist | «Dem» i docstringen er T5, T6, T8 og T12, som begge testfilene bruker. T9, T11 og FLAT brukes bare i `test_status.py`, så de står også ett sted. |
+| 6 | Blind Hunter | Docstringen i `trend.py` sier «Status kommer i Story 1.5.» | low | defer | Bekreftet (linje 14). Specen forbyr endringer i `trend.py` (Never), så linja rettes i en senere story. |
+| 7 | Blind Hunter | `Vurdering` mangler det Story 2.6 trenger: antall tellinger i vinduet, grensen og analyseuka | low | defer | Bekreftet for antallet («Bare 2 av de siste 5 ukene …»): `vurder` regner det ut og kaster det. Grensen og analyseuka har API-et selv, fordi det kaller `vurder` med dem. Feltene er låst i intensjonen, så 2.6 må velge mellom et nytt felt og et nytt kall til `vindu`. |
+| 8 | Edge Case + Blind Hunter | `EstimertUke` godtar `uker_til` som er 0, negativ eller over `HORISONT` | low | avvist | Bare `vurder` lager den, med `uker_til` fra `uker_til_grensen`, som alltid er 1–6. Ingen kaller som kan lage en ugyldig, er vist, og fiksen er en ny vakt. |
+| 9 | Edge Case + Blind Hunter | `Vurdering` sjekker ikke at farge, symbol og felt passer med årsaken | low | avvist | Alle vurderinger lages i `_vurdering` fra `_FARGE_OG_SYMBOL`, og tabellen er testet for alle 7 årsakene. Fiksen er en ny `__post_init__`-vakt uten noen kjent kaller. |
+| 10 | Edge Case | t i år 1, uke 1–4, eller en analyseuke sent i år 9999 gir ValueError fra datoregningen | false | avvist | Som nr. 15 og 16 i Story 1.4: det kan ikke skje med data fra 2000 og senere (FR24), og feilen er tydelig. |
+| 11 | Blind Hunter | Sprint-status står som `in-progress`, mens specen er `in-review` | false | avvist | Steg 5 i bmad-build setter `review` når endringen presenteres (som nr. 11 i Story 1.4). |
+| 12 | Blind Hunter | Implementation Notes og Spec Change Log er tomme, og matrisen sier at tellingene ligger i `test_trend.py` | low | avvist | Fiksen er å endre specen. Matrisen er låst, og oppgavelista sier at tellingene flyttes til `hjelp_serie.py`. |
+| 13 | Blind Hunter | Ingen test har uker etter t som finnes, men er tomme | false | avvist | En slik regresjon fanges allerede. «uke 16 uten verdi» i `test_brudd_na_bruker_grensen_i_analyseuka` har en tom rad etter t, og «bare tomme uker» i `test_ingen_telling_til_og_med_a_gir_for_lite_data` har bare tomme rader. |
+| 14 | Blind Hunter | To overflødige asserts: `estimert_uke is None` i T11 og siste linje i AD-7-testen | false | avvist | De gjør ingen skade. Assertet i T11 speiler matriseraden («`estimert_uke` `None`»). |
 
 ## Design Notes
 
