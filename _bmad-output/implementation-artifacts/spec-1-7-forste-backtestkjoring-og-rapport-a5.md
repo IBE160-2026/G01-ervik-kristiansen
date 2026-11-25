@@ -2,9 +2,10 @@
 title: 'Story 1.7: Første backtestkjøring og rapport (A5)'
 type: 'feature'
 created: '2026-11-25'
-status: 'ready-for-dev'
+status: 'done'
 route: 'dispatch'
 review_loop_iteration: 0
+baseline_commit: '609f383d49756191465f6a45f72d42bb8b770970'
 context:
   - '{project-root}/_bmad-output/implementation-artifacts/epic-1-context.md'
 ---
@@ -77,12 +78,12 @@ context:
 ## Tasks & Acceptance
 
 **Execution:**
-- [ ] `backend/src/marin/data/backtest.json` -- kjør `uv run python -m marin.backtest` én gang i `backend/`, og ta vare på de fire linjene fra terminalen i Implementation Notes -- den første og offisielle kjøringen (A5).
-- [ ] `backend/tests/test_backtest_fil.py` -- to tester: den committede fila er byte-lik en ny `kjor` til `tmp_path`, og `parametere` og `siste_uke` i fila er lik kjernens konstanter -- endres koden senere, feiler testen til tallene er rapportert på nytt.
-- [ ] `README.md` -- bytt setningen om at skriptet ikke skal kjøres, med seksjonen `## Treffsikkerhet` etter Boundaries, og rett tiden testene tar etter en ny måling.
-- [ ] `prd.md` -- kap. 11, A5, kap. 13, status og `updated` etter Boundaries, og reaksjonen etter matrisen.
-- [ ] `EXPERIENCE.md` og `epics.md` -- bare hvis M1-C slår inn: den låste FR19-teksten legges til som teksten for presisjon under 20 %, ved siden av den vanlige teksten (EXPERIENCE.md linje 111) og i Story 2.6 linje 823. Den vanlige teksten blir stående, fordi Story 2.6 velger tekst etter presisjonen i fila (FR19 (1)).
-- [ ] `.logs/fredrik-ervik/issues.md` -- punktet for refleksjonsrapporten.
+- [x] `backend/src/marin/data/backtest.json` -- kjør `uv run python -m marin.backtest` én gang i `backend/`, og ta vare på de fire linjene fra terminalen i Implementation Notes -- den første og offisielle kjøringen (A5).
+- [x] `backend/tests/test_backtest_fil.py` -- to tester: den committede fila er byte-lik en ny `kjor` til `tmp_path`, og `parametere` og `siste_uke` i fila er lik kjernens konstanter -- endres koden senere, feiler testen til tallene er rapportert på nytt.
+- [x] `README.md` -- bytt setningen om at skriptet ikke skal kjøres, med seksjonen `## Treffsikkerhet` etter Boundaries, og rett tiden testene tar etter en ny måling.
+- [x] `prd.md` -- kap. 11, A5, kap. 13, status og `updated` etter Boundaries, og reaksjonen etter matrisen.
+- [x] `EXPERIENCE.md` og `epics.md` -- bare hvis M1-C slår inn: den låste FR19-teksten legges til som teksten for presisjon under 20 %, ved siden av den vanlige teksten (EXPERIENCE.md linje 111) og i Story 2.6 linje 823. Den vanlige teksten blir stående, fordi Story 2.6 velger tekst etter presisjonen i fila (FR19 (1)).
+- [x] `.logs/fredrik-ervik/issues.md` -- punktet for refleksjonsrapporten.
 
 **Acceptance Criteria:**
 - Gitt `uv run pytest`, når testene kjører, så består alle, også de 490 fra før.
@@ -91,9 +92,64 @@ context:
 
 ## Implementation Notes
 
+Forutsetningen var oppfylt: signaturlinja i `backtest_liten.md` er fylt ut og committet i `609f383` (baseline). `backtest.json` fantes ikke før kjøringen.
+
+Den første og offisielle kjøringen ble gjort 2026-11-25 i Git Bash, i `backend/`, med `PYTHONIOENCODING=utf-8 uv run python -m marin.backtest`. Den tok omtrent 19 sekunder og ga exit-kode 0. De fire linjene fra terminalen, uendret:
+
+```text
+Skrev backtest.json for uke 1, 2025 til uke 42, 2026.
+Kryssinger: 778 (44 før uke 9, 2025 er holdt utenfor). Treff: 127. Treffandel: 16,3 %.
+Varsler: 5161 (281 etter uke 38, 2026 er holdt utenfor). Fulgt av brudd: 687. Presisjon: 13,3 %.
+Parametere: vindu 5 uker, minst 3 tellinger, horisont 6 uker, rød ved 0–3 uker.
+```
+
+`backtest.json` har `treffandel` 0.1632 og `presisjon` 0.1331. Tersklene sjekket eksakt med antallene:
+
+- M1: 127 × 4 = 508 < 778, så M1 holder ikke (SK2 og M1 er ikke oppfylt).
+- M1-C: 687 × 5 = 3435 < 5161, så M1-C slår inn.
+
+Det gir radene «M1-C slår inn» og «M1 holder ikke» i matrisen. Endret etter dem: PRD kap. 1 (låst setning), FR19 i PRD, en ny rad etter EXPERIENCE.md linje 111 og Story 2.6 linje 823 (låst FR19-tekst ved siden av den vanlige), reaksjonen i PRD kap. 2, kap. 11, A5, kap. 13, status og `updated`, README og `issues.md`.
+
+Utenom listen: docstringen i `test_backtest.py` sa at ingen test kjører backtesten på de ekte dataene. Den sier nå at det gjelder testene i den fila, og viser til `test_backtest_fil.py`.
+
+`uv run pytest` etterpå: 492 tester består (490 fra før og 2 nye), på omtrent 53 sekunder i to målinger. Den nye testen av en ny kjøring tar omtrent 18 sekunder.
+
+Kontroll i steg 3 (orkestratoren):
+- `uv run pytest` ga 492 bestått på 64 sekunder. Testen av en ny kjøring tok 22 sekunder, så tiden varierer med maskinen.
+- Antallene og prosentene i README, PRD kap. 11 og `issues.md` er lik `backtest.json` og terminaltekstene.
+- De to låste tekstene står ordrett der de skal.
+- Den låste blokken er lik den i `609f383`.
+
+Matrisen i specen har sju rader, og bare «Ny kjøring» gjelder kode. Den dekkes av `test_backtest_json_er_lik_en_ny_kjoring_av_backtest`. De andre seks radene gjelder hva som skrives i dokumentene, og om kjøringen skjer. De er kontrollert for hånd mot diffen:
+- terskelregningen
+- signaturen i baseline
+- exit-koden 0
+
+Bare radene «M1-C slår inn» og «M1 holder ikke» gjaldt for denne kjøringen.
+
 ## Spec Change Log
 
 ## Review Triage Log
+
+| # | Kilde | Funn | Vurdering | Rute | Begrunnelse |
+|---|---|---|---|---|---|
+| 1 | Verification Gap + Edge Case | README sier at testen feiler til tallene er rapportert på nytt, men testen sjekker bare at `backtest.json` er lik en ny kjøring | low | patch | Bekreftet: kjøres skriptet på nytt, består testen selv om README og PRD kap. 11 har de gamle tallene. Setningen rettes, så det står at ny rapport er et manuelt steg. |
+| 2 | Blind Hunter | README sier at usikkerhetsteksten på detaljsiden er endret, men detaljsiden finnes ikke ennå | low | patch | Bekreftet: bare kravene er endret (PRD, EXPERIENCE.md og Story 2.6). Appen viser teksten først fra Story 2.6. |
+| 3 | Edge Case + Blind Hunter | Story 2.6 sier «presisjonen i fila under 20 %», og PRD FR19 sier ikke hvordan teksten velges | low | patch | Bekreftet: den naturlige lesningen er den avrundede `presisjon`, og 0,19996 lagres som 0,2000. Specen sier at tersklene sjekkes eksakt med antallene. Story 2.6 og FR19 skal si antallene. |
+| 4 | Blind Hunter | Tidene spriker: testdocstringen har faste sekunder, og Design Notes i specen sier 13 og 50 sekunder | low | patch | Sekundene i docstringen fjernes, fordi målingene varierer fra 18 til 22 sekunder. Delen om Design Notes avvises, fordi fiksen er å endre specen. Målingene står i Implementation Notes. |
+| 5 | Blind Hunter + Edge Case | Punkter i `issues.md` som storyen løste, står fortsatt åpne | low | patch | Bekreftet for disse punktene: signaturen, PYTHONIOENCODING, PRD til `final`, ny kjøring med FR27 og testtiden i README. Lukkes i sesjonsloggen, som eier `issues.md`. |
+| 6 | Blind Hunter | Det vanlige eksempelet i PRD FR19 sier «ga Marin varsel … Av alle varsler», mens Story 2.6 og EXPERIENCE.md sier «varslet Marin rødt … Av alle røde varsler» | low | defer | Bekreftet, men avviket fantes før: ordlyden ble avgjort 2026-11-18 i Story 2.6 uten at FR19 ble rettet. Ført i `deferred-work.md`. |
+| 7 | Edge Case | `test_backtest_fil.py` gir FileNotFoundError uten forklaring hvis `backtest.json` mangler | low | avvist | Testen feiler høylytt, og fila er committet. Det er lite trolig at noen møter dette, og fiksen er en ny vakt. |
+| 8 | Edge Case + Blind Hunter | Reserveteksten når fila mangler, har ikke M1-C-forbeholdet | low | avvist | Teksten velges etter tallene i fila (FR19 (1)). Uten fil vet appen ikke presisjonen. Fila er committet og testet, så reserveteksten vises bare når noe allerede er galt. Fiksen krever en ny beslutning. |
+| 9 | Edge Case | En senere kjøring med presisjon ≥ 20 % gir normal tekst i appen, mens PRD og README sier tidlig indikator | low | avvist | Dette er hypotetisk. En ny kjøring må rapporteres på nytt (nr. 1), og da endres dokumentene også. |
+| 10 | Edge Case + Blind Hunter | Sprint-status sier `in-progress`, mens specen sier `in-review` | false | avvist | Steg 5 i bmad-build setter `review`, som i 1.6. |
+| 11 | Blind Hunter | Docstringen i `backend/src/marin/backtest/__init__.py` sier at den første kjøringen er Story 1.7 | false | avvist | Setningen er fortsatt sann: den første kjøringen ble gjort i Story 1.7. |
+| 12 | Blind Hunter | Matrisekontrollen i Implementation Notes går ikke opp | low | avvist | Fiksen er å endre specen. |
+| 13 | Blind Hunter | Den andre testen i `test_backtest_fil.py` tilfører lite, mangler en melding og sjekker ikke `versjon` | false | avvist | Den gjør ingen skade. Specen ba om den, og byte-testen fanger det samme. |
+| 14 | Blind Hunter | PRD kap. 11 har resultater i stedet for en risiko, og den gjenværende risikoen er borte | false | avvist | Raden sier at SK2 og M1 ikke er oppfylt, og at reaksjonen på M1-C slo inn. Reaksjonen er tiltaket mot falske alarmer. |
+| 15 | Blind Hunter | Kap. 13 i PRD sier ikke hva som kommer etterpå | low | avvist | Epic 2 står i `epics.md` og sprint-status. Innholdet ligger utenfor intensjonen. |
+| 16 | Blind Hunter | UJ-2 i EXPERIENCE.md («om hun kan stole på varselet») og M1-raden rammer Marin som et pålitelig varsel | false | avvist | M1-raden er målet som ble målt, og skal stå. I UJ-2 sjekker Kari selv om hun kan stole på varselet, og det passer med en tidlig indikator. |
+| 17 | Blind Hunter | `backtest.json` mangler grensene for utelatte og datasettets identitet | false | avvist | Feltlista er låst i AD-10 (som nr. 12 i 1.6). Byte-testen feiler hvis grensene eller dataene endres, og Verification Gap har bekreftet det. |
 
 ## Design Notes
 
