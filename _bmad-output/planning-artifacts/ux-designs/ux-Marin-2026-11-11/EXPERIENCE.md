@@ -109,6 +109,7 @@ Regelen for grensen: én grense skrives «Grensen er 0,5 i alle ukene»; når de
 | Ingen treff (FR6) | «Fant ingen anlegg som passer «{søk}». Søk på lokalitetsnavn eller lokalitetsnummer.» |
 | Over analyseuka i statusboksen | «Prognose regnet fra uke 42, 2026» (fra skissen) |
 | Usikkerhetstekst (FR19) | «Prognosen er en enkel trendberegning, ikke en garanti. I en test på data fra 2025–2026 varslet Marin rødt 2–4 uker før X % av bruddene. Av alle røde varsler ble Y % fulgt av brudd innen 4 uker.» (PRD FR19) |
+| Usikkerhetstekst, presisjon under 20 % (FR19, M1-C) | «Prognosen er en enkel trendberegning, ikke en garanti. Rød status betyr at du bør følge ekstra med, ikke at grensen helt sikkert brytes. I en test på data fra 2025–2026 varslet Marin rødt 2–4 uker før X % av bruddene. Av alle røde varsler ble Y % fulgt av brudd innen 4 uker.» (PRD FR19, reaksjonen på M1-C. Backtesten i Story 1.7 ga 13,3 % presisjon, så det er denne teksten som vises.) |
 | Opplasting, om lagring (FR26) | «Fila lagres ikke. Tallene forsvinner når du går bort fra prognosen for dem, lukker fanen eller laster opp en ny fil.» |
 
 | Gjør | Ikke gjør |

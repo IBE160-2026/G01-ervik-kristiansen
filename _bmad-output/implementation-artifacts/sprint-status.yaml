@@ -29,7 +29,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 # - Retrospective appends its action items to action_items; the status view surfaces open ones
 generated: 11-18-2026 13:39
-last_updated: 11-25-2026 10:47
+last_updated: 11-25-2026 14:14
 project: Marin
 project_key: NOKEY
 tracking_system: file-system
@@ -41,8 +41,8 @@ development_status:
   1-3-datasett-fra-barentswatch-utdraget: done
   1-4-trend-og-uker-til-grensen-r2-og-r3: done
   1-5-status-etter-r4: done
-  1-6-backtest-etter-sk2: review
-  1-7-første-backtestkjøring-og-rapport-a5: backlog
+  1-6-backtest-etter-sk2: done
+  1-7-første-backtestkjøring-og-rapport-a5: review
   epic-1-retrospective: optional
 
   epic-2: backlog

@@ -1,0 +1,13 @@
+{
+  "versjon": 1,
+  "parametere": {"vindu": 5, "minste_tellinger": 3, "horisont": 6, "maks_uker_rod": 3},
+  "siste_uke": {"ar": 2026, "uke": 42},
+  "antall_kryssinger": 778,
+  "antall_treff": 127,
+  "antall_varsler": 5161,
+  "antall_varsler_med_brudd": 687,
+  "utelatt_kryssinger": 44,
+  "utelatt_varsler": 281,
+  "treffandel": 0.1632,
+  "presisjon": 0.1331
+}

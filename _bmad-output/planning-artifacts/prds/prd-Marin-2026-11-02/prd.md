@@ -1,8 +1,8 @@
 ---
 title: "PRD: Marin"
-status: draft
+status: final
 created: 2026-11-03
-updated: 2026-11-18
+updated: 2026-11-25
 inputs:
   - briefs/brief-Marin-2026-09-17/brief.md
   - briefs/brief-Marin-2026-09-17/addendum.md
@@ -14,11 +14,11 @@ inputs:
 
 # PRD: Marin
 
-> **Status: utkast.** PRD-en settes til `final` når den første backtestkjøringen (A5) er gjort og tallene i kap. 11 er oppdatert. Kontrollen av fasit (A4) ble gjort 2026-11-18.
+> **Status: endelig.** Den første backtestkjøringen (A5) ble gjort 2026-11-25, og tallene står i kap. 11. Kontrollen av fasit (A4) ble gjort 2026-11-18.
 
 ## 1. Formål og bakgrunn
 
-Marin er en web-app som gir driftsledere og fiskehelseansvarlige ved norske lakseoppdrettsanlegg et forvarsel om at anlegget er på vei mot å bryte lakselusgrensen. Appen trekker en trendlinje gjennom de siste ukenes lusetall og sammenligner den med grensen som gjelder i hver av de kommende ukene.
+Marin er en web-app som gir driftsledere og fiskehelseansvarlige ved norske lakseoppdrettsanlegg en tidlig indikator på at anlegget kan være på vei mot å bryte lakselusgrensen. Appen trekker en trendlinje gjennom de siste ukenes lusetall og sammenligner den med grensen som gjelder i hver av de kommende ukene.
 
 Problemet, løsningen og avgrensningene er beskrevet i product brief (`briefs/brief-Marin-2026-09-17/brief.md`).
 
@@ -72,6 +72,8 @@ Hvert krav i PRD-en har en ID (FR, NFR), slik at epics, stories og tester kan vi
 | M4 | Sensor kan kjøre appen og testene selv | SK5 |
 
 **Reaksjon på M1-C, bestemt før tallet er kjent:** er presisjonen under **20 %** i den endelige backtesten, omformuleres FR19-teksten og beskrivelsen i kap. 1, slik at Marin presenteres som en *tidlig indikator* som sier at brukeren bør følge ekstra med, ikke som et pålitelig varsel. M1-C avgjør ikke om SK2 er oppfylt.
+
+**Utfall av A5 (2026-11-25):** presisjonen ble 13,3 %, under 20 %, så reaksjonen på M1-C slo inn. Første setning i kap. 1 og FR19 er endret med tekstene som ble låst før kjøringen. Treffandelen ble 16,3 %, under 25 %, så SK2 og M1 er ikke oppfylt. Det endrer ingen tekster i appen. Tallene står i kap. 11.
 
 ## 3. Brukere
 
@@ -176,7 +178,7 @@ FR10–FR14 er beregninger. De testes automatisk med T1–T12 (NFR2) og trenger 
 | FR16 | Detaljsiden viser en graf med målte lusetall i vinduet, trendlinja forlenget til uke a + 6 og grensen per uke (som trapp når vårgrensen slår inn). | J1, SK3, R3 |
 | FR17 | Detaljsiden viser en tabell med de 5 ukene i vinduet (uke og lusetall, eller «ikke telt»). | J1, SK3 |
 | FR18 | Ved rød eller gul status (unntatt brudd nå) viser detaljsiden estimert ISO-uke for når grensen nås, og antall uker dit, regnet fra analyseuka. | J1, SK3, R2, T10 |
-| FR19 | Detaljsiden viser en kort, fast tekst om at prognosen er en enkel trendberegning og ikke en garanti. Teksten viser treffandelen og presisjonen fra siste backtest i et språk brukeren forstår. Eksempel: «I en test på data fra 2025–2026 ga Marin varsel 2–4 uker før X % av bruddene. Av alle varsler ble Y % fulgt av brudd innen 4 uker.» Er presisjonen under 20 %, gjelder reaksjonen på M1-C. | M1, M1-C, SK2, brief: «Hva gjør dette annerledes» |
+| FR19 | Detaljsiden viser en kort, fast tekst om at prognosen er en enkel trendberegning og ikke en garanti. Teksten viser treffandelen og presisjonen fra siste backtest i et språk brukeren forstår. Eksempel: «I en test på data fra 2025–2026 ga Marin varsel 2–4 uker før X % av bruddene. Av alle varsler ble Y % fulgt av brudd innen 4 uker.» Er presisjonen under 20 %, regnet eksakt med antallene i resultatfila (varsler fulgt av brudd × 5 < varsler, ikke den avrundede andelen), er teksten etter reaksjonen på M1-C (låst 2026-11-25, før A5): «Prognosen er en enkel trendberegning, ikke en garanti. Rød status betyr at du bør følge ekstra med, ikke at grensen helt sikkert brytes. I en test på data fra 2025–2026 varslet Marin rødt 2–4 uker før X % av bruddene. Av alle røde varsler ble Y % fulgt av brudd innen 4 uker.» | M1, M1-C, SK2, brief: «Hva gjør dette annerledes» |
 | FR20 | Ved grå status forklarer detaljsiden hvorfor det ikke finnes en prognose (for lite data, ingen ny telling eller ukjent område). | R4, T7, T9, T10 |
 | FR20a | Når det ikke finnes prognose (grå status eller brudd nå), viser grafen og tabellen målte lusetall og grensen, men ingen trendlinje og ingen estimert uke. Ved «ingen ny telling» viser tabellen de 5 ukene før analyseuka. | R4, T7, T9–T11 |
 
@@ -327,7 +329,7 @@ Skissene ligger i UX-steget (`ux-designs/ux-Marin-2026-11-11/mockups/`).
 
 | Forutsetning eller risiko | Eier |
 |---|---|
-| **Treffsikkerhet:** tallene er fra den grove skissen i addendumet (2026-10-29), regnet før A1, før uker til grensen ble regnet fra analyseuka, før SK2 ble presisert 2026-11-11 og før presisjon og kanttilfeller ble definert 2026-11-18. Skissen ga omtrent 29 % treff og omtrent 14 % presisjon. Tallene regnes på nytt med FR27 (A5), og marginen til 25 % kan bli mindre. Er presisjonen fortsatt rundt 14 %, er den under grensen i M1-C, og Marin skal da presenteres som en tidlig indikator. | Gruppen (A5) |
+| **Treffsikkerhet:** den første backtestkjøringen med FR27 (A5) ble gjort 2026-11-25 på hele utdraget, med parameterne fra FR27a: vindu 5 uker, minst 3 tellinger, horisont 6 uker og rød ved 0–3 uker. Av 778 kryssinger var 127 treff, en treffandel på 16,3 %. Av 5161 varsler ble 687 fulgt av brudd innen 4 uker, en presisjon på 13,3 %. 44 kryssinger før 2025 uke 9 og 281 varsler etter 2026 uke 38 er holdt utenfor. Tallene står i `backend/src/marin/data/backtest.json` og er rapportert uendret. Treffandelen er under 25 %, så **SK2 og M1 er ikke oppfylt**. Det endrer ingen tekster i appen. Presisjonen er under 20 %, så **reaksjonen på M1-C slo inn** (kap. 2): Marin presenteres som en tidlig indikator, og første setning i kap. 1 og FR19 er endret med tekstene som ble låst før kjøringen. Til sammenligning ga den grove skissen i addendumet (2026-10-29) omtrent 29 % treff og omtrent 14 % presisjon. Skissen ble regnet før A1, før uker til grensen ble regnet fra analyseuka, før SK2 ble presisert 2026-11-11 og før presisjon og kanttilfeller ble definert 2026-11-18. | Gruppen (A5) |
 | **Datakvalitet:** utdraget er et fast øyeblikksbilde lastet ned 27.10.2026. Senere rettinger hos BarentsWatch kommer ikke med. | Fredrik |
 | **Opplastede filer:** filer laget for hånd kan ha komma som desimaltegn, feil kolonnenavn eller hull. FR21 og FR21b godtar de vanlige formatene, og FR24 avviser resten med en forståelig feilmelding uten at appen krasjer. | Den som bygger opplasting (avklares i A3) |
 | **Kontroll på KI-ens arbeid:** regelkoden skrives med Claude Code, og fasiten i T1–T12 er kontrollen på den. T5, T6, T8 og T10–T12 var merket som ukontrollert. De ble regnet av Claude med eksakte brøker og alle mellomregninger vist, og Fredrik kontrollerte hvert steg 2026-11-18 (`briefs/brief-Marin-2026-09-17/a4-handkontroll.md`). Den kontrollen er ikke helt uavhengig av KI, så risikoen er at KI-en og regelkoden gjør samme tolkningsfeil. R1 testes i tillegg mot BarentsWatch-kolonnen `Lusegrense uke` (NFR3). | Gruppen (A4) |
@@ -342,7 +344,7 @@ A1–A6 er PRD-ens egne ID-er og har ingen sammenheng med briefen.
 - ~~**A2 Område for Excel-opplasting**~~ Avgjort 2026-11-11: område utledes av `Fylke` når det finnes. Brukeren velger område for CSV og for Excel uten fylke. Ført inn i FR23, FR23a, J3 og kap. 8.
 - **A3 Teknisk stack og arbeidsdeling:** stacken ble avgjort i arkitektursteget 2026-11-16 (Python/FastAPI og Next.js, publisert på Vercel, se `architecture/architecture-Marin-2026-11-16/ARCHITECTURE-SPINE.md`). Epics og stories ble laget 2026-11-18 (`epics.md`). Arbeidsdelingen settes per story når sprintplanen lages (avgjort 2026-11-18). Eier: Fredrik og Ella.
 - ~~**A4 Håndkontroll av fasit**~~ Gjort 2026-11-18: Claude regnet T5, T6, T8 og T10–T12 med eksakte brøker og alle mellomregninger, og Fredrik kontrollerte hvert steg. Alle seks stemte med briefen. Merkingen er fjernet fra briefen (commit `633ca2f`). Avvik fra planen: fasiten ble ikke regnet for hånd av gruppen, men kontrollert steg for steg (se kap. 11). Dette er et punkt for refleksjonsrapporten.
-- **A5 Første backtestkjøring:** kjernen og backtest-skriptet bygges som første epic, med de samme kjernefunksjonene som appen bruker (arkitektur AD-1). FR27 kjøres så snart den epicen er ferdig, før noen andre stories startes, og tallene i kap. 11 oppdateres. Rekkefølgen ble endret 2026-11-18, fordi backtesten må bygges som kode i story-løpet. Tallene avgjør om M1 holder, og om reaksjonen på M1-C slår inn. Eier: gruppen.
+- ~~**A5 Første backtestkjøring**~~ Gjort 2026-11-25 (Story 1.7): kjernen og backtest-skriptet ble bygget som første epic, med de samme kjernefunksjonene som appen bruker (arkitektur AD-1), og FR27 ble kjørt én gang før noen andre stories startet. Treffandelen ble 16,3 % og presisjonen 13,3 % (kap. 11). M1 holder ikke, og reaksjonen på M1-C slo inn. Kap. 1, FR19, `EXPERIENCE.md` og Story 2.6 er oppdatert.
 - ~~**A6 Definisjon av presisjon og kanttilfeller**~~ Avgjort 2026-11-18: et varsel er en uke med «✕ Varsel …» (ikke «brudd nå»), brudd er en telling ≥ grensen i en av de 4 neste ukene, og kryssinger før 2025 uke 9 og varsler etter 2026 uke 38 holdes utenfor og telles opp. Ført inn i SK2 i briefen, ordlista og FR28.
 
 ## 13. Neste steg
@@ -350,5 +352,5 @@ A1–A6 er PRD-ens egne ID-er og har ingen sammenheng med briefen.
 1. ~~Arkitektursteget: velge og begrunne stack, dataflyt og mappestruktur (A3).~~ Gjort 2026-11-16.
 2. ~~Håndkontroll av fasit for T5, T6, T8 og T10–T12 (A4).~~ Gjort 2026-11-18.
 3. Epics og stories med henvisning til FR- og NFR-ID-ene. Første epic er kjernen (R1–R4 og SK2) og backtest-skriptet (FR27–FR28). README-sjekklisten kopieres fra konsekvensene i kap. 5.2, 5.3 og 5.5.
-4. Bygge første epic og kjøre backtesten (A5) før andre stories startes. Oppdatere kap. 11, M1-C-vurderingen og eventuelt FR19 og storyene som bygger på den.
-5. Sette PRD-en til `final` når A5 er gjort.
+4. ~~Bygge første epic og kjøre backtesten (A5) før andre stories startes. Oppdatere kap. 11, M1-C-vurderingen og eventuelt FR19 og storyene som bygger på den.~~ Gjort 2026-11-25.
+5. ~~Sette PRD-en til `final` når A5 er gjort.~~ Gjort 2026-11-25.

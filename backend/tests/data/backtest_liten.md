@@ -4,7 +4,7 @@
 
 KI laget datasettet og regnet ut tallene 2026-11-25. Gruppen kontrollerer tallene for hånd før PR-en flettes, som med A4.
 
-Kontrollert for hånd av: ______________________ Dato: ____________
+Kontrollert for hånd av: Fredrik Ervik Dato: 25.11.2026
 
 ## Reglene som brukes
 

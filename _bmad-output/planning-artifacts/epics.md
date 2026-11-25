@@ -820,7 +820,7 @@ slik at jeg forstår hva statusen betyr uten datafaglig bakgrunn (FR15a, FR19, F
 **Og** tallene står ikke i koden, og endres fila, endres teksten neste gang appen startes (FR19 (1))
 **Og** teksten er med i svaret for alle statuser, også grå (FR19 (2))
 **Og** mangler fila, er den ugyldig eller avviker parameterne fra kjernens konstanter, er teksten bare «Prognosen er en enkel trendberegning, ikke en garanti.», appen krasjer ikke, og en advarsel skrives til stderr (FR19 (3), AD-10)
-**Og** er presisjonen under 20 %, følger teksten reaksjonen på M1-C slik den er beskrevet etter Story 1.7
+**Og** er `antall_varsler_med_brudd` × 5 < `antall_varsler` i fila (eksakt med antallene, ikke den avrundede `presisjon`), er teksten i stedet «Prognosen er en enkel trendberegning, ikke en garanti. Rød status betyr at du bør følge ekstra med, ikke at grensen helt sikkert brytes. I en test på data fra 2025–2026 varslet Marin rødt 2–4 uker før X % av bruddene. Av alle røde varsler ble Y % fulgt av brudd innen 4 uker.», med X og Y som over (reaksjonen på M1-C, låst 2026-11-25 før Story 1.7, som ga 13,3 % presisjon)
 
 ### Story 2.7: Detaljside med statusboks og ukestabell
 

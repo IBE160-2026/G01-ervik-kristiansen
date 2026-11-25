@@ -10,3 +10,6 @@
 - source_spec: `_bmad-output/implementation-artifacts/spec-1-5-status-etter-r4.md`
   summary: Story 2.6 trenger antall tellinger i vinduet («Bare 2 av de siste 5 ukene …»), men `Vurdering` har det ikke. `vurder` regner det ut og kaster det.
   evidence: Blind Hunter i review av Story 1.5, bekreftet mot T9 og forklaringsmalene. Feltene i `Vurdering` er låst i intensjonen for 1.5. I 2.6 må forklaringsfunksjonen enten få et nytt felt i `Vurdering` eller kalle `vindu(serie, analyseuke)` på nytt. Grensen og analyseuka har API-et selv.
+- source_spec: `_bmad-output/implementation-artifacts/spec-1-7-forste-backtestkjoring-og-rapport-a5.md`
+  summary: Det vanlige eksempelet i PRD FR19 sier fortsatt «I en test på data fra 2025–2026 ga Marin varsel 2–4 uker før X % av bruddene. Av alle varsler ble Y % …», mens Story 2.6 og EXPERIENCE.md bruker ordlyden som ble avgjort 2026-11-18 («varslet Marin rødt … Av alle røde varsler …»).
+  evidence: Blind Hunter i review av Story 1.7, bekreftet i prd.md (FR19-raden). Avviket fantes før Story 1.7, som bare la til M1-C-teksten. Rettes før eller i Story 2.6, så FR19 og Story 2.6 har samme vanlige tekst.

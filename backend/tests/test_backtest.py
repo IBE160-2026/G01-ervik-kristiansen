@@ -1,7 +1,8 @@
 """Tester for skriptet backtest (FR27–FR29, AD-10), med det lille datasettet.
 
-Testene skriver bare til en midlertidig mappe. Ingen test kjører backtesten på de ekte
-dataene eller skriver backend/src/marin/data/backtest.json (Story 1.7).
+Testene skriver bare til en midlertidig mappe. Ingen av dem kjører backtesten på de ekte
+dataene eller skriver backend/src/marin/data/backtest.json. Den committede fila testes i
+test_backtest_fil.py.
 """
 
 import io

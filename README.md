@@ -14,7 +14,7 @@ uv sync        # installerer avhengighetene (trenger nett første gang)
 uv run pytest  # kjører alle backendtestene
 ```
 
-To av testene leser hele BarentsWatch-utdraget, så testene tar omtrent 35 sekunder.
+To av testene leser hele BarentsWatch-utdraget, og én kjører backtesten på hele datasettet, så testene tar omtrent 55 sekunder.
 
 ## Data
 
@@ -46,9 +46,25 @@ cd backend
 uv run python -m marin.backtest
 ```
 
-Skriptet skal ikke kjøres før Story 1.7. Der gjøres den første kjøringen, og `backtest.json` committes med tallene som de er (FR27a, A5).
+`backtest.json` er committet, og tallene står under [Treffsikkerhet](#treffsikkerhet).
 
 Datasettet er knyttet til dette utdraget. Byttes utdraget ut, må også `FORSTE_UKE` og `SISTE_UKE` i `backend/src/marin/kjerne/konstanter.py`, `FORSTE_KRYSSING` og `SISTE_VARSEL` i `backend/src/marin/kjerne/treffsikkerhet.py` og tallene som testene sjekker mot utdraget (antall anlegg og rader i `test_datasett_fil.py` og `test_nfr3.py`), oppdateres.
+
+## Treffsikkerhet
+
+Backtesten etter SK2 ble kjørt én gang på hele datasettet 25.11.2026 (A5 i PRD-en). Parameterne ble fryst før kjøringen og er de samme som i kjernen: vindu 5 uker, minst 3 tellinger, horisont 6 uker og rød ved 0–3 uker. Tallene står i `backend/src/marin/data/backtest.json` og er rapportert slik skriptet ga dem, også når de er under tersklene (FR27a).
+
+| | Antall | Holdt utenfor | Andel |
+| --- | --- | --- | --- |
+| Kryssinger | 778 | 44 før uke 9, 2025 | |
+| Treff (rød status begynte 2–4 uker før kryssingen) | 127 | | Treffandel 16,3 % |
+| Varsler («✕ Varsel …») | 5161 | 281 etter uke 38, 2026 | |
+| Varsler fulgt av brudd innen 4 uker | 687 | | Presisjon 13,3 % |
+
+- **M1 holder ikke.** Treffandelen er 16,3 %, under kravet på minst 25 %, så SK2 og M1 er ikke oppfylt. Det endrer ingen tekster i appen.
+- **M1-C slår inn.** Presisjonen er 13,3 %, under 20 %. Etter reaksjonen på M1-C, som ble bestemt før kjøringen, presenteres Marin som en tidlig indikator: rød status betyr at brukeren bør følge ekstra med, ikke at grensen helt sikkert brytes. Kravteksten for usikkerhetsteksten (FR19 i PRD-en, `EXPERIENCE.md` og Story 2.6) og beskrivelsen av Marin i PRD-en er endret med tekstene som ble låst før kjøringen. Appen viser teksten fra Story 2.6.
+
+Testene sjekker at `backtest.json` er lik en ny kjøring av skriptet, og at parameterne i fila er kjernens. Endres kjernen eller datasettet, feiler testen til backtesten er kjørt på nytt. Da må de nye tallene rapporteres for hånd her og i PRD kap. 11.
 
 ## Medlemmer
 
