@@ -1,8 +1,8 @@
 """Tester for trend og uker til grensen etter R2 og R3 i marin.kjerne.trend (Story 1.4).
 
 Fasiten T5, T6, T8, T10 og T12 er hentet fra den kontrollerte håndregningen i
-briefs/brief-Marin-2026-09-17/a4-handkontroll.md. Alle tilfellene er i sør med
-analyseuka lik siste uke, hvis ikke annet står.
+_bmad-output/planning-artifacts/briefs/brief-Marin-2026-09-17/a4-handkontroll.md. Alle
+tilfellene er i sør med analyseuka lik siste uke, hvis ikke annet står.
 """
 
 import ast
@@ -11,10 +11,11 @@ from fractions import Fraction
 from pathlib import Path
 
 import pytest
+from hjelp_serie import T5, T6, T8, T12, fortlopende, lag_serie
 
 import marin.kjerne.trend as trendmodul
-from marin.kjerne.konstanter import HORISONT, MINSTE_TELLINGER, VINDU
-from marin.kjerne.modeller import Serie, Telling, Uke
+from marin.kjerne.konstanter import HORISONT, MAKS_UKER_ROD, MINSTE_TELLINGER, VINDU
+from marin.kjerne.modeller import Telling, Uke
 from marin.kjerne.omrade import Omrade
 from marin.kjerne.trend import (
     Trend,
@@ -29,16 +30,6 @@ SOR, NORD, UKJENT = Omrade.SOR, Omrade.NORD, Omrade.UKJENT
 D = Decimal
 
 
-def lag_serie(par: list[tuple[Uke, str | None]]) -> Serie:
-    """En serie av (uke, verdi), der verdien er tekst eller None for en uke uten telling."""
-    return Serie(Telling(uke, None if verdi is None else D(verdi)) for uke, verdi in par)
-
-
-def fortlopende(start: Uke, *verdier: str | None) -> list[tuple[Uke, str | None]]:
-    """Verdiene i påfølgende uker fra og med `start`."""
-    return [(pluss(start, i), verdi) for i, verdi in enumerate(verdier)]
-
-
 def estimater(trend: Trend, analyseuke: Uke, antall: int) -> list[str]:
     """Estimatene i uke a + 1 til a + antall, som tekst."""
     return [str(trend.estimat(pluss(analyseuke, k))) for k in range(1, antall + 1)]
@@ -47,12 +38,6 @@ def estimater(trend: Trend, analyseuke: Uke, antall: int) -> list[str]:
 def eksakt(trend: Trend, uke: Uke) -> Fraction:
     """Verdien på linja i uka før avrunding, for å sjekke regnestykket i fasiten."""
     return trend.y_snitt + trend.stigning * (lopende(uke) - trend.x_snitt)
-
-
-T5 = fortlopende(Uke(2026, 30), "0.06", "0.12", "0.18", "0.24", "0.30")
-T6 = fortlopende(Uke(2026, 10), "0.10", "0.12", "0.14", "0.16", "0.18")
-T8 = [(Uke(2026, 36), "0.20"), (Uke(2026, 38), "0.28"), (Uke(2026, 40), "0.36")]
-T12 = fortlopende(Uke(2025, 50), "0.30", "0.34", "0.38", "0.42", "0.46")
 
 
 # Fasit fra briefen (R6), kontrollert i A4
@@ -322,6 +307,7 @@ def test_kryssing_i_uke_a_pluss_6_er_med_og_a_pluss_7_er_utenfor():
 
 def test_parameterne_er_fryst_etter_fr27a():
     assert (VINDU, MINSTE_TELLINGER, HORISONT) == (5, 3, 6)
+    assert MAKS_UKER_ROD == 3
 
 
 def test_tellinger_utenfor_vinduet_brukes_ikke():

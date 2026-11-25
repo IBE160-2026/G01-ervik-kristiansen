@@ -3,7 +3,8 @@
 Lusetall skrives alltid med 2 desimaler og desimalkomma («0,50»). Grenser skrives med
 1 desimal («0,5»), som i briefen og R4-tekstene. Uker skrives «uke 42, 2026».
 Frontend får tilsvarende funksjoner i Story 2.2, testet mot de samme vektorene i
-backend/tests/data/format.json.
+backend/tests/data/format.json. I statustekstene skrives uker med `format_uke_i_tekst`,
+som bare finnes i backend.
 """
 
 from decimal import ROUND_HALF_UP, Decimal
@@ -29,6 +30,20 @@ def format_grense(grense: Decimal) -> str:
 def format_uke(uke: Uke) -> str:
     """ISO-uke med år, for eksempel «uke 42, 2026»."""
     return f"uke {uke.uke}, {uke.ar}"
+
+
+def format_uke_i_tekst(uke: Uke, analyseuke: Uke) -> str:
+    """ISO-uke i en statustekst, med år bare når året er et annet enn analyseukas.
+
+    «uke 44» når uka ligger i samme år som analyseuka, ellers «uke 1, 2027» og
+    «uke 50, 2025» (EXPERIENCE.md). Funksjonen brukes bare i backend, fordi backend eier
+    statustekstene og frontend viser dem som de er (AD-2). Derfor har den ingen vektorer
+    i format.json.
+    """
+    for navn, verdi in (("uke", uke), ("analyseuke", analyseuke)):
+        if not isinstance(verdi, Uke):
+            raise TypeError(f"{navn} må være Uke, ikke {type(verdi).__name__}")
+    return f"uke {uke.uke}" if uke.ar == analyseuke.ar else format_uke(uke)
 
 
 def _med_komma(verdi: Decimal) -> str:
