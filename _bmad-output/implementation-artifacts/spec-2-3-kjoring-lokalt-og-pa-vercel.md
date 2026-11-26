@@ -116,6 +116,19 @@ context:
 - **Vercel er ikke sjekket ennå.** Det skjer med forhåndsvisningen etter push.
   - Vercels side om Python-runtimen (lest 2026-11-26) sier at `modul:app` slås opp som en fil regnet fra roten (`marin/api/app.py`). Hos oss ligger fila i `backend/src/marin/api/app.py`, så reserven i Design Notes kan bli nødvendig.
   - Ifølge samme side støttes Python 3.14 og `lifespan`, og funksjonene kan være opptil 500 MB.
+- **Reserven for importen trengtes.** Det første bygget på Vercel (`7156991`) feilet med `[ENTRYPOINT_NOT_FOUND] Service "backend" has entrypoint "marin/api/app.py" but that path does not exist.`
+  - `backend/vercel_inngang.py` legger `src/` først i importstien og importerer `app` fra `marin.api.app`.
+  - `vercel.json` peker på `vercel_inngang:app`.
+  - To tester sjekker at inngangen gir den samme appen, og at `vercel.json` peker dit (`fdbd05b`).
+- **Vercel er sjekket 2026-11-26** på forhåndsvisningen av `fdbd05b` (`dpl_BYKWaQEjTi3AZkXC8RrVHHriui6y`), med `vercel curl`. Sjekken «Vercel – g01-ervik-kristiansen» består.
+  - `/` og `/anlegg/?nr=1` gir 200 med `lang="nb"`.
+  - `/anlegg?nr=1` gir 308 til `/anlegg/?nr=1`.
+  - `/api/anlegg?q=x` gir 501 med JSON og norsk `detail`. Avhengigheten leser datasettet først, så `lifespan` har kjørt.
+  - `/api/anlegg/10560/prognose?ar=2026&uke=10` gir 501 med JSON.
+  - `/api/finnes-ikke` gir 404 med JSON fra FastAPI.
+  - `/finnes-ikke` gir 308 til `/finnes-ikke/`, som gir 404 med den norske siden.
+- **Sjekken «Vercel – backend» feiler fortsatt.** Den kommer fra det gamle prosjektet, som Fredrik skal koble fra eller slette.
+- `vercel curl` la til en hemmelighet av typen «Protection Bypass for Automation» på Vercel-prosjektet (`prj_JAHvyBU5tCa0bBCREKXJSlKH0VRA`). Den gjelder til den trekkes tilbake under Deployment Protection.
 
 ## Spec Change Log
 
