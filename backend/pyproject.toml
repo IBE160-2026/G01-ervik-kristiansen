@@ -4,11 +4,17 @@ version = "0.1.0"
 description = "Marin: prognose for når lusetallene på et oppdrettsanlegg kan nå lusegrensen"
 requires-python = ">=3.14"
 dependencies = [
+    "fastapi==0.163.1",
     "openpyxl==3.1.5",
+    "pydantic==2.14.3",
+    "uvicorn==0.54.0",
 ]
 
 [dependency-groups]
-dev = ["pytest==9.2.0"]
+dev = [
+    "httpx2==2.16.2",
+    "pytest==9.2.0",
+]
 
 [build-system]
 requires = ["uv_build>=0.12.10,<0.13"]
