@@ -16,6 +16,26 @@ uv run pytest  # kjører alle backendtestene
 
 To av testene leser hele BarentsWatch-utdraget, og én kjører backtesten på hele datasettet, så testene tar omtrent 55 sekunder.
 
+### API-et
+
+API-et er en FastAPI-app i `backend/src/marin/api/`. I utvikling startes det slik, på port 8000:
+
+```sh
+cd backend
+uv run uvicorn marin.api.app:app --reload
+```
+
+`--reload` starter appen på nytt når koden endres. Rutene og svarmodellene vises på http://127.0.0.1:8000/docs. Appen leser `datasett.json` én gang ved oppstart. CORS tillater bare `http://localhost:3000`, der frontenden kjører i utvikling.
+
+`backend/openapi.json` er kontrakten mellom backend og frontend, og frontend-typene genereres fra den. Fila lages fra appen og committes. Endres en modell eller en rute, lages den på nytt slik:
+
+```sh
+cd backend
+uv run python -m marin.api.openapi
+```
+
+Testene feiler hvis `openapi.json` ikke er lik skjemaet appen lager.
+
 ## Data
 
 Lusetallene kommer fra datasettet «Lakselus per fisk» i [BarentsWatch Fiskehelse](https://www.barentswatch.no/fiskehelse/). Det er anleggenes ukentlige rapportering av lakselus til Mattilsynet. Tallene ble lastet ned 27.10.2026 som Excel-uttrekk, ett per år (2025 og 2026). Uttrekkene har alle lokaliteter for laks, ørret og regnbueørret i akvakulturregisteret, unntatt dem på land. Arket «Om datasettet» i hver fil beskriver kolonnene.

@@ -1,0 +1,584 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Marin",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/anlegg": {
+      "get": {
+        "summary": "Søk etter anlegg",
+        "description": "Anleggene som passer søket, sortert alfabetisk på navn (FR4–FR6).",
+        "operationId": "sok_anlegg",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Q"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AnleggInfo"
+                  },
+                  "title": "Response Sok Anlegg"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/anlegg/{lokalitetsnr}": {
+      "get": {
+        "summary": "Hent anlegget",
+        "description": "Anlegget med de valgbare analyseukene og standarduka (FR6b, FR7).",
+        "operationId": "hent_anlegg",
+        "parameters": [
+          {
+            "name": "lokalitetsnr",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Lokalitetsnr"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Anleggsvar"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/anlegg/{lokalitetsnr}/prognose": {
+      "get": {
+        "summary": "Hent prognosen",
+        "description": "Prognosen for anlegget med analyseuka `ar` og `uke` (FR7–FR20a).",
+        "operationId": "hent_prognose",
+        "parameters": [
+          {
+            "name": "lokalitetsnr",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Lokalitetsnr"
+            }
+          },
+          {
+            "name": "ar",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Ar"
+            }
+          },
+          {
+            "name": "uke",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Uke"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Detaljsvar"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AnleggInfo": {
+        "properties": {
+          "lokalitetsnr": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lokalitetsnr"
+          },
+          "navn": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Navn"
+          },
+          "kommune": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Kommune"
+          },
+          "fylke": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fylke"
+          }
+        },
+        "type": "object",
+        "required": [
+          "lokalitetsnr",
+          "navn",
+          "kommune",
+          "fylke"
+        ],
+        "title": "AnleggInfo",
+        "description": "Navn og sted for et anlegg. Alle feltene kan være null, for eksempel ved CSV-opplasting."
+      },
+      "Anleggsvar": {
+        "properties": {
+          "anlegg": {
+            "$ref": "#/components/schemas/AnleggInfo"
+          },
+          "analyseuker": {
+            "items": {
+              "$ref": "#/components/schemas/Uke"
+            },
+            "type": "array",
+            "title": "Analyseuker"
+          },
+          "standard_analyseuke": {
+            "$ref": "#/components/schemas/Uke"
+          }
+        },
+        "type": "object",
+        "required": [
+          "anlegg",
+          "analyseuker",
+          "standard_analyseuke"
+        ],
+        "title": "Anleggsvar",
+        "description": "Et anlegg med de valgbare analyseukene, nyeste først, og standarduka (AD-14)."
+      },
+      "Arsak": {
+        "type": "string",
+        "enum": [
+          "varsel",
+          "brudd_na",
+          "folg_med",
+          "ingen_kryssing",
+          "for_lite_data",
+          "ingen_ny_telling",
+          "ukjent_omrade"
+        ],
+        "title": "Arsak",
+        "description": "Regelen i R4 som avgjorde statusen (AD-7)."
+      },
+      "Detaljsvar": {
+        "properties": {
+          "kilde": {
+            "type": "string",
+            "enum": [
+              "innebygd",
+              "opplastet"
+            ],
+            "title": "Kilde"
+          },
+          "anlegg": {
+            "$ref": "#/components/schemas/AnleggInfo"
+          },
+          "analyseuke": {
+            "$ref": "#/components/schemas/Uke"
+          },
+          "status": {
+            "$ref": "#/components/schemas/Status"
+          },
+          "estimert_uke": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EstimertUke"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "tabell": {
+            "items": {
+              "$ref": "#/components/schemas/Tabellrad"
+            },
+            "type": "array",
+            "title": "Tabell"
+          },
+          "graf": {
+            "$ref": "#/components/schemas/Graf"
+          },
+          "tekstoppsummering": {
+            "type": "string",
+            "title": "Tekstoppsummering"
+          },
+          "usikkerhetstekst": {
+            "type": "string",
+            "title": "Usikkerhetstekst"
+          }
+        },
+        "type": "object",
+        "required": [
+          "kilde",
+          "anlegg",
+          "analyseuke",
+          "status",
+          "estimert_uke",
+          "tabell",
+          "graf",
+          "tekstoppsummering",
+          "usikkerhetstekst"
+        ],
+        "title": "Detaljsvar",
+        "description": "Hele detaljsiden for ett anlegg og én analyseuke (AD-3).\n\n`estimert_uke` er null utenom varsel og følg med. `tabell` har 5 uker, eldste først."
+      },
+      "EstimertUke": {
+        "properties": {
+          "uke": {
+            "$ref": "#/components/schemas/Uke"
+          },
+          "uker_til": {
+            "type": "integer",
+            "title": "Uker Til"
+          }
+        },
+        "type": "object",
+        "required": [
+          "uke",
+          "uker_til"
+        ],
+        "title": "EstimertUke",
+        "description": "Uka der estimatet først når grensen, og antall uker dit fra analyseuka (R2)."
+      },
+      "Farge": {
+        "type": "string",
+        "enum": [
+          "rod",
+          "gul",
+          "gronn",
+          "gra"
+        ],
+        "title": "Farge",
+        "description": "Statusfargen (AD-7). Frontend velger farge og stil bare fra denne koden."
+      },
+      "Graf": {
+        "properties": {
+          "punkter": {
+            "items": {
+              "$ref": "#/components/schemas/Grafpunkt"
+            },
+            "type": "array",
+            "title": "Punkter"
+          },
+          "kryssing": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Kryssing"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "punkter",
+          "kryssing"
+        ],
+        "title": "Graf",
+        "description": "Alt grafen tegner. `kryssing` er null når trenden ikke når grensen."
+      },
+      "Grafpunkt": {
+        "properties": {
+          "uke": {
+            "$ref": "#/components/schemas/Uke"
+          },
+          "malt": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Malt"
+          },
+          "trend": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trend"
+          },
+          "grense": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grense"
+          }
+        },
+        "type": "object",
+        "required": [
+          "uke",
+          "malt",
+          "trend",
+          "grense"
+        ],
+        "title": "Grafpunkt",
+        "description": "Én uke i grafen: målt verdi, trend og grense. null betyr at verdien ikke finnes for uka."
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "Kryssing": {
+        "properties": {
+          "uke": {
+            "$ref": "#/components/schemas/Uke"
+          },
+          "tekst": {
+            "type": "string",
+            "title": "Tekst"
+          }
+        },
+        "type": "object",
+        "required": [
+          "uke",
+          "tekst"
+        ],
+        "title": "Kryssing",
+        "description": "Uka der trenden når grensen, med etiketten i grafen, for eksempel «✕ Varsel uke 44»."
+      },
+      "Status": {
+        "properties": {
+          "farge": {
+            "$ref": "#/components/schemas/Farge"
+          },
+          "arsak": {
+            "$ref": "#/components/schemas/Arsak"
+          },
+          "symbol": {
+            "type": "string",
+            "title": "Symbol"
+          },
+          "tekst": {
+            "type": "string",
+            "title": "Tekst"
+          },
+          "uke_tekst": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Uke Tekst"
+          },
+          "forklaring": {
+            "type": "string",
+            "title": "Forklaring"
+          }
+        },
+        "type": "object",
+        "required": [
+          "farge",
+          "arsak",
+          "symbol",
+          "tekst",
+          "uke_tekst",
+          "forklaring"
+        ],
+        "title": "Status",
+        "description": "Statusen etter R4 (AD-2, AD-7).\n\n`farge` og `arsak` er de faste kodene. `symbol` og `tekst` er R4-teksten delt i to,\nog `uke_tekst` («(uke 44)») finnes bare ved varsel og følg med. `forklaring` er den\nforklarende setningen under statusteksten."
+      },
+      "Tabellrad": {
+        "properties": {
+          "uke": {
+            "$ref": "#/components/schemas/Uke"
+          },
+          "verdi": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Verdi"
+          },
+          "siste_telling": {
+            "type": "boolean",
+            "title": "Siste Telling"
+          }
+        },
+        "type": "object",
+        "required": [
+          "uke",
+          "verdi",
+          "siste_telling"
+        ],
+        "title": "Tabellrad",
+        "description": "En uke i ukestabellen. `verdi` er null når uka ikke er telt."
+      },
+      "Uke": {
+        "properties": {
+          "ar": {
+            "type": "integer",
+            "title": "Ar"
+          },
+          "uke": {
+            "type": "integer",
+            "title": "Uke"
+          }
+        },
+        "type": "object",
+        "required": [
+          "ar",
+          "uke"
+        ],
+        "title": "Uke",
+        "description": "En ISO-uke (AD-6)."
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}
