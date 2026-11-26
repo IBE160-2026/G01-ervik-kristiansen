@@ -7,7 +7,7 @@
     "backend": {
       "root": "backend/",
       "framework": "fastapi",
-      "entrypoint": "marin.api.app:app"
+      "entrypoint": "vercel_inngang:app"
     }
   },
   "rewrites": [

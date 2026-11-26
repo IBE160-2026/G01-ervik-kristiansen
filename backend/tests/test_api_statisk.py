@@ -184,3 +184,21 @@ def test_det_ekte_bygget_gir_forsiden_detaljsiden_og_den_norske_404_siden():
         assert svar.status_code == 404
         assert "Fant ikke siden." in svar.text
         assert 'lang="nb"' in svar.text
+
+
+def test_vercel_inngangen_gir_den_samme_appen():
+    """Vercel laster `vercel_inngang:app` fra backend/ (vercel.json), ikke `marin.api.app:app`."""
+    import importlib.util
+
+    fil = Path(__file__).resolve().parents[1] / "vercel_inngang.py"
+    spesifikasjon = importlib.util.spec_from_file_location("vercel_inngang", fil)
+    modul = importlib.util.module_from_spec(spesifikasjon)
+    spesifikasjon.loader.exec_module(modul)
+    assert modul.app is appmodul.app
+
+
+def test_vercel_json_peker_pa_inngangen():
+    rotmappe = Path(__file__).resolve().parents[2]
+    oppsett = json.loads((rotmappe / "vercel.json").read_text(encoding="utf-8"))
+    assert oppsett["services"]["backend"]["entrypoint"] == "vercel_inngang:app"
+    assert (rotmappe / "backend" / "vercel_inngang.py").is_file()
