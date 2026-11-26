@@ -33,6 +33,8 @@ Fredrik ba meg fortsette der vi slapp 25.11. Story 2.1, API-kontrakten for kjern
   - seksjonen API-et i README
 - Specen står som `done`, og Story 2.1 står som `review` i sprint-status.
 - Lukket i `issues.md`: Pydantic sender lusetall (Decimal) som JSON-tall (`Lusetall` i `modeller.py`, testet med `0.28`).
+- Fredrik ba meg pushe og lage PR-en: [PR #9](https://github.com/IBE160-2026/G01-ervik-kristiansen/pull/9).
+- Story 2.2 genererer frontend-typene fra `backend/openapi.json`, som kommer med 2.1. Fredrik valgte å flette PR #9 før grenen for 2.2 lages fra `main`.
 
 ### Åpne punkter
 - Story 2.5: 404 for et ukjent anlegg må føres opp i `openapi.json` når ruten bygges (triage-funn 3 i spec-2-1).
