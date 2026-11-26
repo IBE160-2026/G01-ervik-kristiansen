@@ -49,7 +49,13 @@ Fredrik flettet PR #9 (Story 2.1) selv og ba meg sette Story 2.1 til `done` og b
     - telemetrien i Next
   - **Avvist (20).**
 - Byggene jeg kjørte selv, hadde `NEXT_TELEMETRY_DISABLED=1`.
-- Commit `cb19042`. Specen står som `done`, og Story 2.2 står som `review` i sprint-status. Ingenting er pushet.
+- Commit `cb19042`. Specen står som `done`, og Story 2.2 står som `review` i sprint-status.
+- Fredrik ba meg pushe og lage PR-en: [PR #10](https://github.com/IBE160-2026/G01-ervik-kristiansen/pull/10). PR-en sier at den bare er første del av Story 2.2.
+- Fredrik spurte hvor lenge det er til nettsiden er klar. Anslaget ut fra tempoet så langt (omtrent 1–1,5 time per story, rundt 3 stories per arbeidsdag):
+  - en tom side på Vercel etter Story 2.3
+  - søk og en detaljside som virker etter den utskilte delen og Story 2.4–2.7, om 2–3 arbeidsdager
+  - hele Epic 2 etter Story 2.11, om 3–4 arbeidsdager
+  - Epic 3 med opplasting, omtrent 2 arbeidsdager til
 
 ### Åpne punkter
 - Den utskilte delen av Story 2.2 trenger en egen spec: `schema.ts`, API-klienten og `format.ts` med Vitest, i tillegg til testen for tokenene og sjekken for egne verdier. Story 2.2 er ikke ferdig før den er bygget, og Story 2.4 og 2.7 trenger den. Fredrik må avgjøre om den skal bygges på samme gren før PR-en, eller få en egen nøkkel i sprint-status.
