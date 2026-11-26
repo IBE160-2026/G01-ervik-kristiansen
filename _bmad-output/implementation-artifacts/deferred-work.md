@@ -31,3 +31,9 @@
 - source_spec: `_bmad-output/implementation-artifacts/spec-2-2-frontend-skjelett-med-designtokens.md`
   summary: Fredrik må avgjøre om README skal be brukeren slå av telemetrien i Next.js med `npx next telemetry disable`.
   evidence: Blind Hunter i review av Story 2.2 (funn 27). Det første `next build` slår på anonym telemetri, som sender data over nett ved bygg og utvikling. Uten miljøvariabler (NFR1) kan den bare slås av per maskin. Det gjelder også byggene på Vercel.
+- source_spec: `_bmad-output/implementation-artifacts/spec-2-3-kjoring-lokalt-og-pa-vercel.md`
+  summary: Frontend trenger en egen `src/app/global-error.tsx` med norsk tekst fra `tekster.ts` og uten mørk modus. Ellers viser Next sin innebygde feilside, på engelsk og med mørk modus, når appen krasjer i nettleseren.
+  evidence: Blind Hunter i review av Story 2.3 (funn 13). Bekreftet i bygget: JS-fila under `out/_next/static/chunks/` som alle sidene laster, har `--next-error-*` under `@media (prefers-color-scheme: dark)` og teksten «This page couldn't load». Fila fantes før Story 2.3, fra Story 2.2. Sidene har ingen klientkode som kan krasje ennå, så siden hører til Story 2.4, sammen med den første klientkoden.
+- source_spec: `_bmad-output/implementation-artifacts/spec-2-3-kjoring-lokalt-og-pa-vercel.md`
+  summary: Alle sidene har fanetittelen «Marin» fra rotlayouten. Det må avgjøres om sider som 404-siden («Fant ikke siden.») og detaljsiden skal ha egne titler, som «Fant ikke siden – Marin».
+  evidence: Blind Hunter i review av Story 2.3 (funn 16). `not-found.tsx` setter ingen tittel, så verken fanen eller historikken i en skjermleser sier at siden ikke ble funnet (WCAG 2.4.2, sidetitler). Tittelen kommer fra `metadata` i `layout.tsx` (Story 2.2). Titler per side avgjøres samlet, senest med detaljsiden i Story 2.7.

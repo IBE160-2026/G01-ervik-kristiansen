@@ -18,14 +18,7 @@ To av testene leser hele BarentsWatch-utdraget, og én kjører backtesten på he
 
 ### API-et
 
-API-et er en FastAPI-app i `backend/src/marin/api/`. I utvikling startes det slik, på port 8000:
-
-```sh
-cd backend
-uv run uvicorn marin.api.app:app --reload
-```
-
-`--reload` starter appen på nytt når koden endres. Rutene og svarmodellene vises på http://127.0.0.1:8000/docs. Appen leser `datasett.json` én gang ved oppstart. CORS tillater bare `http://localhost:3000`, der frontenden kjører i utvikling.
+API-et er en FastAPI-app i `backend/src/marin/api/`. Den startes på port 8000, som beskrevet under [Kjøring](#kjøring). Rutene og svarmodellene vises da på http://127.0.0.1:8000/docs. Appen leser `datasett.json` én gang ved oppstart. CORS tillater bare `http://localhost:3000`, der frontenden kjører i utvikling.
 
 `backend/openapi.json` er kontrakten mellom backend og frontend, og frontend-typene genereres fra den. Fila lages fra appen og committes. Endres en modell eller en rute, lages den på nytt slik:
 
@@ -43,15 +36,56 @@ Frontenden ligger i `frontend/` og er et Next.js-prosjekt med TypeScript og Tail
 ```sh
 cd frontend
 npm install    # installerer avhengighetene fra package-lock.json (trenger nett første gang)
-npm run dev    # starter utviklingsserveren på port 3000
 ```
 
-Åpne http://localhost:3000. Siden lastes på nytt når koden endres.
+Next.js sender anonym telemetri (bruksdata) over nett når `npm run dev` og `npm run build` kjøres. Slik slås den av:
 
 ```sh
 cd frontend
-npm run build  # lager et statisk bygg i frontend/out/
+npx next telemetry disable
 ```
+
+Innstillingen gjelder alle Next.js-prosjekter for brukeren din på maskinen.
+
+## Kjøring
+
+Marin kan kjøres på tre måter: to lokalt og én på nett. Når avhengighetene er installert med `uv sync` og `npm install`, trenger de to lokale måtene ikke nett, nøkler, miljøvariabler eller kontoer.
+
+### Utvikling, med to prosesser
+
+Backend og frontend kjører hver i sin terminal:
+
+```sh
+cd backend
+uv run uvicorn marin.api.app:app --reload   # API-et på port 8000
+```
+
+```sh
+cd frontend
+npm run dev                                 # frontenden på port 3000
+```
+
+Åpne http://localhost:3000. `--reload` starter API-et på nytt når koden endres, og `npm run dev` laster siden på nytt.
+
+### Lokalt, som én prosess
+
+Lag først et statisk bygg av frontenden, og start så API-et:
+
+```sh
+cd frontend
+npm run build                      # lager frontend/out/
+```
+
+```sh
+cd backend
+uv run uvicorn marin.api.app:app   # API-et og frontenden på port 8000
+```
+
+Åpne http://127.0.0.1:8000. Når `frontend/out/` finnes, serverer FastAPI bygget på alle adresser utenom API-et under `/api/` og sidene `/docs`, `/redoc` og `/openapi.json`, som FastAPI lager selv. En ukjent side gir 404-siden til Marin, og en ukjent adresse under `/api/` gir JSON 404. Uten bygget virker bare API-et. Etter endringer i frontenden må `npm run build` kjøres på nytt. Fantes ikke `frontend/out/` da API-et startet, må det også startes på nytt.
+
+### På nett
+
+Marin er publisert på https://g01-ervik-kristiansen.vercel.app. Vercel bygger appen etter `vercel.json` i rotmappa, med to Vercel Services fra samme adresse: `backend` (FastAPI i `backend/`) får alle adresser under `/api/`, og `frontend` (Next.js-bygget i `frontend/`) får resten. Vercel-prosjektet har Framework Preset «Services» og tom Root Directory (rotmappa i repoet), så Vercel leser `vercel.json`. Vercel publiserer `main` på adressen og lager en forhåndsvisning for hver gren som pushes. Forhåndsvisningene krever innlogging i Vercel.
 
 ## Data
 

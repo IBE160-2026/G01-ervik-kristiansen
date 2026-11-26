@@ -12,6 +12,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+# Agentregler som `next dev` i Next 16 lager når en KI-agent kjører den
+frontend/AGENTS.md
 
 # Python environments, bytecode, packaging and caches
 .venv/
