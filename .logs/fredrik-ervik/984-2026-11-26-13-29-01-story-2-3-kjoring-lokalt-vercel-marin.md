@@ -53,10 +53,11 @@ Fredrik ba meg planlegge Story 2.3, kjøring lokalt og på Vercel, med `bmad-bui
   - `/finnes-ikke` gir 308 til `/finnes-ikke/` og deretter den norske 404-siden.
   - AK 4 er oppfylt. Resultatene står i Implementation Notes i specen.
 - `vercel curl` la til en hemmelighet av typen «Protection Bypass for Automation» på Vercel-prosjektet uten å spørre. Jeg sa ikke fra om det på forhånd.
+- Fredrik ba meg pushe og lage PR-en: [PR #11](https://github.com/IBE160-2026/G01-ervik-kristiansen/pull/11), med grenen fram til `ba00cf4`.
 
 ### Åpne punkter
 - Koble fra eller slett Vercel-prosjektet «backend». Det feiler ved hver push.
 - Avgjør om hemmeligheten «Protection Bypass for Automation» skal trekkes tilbake (Settings → Deployment Protection).
-- Lag PR for Story 2.3 når Fredrik ber om det. Produksjonsadressen virker først når grenen er flettet til `main`.
+- Flett PR #11 når Fredrik ber om det. Produksjonsadressen virker først når grenen er flettet til `main`. Denne logglinjen er committet lokalt etter PR-en og ikke pushet.
 - Story 2.4: `global-error.tsx` med norsk tekst og uten mørk modus.
 - Senest Story 2.7: avgjør om sidene skal ha egne titler.
