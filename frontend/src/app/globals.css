@@ -1,0 +1,188 @@
+@import "tailwindcss";
+
+/*
+ * Designtokens fra frontmatteren i DESIGN.md (ux-Marin-2026-11-11), hvert token én gang
+ * med samme navn og verdi. `--*: initial` fjerner de navngitte standardskalaene til
+ * Tailwind: farger, størrelser, avstander (også `p-0` og `top-0`), fontvekter og
+ * bruddpunkter. Klasser med egen verdi i hakeparentes, som `bg-[#123456]` eller
+ * `p-[13px]`, virker fortsatt, så regelen om bare tokens holdes ved review, ikke av
+ * Tailwind. `static` skriver alle variablene til CSS-en, også de som ingen klasse
+ * bruker (SVG-farger i grafen).
+ *
+ * Mobilrollene er egne tokens. Komponentene skriver mobil først, for eksempel
+ * `text-title-mobile desktop:text-title` og `px-page-x-mobile desktop:px-page-x`.
+ */
+@theme static {
+  --*: initial;
+
+  /* Bruddpunkt mellom mobil- og desktopverdier */
+  --breakpoint-desktop: 600px;
+
+  /* Systemfonter: alle typografirollene har samme stabel */
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* Farger: grunnpalett */
+  --color-surface: #FFFFFF;
+  --color-ink: #111418;
+  --color-ink-secondary: #4A5059;
+  --color-border: #E3E6EA;
+  --color-border-strong: #8A919A;
+  --color-accent: #0B3D91;
+  --color-on-accent: #FFFFFF;
+  --color-accent-tint: #E7EDF7;
+
+  /* Farger: status (R4). fill og on-fill brukes bare i statusboksen. */
+  --color-status-red-fill: #B3261E;
+  --color-status-red-on-fill: #FFFFFF;
+  --color-status-red-border: #B3261E;
+  --color-status-red-symbol: #B3261E;
+  --color-status-yellow-fill: #F5B800;
+  --color-status-yellow-on-fill: #1A1400;
+  --color-status-yellow-border: #8A6A00;
+  --color-status-yellow-symbol: #1A1400;
+  --color-status-green-fill: #1B6E4F;
+  --color-status-green-on-fill: #FFFFFF;
+  --color-status-green-border: #1B6E4F;
+  --color-status-green-symbol: #1B6E4F;
+  --color-status-grey-fill: #FFFFFF;
+  --color-status-grey-on-fill: #3F4650;
+  --color-status-grey-border: #8A919A;
+  --color-status-grey-symbol: #3F4650;
+
+  /* Typografiroller */
+  --text-title: 34px;
+  --text-title--font-weight: 600;
+  --text-title--letter-spacing: -0.01em;
+  --text-title-mobile: 28px;
+  --text-title-mobile--font-weight: 600;
+  --text-title-mobile--letter-spacing: -0.01em;
+  --text-section-heading: 20px;
+  --text-section-heading--font-weight: 600;
+  --text-section-heading-mobile: 18px;
+  --text-section-heading-mobile--font-weight: 600;
+  --text-body: 18px;
+  --text-body--font-weight: 400;
+  --text-body--line-height: 1.55;
+  --text-body-mobile: 16px;
+  --text-body-mobile--font-weight: 400;
+  --text-body-mobile--line-height: 1.55;
+  --text-status-headline: 26px;
+  --text-status-headline--font-weight: 700;
+  --text-status-headline--line-height: 1.25;
+  --text-status-headline-mobile: 21px;
+  --text-status-headline-mobile--font-weight: 700;
+  --text-status-headline-mobile--line-height: 1.25;
+  --text-status-symbol: 32px;
+  --text-status-symbol--font-weight: 800;
+  --text-status-symbol--line-height: 1;
+  --text-status-name: 18px;
+  --text-status-name--font-weight: 700;
+  --text-meta: 16px;
+  --text-meta--font-weight: 400;
+  --text-meta-mobile: 14px;
+  --text-meta-mobile--font-weight: 400;
+  --text-table-cell: 17px;
+  --text-table-cell--font-weight: 400;
+  --text-table-cell-mobile: 16px;
+  --text-table-cell-mobile--font-weight: 400;
+  --text-caption: 14px;
+  --text-caption--font-weight: 400;
+  --text-chart-label: 13px;
+  --text-chart-label--font-weight: 400;
+  --text-pill: 13px;
+  --text-pill--font-weight: 600;
+  --text-pill--line-height: 1.2;
+  --text-pill-xs: 12px;
+  --text-pill-xs--font-weight: 600;
+  --text-pill-xs--line-height: 1.2;
+  --text-logo: 20px;
+  --text-logo--font-weight: 800;
+  --text-logo--letter-spacing: 0.02em;
+  --text-button: 17px;
+  --text-button--font-weight: 600;
+  --text-button--line-height: 1.2;
+  --text-button-mobile: 16px;
+  --text-button-mobile--font-weight: 600;
+  --text-button-mobile--line-height: 1.2;
+  --text-field: 17px;
+  --text-field--font-weight: 400;
+  --text-field--line-height: 1.3;
+  --text-field-mobile: 16px;
+  --text-field-mobile--font-weight: 400;
+  --text-field-mobile--line-height: 1.3;
+
+  /* Hjørner. `rounded.DEFAULT` i DESIGN.md heter `default` her, så klassen er `rounded-default`. */
+  --radius-sm: 4px;
+  --radius-default: 6px;
+  --radius-full: 9999px;
+
+  /* Avstander og mål */
+  --spacing-content-max-width: 760px;
+  --spacing-search-max-width: 420px;
+  --spacing-page-x: 32px;
+  --spacing-page-x-mobile: 16px;
+  --spacing-page-top: 36px;
+  --spacing-page-top-mobile: 20px;
+  --spacing-page-bottom: 48px;
+  --spacing-page-bottom-mobile: 32px;
+  --spacing-topbar-y: 16px;
+  --spacing-topbar-y-mobile: 12px;
+  --spacing-topbar-gap: 20px;
+  --spacing-section-gap: 40px;
+  --spacing-section-gap-mobile: 28px;
+  --spacing-heading-gap: 12px;
+  --spacing-statusbox-y: 24px;
+  --spacing-statusbox-x: 28px;
+  --spacing-statusbox-mobile: 18px;
+  --spacing-statusbox-line-gap: 10px;
+  --spacing-table-cell-y: 14px;
+  --spacing-table-cell-x: 8px;
+  --spacing-table-cell-y-mobile: 11px;
+  --spacing-table-cell-x-mobile: 6px;
+  --spacing-uncertainty-top: 40px;
+  --spacing-uncertainty-rule-gap: 20px;
+  --spacing-pill-y: 3px;
+  --spacing-pill-x: 10px;
+  --spacing-status-marker: 10px;
+  --spacing-status-symbol-badge-size: 52px;
+  --spacing-status-symbol-badge-size-mobile: 46px;
+  --spacing-target-min: 44px;
+  --spacing-target-min-inline: 24px;
+  --spacing-control-y: 10px;
+  --spacing-control-x: 12px;
+  --spacing-button-y: 10px;
+  --spacing-button-x: 20px;
+}
+
+/* Grunnregler: systemfont, blekk på hvit flate, bare lys modus (DESIGN.md) */
+@layer base {
+  html {
+    color-scheme: light;
+  }
+
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    /* Tekstrollen `body`: mobil først, desktop fra bruddpunktet */
+    font-size: var(--text-body-mobile);
+    line-height: var(--text-body-mobile--line-height);
+
+    @variant desktop {
+      font-size: var(--text-body);
+      line-height: var(--text-body--line-height);
+    }
+  }
+
+  /* DESIGN.md `link`: aksentfarge og understreket */
+  a {
+    color: var(--color-accent);
+    text-decoration-line: underline;
+  }
+
+  /* DESIGN.md `focus-ring`: 2px heltrukket aksent med 2px avstand på alle interaktive elementer */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+}

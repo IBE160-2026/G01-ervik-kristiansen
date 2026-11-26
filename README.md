@@ -36,6 +36,23 @@ uv run python -m marin.api.openapi
 
 Testene feiler hvis `openapi.json` ikke er lik skjemaet appen lager.
 
+## Frontend
+
+Frontenden ligger i `frontend/` og er et Next.js-prosjekt med TypeScript og Tailwind. Du trenger Node.js 22.12 eller nyere.
+
+```sh
+cd frontend
+npm install    # installerer avhengighetene fra package-lock.json (trenger nett første gang)
+npm run dev    # starter utviklingsserveren på port 3000
+```
+
+Åpne http://localhost:3000. Siden lastes på nytt når koden endres.
+
+```sh
+cd frontend
+npm run build  # lager et statisk bygg i frontend/out/
+```
+
 ## Data
 
 Lusetallene kommer fra datasettet «Lakselus per fisk» i [BarentsWatch Fiskehelse](https://www.barentswatch.no/fiskehelse/). Det er anleggenes ukentlige rapportering av lakselus til Mattilsynet. Tallene ble lastet ned 27.10.2026 som Excel-uttrekk, ett per år (2025 og 2026). Uttrekkene har alle lokaliteter for laks, ørret og regnbueørret i akvakulturregisteret, unntatt dem på land. Arket «Om datasettet» i hver fil beskriver kolonnene.
