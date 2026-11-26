@@ -56,6 +56,9 @@ Fredrik flettet PR #9 (Story 2.1) selv og ba meg sette Story 2.1 til `done` og b
   - søk og en detaljside som virker etter den utskilte delen og Story 2.4–2.7, om 2–3 arbeidsdager
   - hele Epic 2 etter Story 2.11, om 3–4 arbeidsdager
   - Epic 3 med opplasting, omtrent 2 arbeidsdager til
+- Fredrik oppga innleveringsfristen: 15.12.2026, men helst ferdig før. Planen er ferdig kode rundt 8. desember, med Story 2.3 først fordi den har størst risiko. Fristen er lagret i minnet.
+- Fredrik ba meg flette PR #10, og den ble flettet med en merge-commit (`bdd31f0`).
+- Laget grenen `story/2-3-kjoring-lokalt-og-pa-vercel` fra `main`. Satte Story 2.2 til `in-progress` med en kommentar i sprint-status om at den utskilte delen gjenstår.
 
 ### Åpne punkter
 - Den utskilte delen av Story 2.2 trenger en egen spec: `schema.ts`, API-klienten og `format.ts` med Vitest, i tillegg til testen for tokenene og sjekken for egne verdier. Story 2.2 er ikke ferdig før den er bygget, og Story 2.4 og 2.7 trenger den. Fredrik må avgjøre om den skal bygges på samme gren før PR-en, eller få en egen nøkkel i sprint-status.
