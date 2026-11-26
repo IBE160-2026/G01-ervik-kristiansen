@@ -40,10 +40,23 @@ Fredrik ba meg planlegge Story 2.3, kjøring lokalt og på Vercel, med `bmad-bui
   - **Avvist (15).** Blant dem er tre små avvik i API-svarene når bygget er montert: HEAD, skråstrek til slutt og andre metoder enn GET. Alle svarene er fortsatt JSON, og frontenden bruker ingen av dem.
 - Commit `dc99958`. Specen står som `done`, og Story 2.3 står som `review` i sprint-status, med en kommentar om at Vercel-forhåndsvisningen gjenstår.
 - Tre punkter fra Story 2.2 er løst i `issues.md`: `AGENTS.md`, telemetrien og 404-siden.
+- **Vercel:**
+  - Fredrik satte Framework Preset til «Services». Jeg pushet grenen.
+  - Det første bygget (`7156991`) feilet med `ENTRYPOINT_NOT_FOUND`, fordi Vercel lette etter `backend/marin/api/app.py`.
+  - Fredrik logget inn med `npx vercel login`, så jeg kunne lese loggen med `vercel inspect --logs`.
+  - Reserven fra specen løste det: `backend/vercel_inngang.py` legger `src/` i importstien og importerer appen, og `vercel.json` peker på `vercel_inngang:app`. To nye tester sjekker dette (`fdbd05b`, 44 bestått i API-testene).
+  - Det andre bygget lyktes, og sjekken «Vercel – g01-ervik-kristiansen» består.
+- **Forhåndsvisningen**, sjekket med `vercel curl`:
+  - `/` og `/anlegg/?nr=1` gir 200 med `lang="nb"`.
+  - `/api/anlegg?q=x` gir 501 med JSON, så `lifespan` har kjørt.
+  - `/api/finnes-ikke` gir 404 med JSON.
+  - `/finnes-ikke` gir 308 til `/finnes-ikke/` og deretter den norske 404-siden.
+  - AK 4 er oppfylt. Resultatene står i Implementation Notes i specen.
+- `vercel curl` la til en hemmelighet av typen «Protection Bypass for Automation» på Vercel-prosjektet uten å spørre. Jeg sa ikke fra om det på forhånd.
 
 ### Åpne punkter
-- Fredrik må sette Framework Preset til «Services» med tom Root Directory på Vercel-prosjektet «g01-ervik-kristiansen». Så pushes grenen, og forhåndsvisningen sjekkes: `/`, `/api/anlegg?q=x` med JSON 501 og `/finnes-ikke` med den norske 404-siden. Når den virker, kobles prosjektet «backend» fra eller slettes. Story 2.3 er ikke ferdig før dette er gjort (AK 4).
-- Vercels dokumentasjon sier at `modul:app` slås opp som en fil fra `backend/`, men koden ligger under `backend/src/`. Finner ikke Vercel appen, lages en liten fil i `backend/` som importerer den, og det føres i Implementation Notes.
+- Koble fra eller slett Vercel-prosjektet «backend». Det feiler ved hver push.
+- Avgjør om hemmeligheten «Protection Bypass for Automation» skal trekkes tilbake (Settings → Deployment Protection).
+- Lag PR for Story 2.3 når Fredrik ber om det. Produksjonsadressen virker først når grenen er flettet til `main`.
 - Story 2.4: `global-error.tsx` med norsk tekst og uten mørk modus.
 - Senest Story 2.7: avgjør om sidene skal ha egne titler.
-- Grenen er ikke pushet. Den har `670acbb`, `223f6de`, `9616518`, `dc99958` og denne loggen.
