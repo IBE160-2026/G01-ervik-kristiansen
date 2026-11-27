@@ -37,3 +37,6 @@
 - source_spec: `_bmad-output/implementation-artifacts/spec-2-3-kjoring-lokalt-og-pa-vercel.md`
   summary: Alle sidene har fanetittelen «Marin» fra rotlayouten. Det må avgjøres om sider som 404-siden («Fant ikke siden.») og detaljsiden skal ha egne titler, som «Fant ikke siden – Marin».
   evidence: Blind Hunter i review av Story 2.3 (funn 16). `not-found.tsx` setter ingen tittel, så verken fanen eller historikken i en skjermleser sier at siden ikke ble funnet (WCAG 2.4.2, sidetitler). Tittelen kommer fra `metadata` i `layout.tsx` (Story 2.2). Titler per side avgjøres samlet, senest med detaljsiden i Story 2.7.
+- source_spec: `_bmad-output/implementation-artifacts/spec-2-2b-api-klient-og-format.md`
+  summary: Ingenting kjører `npm test` automatisk, så en utdatert `frontend/src/api/schema.ts` kan nå `main` når `openapi.json` endres uten at `npm run typer` kjøres.
+  evidence: Verification Gap i review av resten av Story 2.2 (funn 17). Repoet har ingen CI, `.git/hooks` har bare eksempler, og Vercel kjører `next build` uten tester. En utdatert `schema.ts` er lik seg selv og består typesjekken. `uv run pytest` sjekker bare `openapi.json` mot appen. README ber om `npm run typer` etter `uv run python -m marin.api.openapi`. Å lukke gapet krever CI, eller ett felles verifiseringssteg som kjører både `uv run pytest` og `npm test` før hver PR.
