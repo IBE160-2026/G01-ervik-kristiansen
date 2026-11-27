@@ -27,7 +27,14 @@ cd backend
 uv run python -m marin.api.openapi
 ```
 
-Testene feiler hvis `openapi.json` ikke er lik skjemaet appen lager.
+Testene feiler hvis `openapi.json` ikke er lik skjemaet appen lager. Lag deretter frontend-typene på nytt fra den nye fila:
+
+```sh
+cd frontend
+npm run typer   # lager src/api/schema.ts fra backend/openapi.json
+```
+
+`schema.ts` redigeres aldri for hånd. `npm test` feiler hvis den ikke er lik det `npm run typer` lager.
 
 ## Frontend
 
@@ -36,7 +43,10 @@ Frontenden ligger i `frontend/` og er et Next.js-prosjekt med TypeScript og Tail
 ```sh
 cd frontend
 npm install    # installerer avhengighetene fra package-lock.json (trenger nett første gang)
+npm test       # kjører alle frontendtestene med Vitest
 ```
+
+Testene i `frontend/tests/` sjekker API-klienten, `formatLus` og `formatUke` mot de samme vektorene som backend, og at `src/api/schema.ts` er lik det `npm run typer` lager. De sjekker også at designtokenene i `src/app/globals.css` er de samme som i frontmatteren i `_bmad-output/planning-artifacts/ux-designs/ux-Marin-2026-11-11/DESIGN.md`, og at ingen annen fil under `src/` har egne fargekoder, pikselverdier, fontnavn eller klasser med egne verdier i hakeparentes, som `p-[13px]`.
 
 Next.js sender anonym telemetri (bruksdata) over nett når `npm run dev` og `npm run build` kjøres. Slik slås den av:
 

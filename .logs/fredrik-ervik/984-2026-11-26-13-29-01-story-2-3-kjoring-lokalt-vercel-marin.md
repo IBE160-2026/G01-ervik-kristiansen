@@ -61,3 +61,25 @@ Fredrik ba meg planlegge Story 2.3, kjøring lokalt og på Vercel, med `bmad-bui
 - Flett PR #11 når Fredrik ber om det. Produksjonsadressen virker først når grenen er flettet til `main`. Denne logglinjen er committet lokalt etter PR-en og ikke pushet.
 - Story 2.4: `global-error.tsx` med norsk tekst og uten mørk modus.
 - Senest Story 2.7: avgjør om sidene skal ha egne titler.
+
+## 2026-11-27 kl. 10:30 — Fredrik Ervik
+
+### Oppgave
+Fredrik ba meg flette PR #11 og gå videre med resten av Story 2.2.
+
+### Plan
+- Flette PR #11 med en merge-commit, sjekke produksjonsadressen og sette Story 2.3 til `done` på neste gren, som før.
+
+### Resultat
+- PR #11 er flettet med `gh pr merge 11 --merge` (`0b68175`).
+- Sjekken «Vercel – g01-ervik-kristiansen» består på `main`. «Vercel – backend» feiler fortsatt.
+- Produksjonsadressen https://g01-ervik-kristiansen.vercel.app virker uten innlogging:
+  - `/` og `/anlegg/?nr=1` gir 200 med `lang="nb"`.
+  - `/api/anlegg?q=x` gir 501 med JSON, så datasettet er lastet.
+  - `/api/finnes-ikke` gir 404 med JSON.
+  - `/finnes-ikke/` gir 404 med den norske siden.
+- Story 2.3 står som `done` i sprint-status (`a021f39`, på grenen `story/2-2b-api-klient-og-format`).
+
+### Åpne punkter
+- Koble fra eller slett Vercel-prosjektet «backend» (står i `issues.md`).
+- Avgjør om hemmeligheten «Protection Bypass for Automation» skal trekkes tilbake (står i `issues.md`).

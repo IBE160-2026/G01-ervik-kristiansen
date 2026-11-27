@@ -12,7 +12,7 @@ export default function IkkeFunnet() {
     <main className="mx-auto max-w-content-max-width px-page-x-mobile pt-page-top-mobile pb-page-bottom-mobile desktop:px-page-x desktop:pt-page-top desktop:pb-page-bottom">
       <h1 className="text-title-mobile desktop:text-title">{tekster.ikkeFunnet.overskrift}</h1>
       <p className="mt-heading-gap">
-        {/* Trykkflaten er minst 44px høy på mobil og 24px på desktop (DESIGN.md). */}
+        {/* Trykkflaten er minst `target-min` høy på mobil og `target-min-inline` på desktop (DESIGN.md). */}
         <Link href="/" className="inline-flex items-center min-h-target-min desktop:min-h-target-min-inline">
           {tekster.ikkeFunnet.tilForsiden}
         </Link>
