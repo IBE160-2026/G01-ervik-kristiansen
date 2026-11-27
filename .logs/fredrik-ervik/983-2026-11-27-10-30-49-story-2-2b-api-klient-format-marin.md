@@ -51,10 +51,12 @@ Fredrik ba meg bygge resten av Story 2.2 med `bmad-build`: API-typene i `schema.
 - Commit `cb64dd5`. Specen står som `done`, og Story 2.2 står som `review` i sprint-status.
 - Punktet om den utskilte delen av Story 2.2 er løst i `issues.md`.
 - Fredrik ba meg pushe grenen og lage PR-en: [PR #12](https://github.com/IBE160-2026/G01-ervik-kristiansen/pull/12).
+- Fredrik valgte å beholde hemmeligheten «Protection Bypass for Automation» til etter innleveringen 15.12.2026, så jeg kan sjekke forhåndsvisningene med `vercel curl`.
 - Fredrik ba meg slette Vercel-prosjektet «backend». Jeg sjekket først at det var det gamle prosjektet fra 19.11 (Root Directory `backend`, Python), at ingenting i repoet viste til det, og at ingen lokal mappe var koblet til det. Så slettet jeg det med `vercel project delete backend --confirm-name backend`. Bare «g01-ervik-kristiansen» er igjen. Sjekken «Vercel – backend» feilet på PR-commiten fordi pushen kom før slettingen. Punktet er løst i `issues.md`.
 
 ### Åpne punkter
 - Story 2.4: breddeklasser med tall (`border-2`, `outline-offset-2`) og klasser som `font-[600]` feiler nå sjekken for egne verdier. Legg dem i `TILLATT` i `frontend/tests/egne-verdier.test.ts`, eller lag tokens.
 - Ingen CI kjører `npm test`. Kjør `npm test` i `frontend/` før hver PR, særlig når `openapi.json` er endret (`deferred-work.md`).
 - Story 2.5: rund trendverdiene i `Grafpunkt` til 2 desimaler i API-et hvis frontend skal skrive dem med `formatLus`. Funksjonen bruker `toFixed` og runder ikke som `ROUND_HALF_UP` ved flere desimaler.
+- Trekk tilbake hemmeligheten «Protection Bypass for Automation» etter innleveringen 15.12.2026.
 - Beskrivelsen i `backend/tests/data/format.json` nevner `formatGrense` i frontend, men den funksjonen ble ikke laget. Rett beskrivelsen i en story som får endre backend.
